@@ -31,12 +31,12 @@ app.set('layout', 'layouts/layout');
 app.use('/api', router);
 
 const getAController = (req: Request, res: Response) => {
-  //console.log(__dirname)
-  //res.send('Hello, E-Commerce TypeScript (^_^)');
+  console.log(__dirname)
+  res.send('Hello, E-Commerce TypeScript (^_^)');
 
-  res.render('pages/home', {
-    welcomedata: 'Hello, E-Commerce TypeScript (^_^)',
-  });
+  // res.render('pages/home', {
+  //   welcomedata: 'Hello, E-Commerce TypeScript (^_^)',
+  // });
 };
 
 app.get('/', getAController);
