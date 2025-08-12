@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 
 const register = catchAsync(async (req: Request, res: Response) => {
   const userData = req.body;
-  console.log('userData', userData);
+  // console.log('userData', userData);
   const result = await AuthServices.registerUser(userData);
   sendResponse(res, {
     success: true,
