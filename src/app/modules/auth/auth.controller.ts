@@ -12,7 +12,7 @@ const register = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: 'User registered successfully',
     statusCode: httpStatus.CREATED,
-    data: { accessToken: result },
+    data: result,
   });
 });
 

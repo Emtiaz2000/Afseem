@@ -23,7 +23,7 @@ const registerUser = async (payload: IUser) => {
     config.jwt_access_token as string,
     Number(config.jwt_access_token_expires),
   );
-  return accessToken;
+  return { accessToken };
 };
 
 const loginUser = async (payload: IUser) => {
