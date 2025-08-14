@@ -7,6 +7,7 @@ export interface IShop {
   description?: string;
   logo_url?: string; // shop logo
   banner_url?: string; // shop photo
+  isVerified?: boolean;
   business_type?: string;
   shop_address: {
     locationMap?: string;

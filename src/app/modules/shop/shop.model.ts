@@ -22,11 +22,15 @@ const ShopSchema = new Schema<IShop, ShopModel>(
     logo_url: {
       type: String,
       trim: true,
-      default: null
+      default: null,
     },
     banner_url: {
       type: String,
       trim: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
     business_type: {
       type: String,
@@ -39,7 +43,6 @@ const ShopSchema = new Schema<IShop, ShopModel>(
       city: { type: String, required: true },
       state: { type: String, required: true },
       country: { type: String, required: true },
-      required: true,
     },
     working_hours: {
       open: { type: String },
