@@ -1,0 +1,94 @@
+.allCustomerConatainer{
+    width:95%;
+    margin:20px auto;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:20px 10px;
+    border-radius: 15px;
+    min-height: 60vh;
+}
+.allStoreHead{
+    width:95%;
+    text-align: left;
+    margin:auto;
+}
+.singleCustomer{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:30px;
+    border:1px solid gray;
+    padding:20px;
+    border-radius: 15px;
+    margin:10px 0px;
+}
+.info{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap:20px;
+    width:100%;
+    flex-wrap: wrap;
+}
+.customerImage{
+    height:50px;
+    width:50px;
+    border-radius: 50%;
+}
+.customerImage>img{
+    height:100%;
+    width:100%;
+    border-radius: 50%;
+}
+.statusBt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+    width:100%;
+}
+.status{
+    color: #0d7e03;
+    font-weight: bold;
+}
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+}
+.activeCls{
+    padding:10px 20px;
+    border:1px solid #0d7e03;
+    border-radius: 10px;
+    transition: .3s ease all;
+}
+.activeCls:hover{
+    color:#fff;
+    background-color: #0d7e03;
+}
+.deactiveCls{
+    padding:10px 20px;
+    border:1px solid #7e0b03;
+    border-radius: 10px;
+    transition: .3s ease all;
+}
+.deactiveCls:hover{
+    color:#fff;
+    background-color: #7e0b03;
+}
+.buttons>form>button{
+    padding:10px 20px;
+    border:1px solid #7e0303;
+    border-radius: 10px;
+    background-color: #fff;
+    color:#7e0303;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+.buttons>form>button:hover{
+    color:#fff;
+    background-color: #7e0b03;
+}

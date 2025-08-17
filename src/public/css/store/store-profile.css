@@ -1,0 +1,91 @@
+.store_profile_container{
+    width:95%;
+    margin:20px auto;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:30px 20px;
+
+}
+.store_image_name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width:300px;
+    gap:10px;
+    background: #f5f5f5d7;
+    padding: 10px;
+    border-radius: 10px;
+}
+.store_image_name>img{
+    width:80%;
+    border-radius: 10px;
+    
+}
+.store_basic_info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.ownerInfo{
+    background: #e8e8e8d7;
+    border-radius: 10px;
+    padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap:5px;
+}
+
+.whatsappnumber,.workingHour,.ownerName,.delivery_availability{
+    min-width: 300px;
+}
+.verified,.badge{
+    color:rgb(14, 132, 14);
+}
+
+.moreInformation {
+    display: grid;
+    gap: 18px 50px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .moreInformation>div {
+    height:80px;
+  }
+.store_map_location{
+    width:90vw;
+  }
+  .store_map_location>iframe{
+    width:100%;
+  }
+  .edit_delete{
+    margin:30px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+  }
+  .edit_delete>a{
+    padding:10px 20px;
+    border:1px solid gray;
+    border-radius: 15px;
+    transition:.4s ease all;
+  }
+  .deleteBtn{
+    outline: none;
+    background-color: red;
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+.edit_delete>a:hover{
+    color:#FFF;
+    background-color: #000;
+}
