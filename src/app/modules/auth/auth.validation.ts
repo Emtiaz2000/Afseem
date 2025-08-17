@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { Types } from 'mongoose';
+import { createShopValidationSchema } from '../shop/shop.validation';
 
-export const registerValidationSchema = z.object({
+const registerValidationSchema = z.object({
   body: z.object({
     name: z
       .string({ required_error: 'Name is required' })
@@ -55,6 +56,17 @@ export const registerValidationSchema = z.object({
   }),
 });
 
+const registerWithShopValidationSchema = z.object({
+  body: z.object({
+    user: registerValidationSchema.shape.body.omit({
+      shop: true, // user creation shouldn’t require existing shop
+    }),
+    shop: createShopValidationSchema.shape.body.omit({
+      owner_id: true, // owner_id will be filled in controller
+    }),
+  }),
+});
+
 const loginValidationSchema = z.object({
   body: z.object({
     email: z
@@ -74,6 +86,7 @@ const loginValidationSchema = z.object({
 });
 
 export const AuthValidation = {
+  registerWithShopValidationSchema,
   registerValidationSchema,
   loginValidationSchema,
 };

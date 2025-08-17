@@ -10,6 +10,13 @@ router.post(
   validateRequest(AuthValidation.registerValidationSchema),
   AuthControllers.register,
 );
+
+router.post(
+  '/register-with-shop',
+  validateRequest(AuthValidation.registerWithShopValidationSchema),
+  AuthControllers.registerUserAndShop,
+);
+
 router.post(
   '/login',
   validateRequest(AuthValidation.loginValidationSchema),
