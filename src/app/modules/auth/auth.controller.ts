@@ -16,6 +16,20 @@ const register = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const registerUserAndShop = catchAsync(async (req: Request, res: Response) => {
+  const { user, shop, accessToken } = await AuthServices.registerUserWithShop(
+    req.body.user,
+    req.body.shop,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'User and Shop created successfully',
+    data: { user, shop, accessToken },
+  });
+});
+
 const login = catchAsync(async (req: Request, res: Response) => {
   const loginData = req.body;
   const result = await AuthServices.loginUser(loginData);
@@ -29,5 +43,6 @@ const login = catchAsync(async (req: Request, res: Response) => {
 
 export const AuthControllers = {
   register,
+  registerUserAndShop,
   login,
 };

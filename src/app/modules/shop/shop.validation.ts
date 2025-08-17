@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const createShopValidationSchema = z.object({
+export const createShopValidationSchema = z.object({
   body: z.object({
     owner_id: z
       .string({ required_error: 'Owner ID is required' })
