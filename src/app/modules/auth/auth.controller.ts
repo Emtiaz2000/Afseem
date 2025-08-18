@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import { AuthServices } from './auth.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
+import { USER_ROLE } from '../user/user.constant';
 
 const register = catchAsync(async (req: Request, res: Response) => {
   const userData = req.body;
@@ -17,8 +18,12 @@ const register = catchAsync(async (req: Request, res: Response) => {
 });
 
 const registerUserAndShop = catchAsync(async (req: Request, res: Response) => {
+  const userPayload = {
+    ...req.body.user,
+    role: USER_ROLE.seller,
+  };
   const { user, shop, accessToken } = await AuthServices.registerUserWithShop(
-    req.body.user,
+    userPayload,
     req.body.shop,
   );
 
