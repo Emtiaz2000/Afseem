@@ -32,15 +32,41 @@ app.use('/api', router);
 
 const getAController = (req: Request, res: Response) => {
   console.log("This is from Emtiaz");
-  //this is a comment
-  // console.log(__dirname)
-  res.send('Hello, E-Commerce TypeScript (^_^)');
-  // res.render('pages/home', {
-  //   welcomedata: 'Hello, E-Commerce TypeScript (^_^)',
-  // });
+  res.render('pages/home');
 };
 
 app.get('/', getAController);
+app.get('/login-store', (req,res)=>{
+  res.render('pages/Store/store-login')
+});
+app.get('/registration-store', (req,res)=>{
+  res.render('pages/Store/store-registration')
+});
+app.get('/store-dashboard', (req,res)=>{
+  res.render('pages/Store/store-dashboard')
+});
+app.get('/store-profile', (req,res)=>{
+  res.render('pages/Store/store-profile')
+});
+app.get('/add-product', (req,res)=>{
+  res.render('pages/Store/add-product')
+});
+app.get('/store-editproduct', (req,res)=>{
+  res.render('pages/Store/edit-product')
+});
+
+app.get('/admin-storeinfo', (req,res)=>{
+  res.render('pages/Admin/admin-storeinfo',{layout:'layouts/admin-layouts'})
+});
+app.get('/admin-customerinfo', (req,res)=>{
+  res.render('pages/Admin/admin-viewcustomer',{layout:'layouts/admin-layouts'})
+});
+app.get('/admin-newseller', (req,res)=>{
+  res.render('pages/Admin/admin-viewnewseller',{layout:'layouts/admin-layouts'})
+});
+app.get('/admin-sellersubscription', (req,res)=>{
+  res.render('pages/Admin/admin-subscriptionapproval',{layout:'layouts/admin-layouts'})
+});
 app.use(notFound);
 app.use(globalErrorHandler);
 

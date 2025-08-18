@@ -12,8 +12,8 @@
     flex-direction: column;
     width:300px;
     gap:10px;
-    background: #f5f5f5d7;
-    padding: 10px;
+    background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+    padding: 20px;
     border-radius: 10px;
 }
 .store_image_name>img{
@@ -28,7 +28,7 @@
     flex-wrap: wrap;
 }
 .ownerInfo{
-    background: #e8e8e8d7;
+    background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
     border-radius: 10px;
     padding:20px;
     display: flex;
@@ -36,11 +36,14 @@
     align-items: center;
     flex-direction: column;
     flex-wrap: wrap;
-    gap:5px;
+    gap:15px;
+    min-height:260px;
+    margin: 10px;
+    width: 300px;
 }
 
 .whatsappnumber,.workingHour,.ownerName,.delivery_availability{
-    min-width: 300px;
+    min-width: 280px;
 }
 .verified,.badge{
     color:rgb(14, 132, 14);
@@ -48,14 +51,18 @@
 
 .moreInformation {
     display: grid;
-    gap: 18px 50px;
+    gap: 18px 15px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
   .moreInformation>div {
     height:80px;
+    padding:10px 15px;
+    background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+    border-radius: 10px;
   }
 .store_map_location{
-    width:90vw;
+    width:95%;
+    margin:auto;
   }
   .store_map_location>iframe{
     width:100%;
@@ -88,4 +95,12 @@
 .edit_delete>a:hover{
     color:#FFF;
     background-color: #000;
+}
+
+
+
+@media (max-width:710px) {
+    .store_basic_info {
+    justify-content: center;
+  }
 }

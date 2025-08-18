@@ -42,7 +42,7 @@
     gap:20px;
 }
 .productContainer{
-    width:250px;
+    width:230px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -95,4 +95,30 @@
 .btnContainer>form>button:hover{
     background-color: #e20202;
     color:#fff ;
+}
+
+@media (max-width:830px) {
+    .allproductContainer{
+        justify-content: center;
+    }
+    .productContainer{
+        width:280px;
+    }
+}
+
+@media (max-width:600px) {
+    .dashboard_container{
+        display: block;
+    }
+    .dashboardMenu{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap:5px;
+        margin-top:20px;
+    }
+        .dashboardMenu>a {
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
 }
