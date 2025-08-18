@@ -1,0 +1,124 @@
+.dashboard_container{
+    width:95%;
+    border-radius: 10px;
+    margin: auto;
+    padding:20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.dashboardMenu>a{
+    padding:10px 20px;
+    border-radius: 10px;
+    color:#1d2e00;
+    background-color: #fff;
+    border:1px solid #1d2e00;
+    transition: .4s ease all;
+}
+.dashboardMenu>a:hover{
+    background-color: #1d2e00;
+    color: #fff;
+}
+
+.allProducts{
+    width:95%;
+    margin:10px auto;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    border-radius: 15px;
+    padding:10px 20px;
+
+}
+.allProducts>h1{
+    margin-bottom:30px;
+    font-weight: 400;
+}
+.allproductContainer{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:20px;
+}
+.productContainer{
+    width:230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:5px;
+    padding:20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    border-radius: 15px;
+    margin-bottom:20px;
+}
+.productImage>img{
+    height:160px;
+    width:200px;
+    border-radius: 15px;
+}
+.productContainer>h2{
+    font-weight: 300;
+    font-size: 17px;
+}
+.productContainer>span{
+    font-weight: normal;
+    font-size: 13px;
+}
+.btnContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+.btnContainer>a{
+    padding:5px 20px;
+    border:1px solid #08b705;
+    border-radius: 10px;
+    transition: .3s ease all;
+}
+.btnContainer>a:hover{
+    background-color: green;
+    color:#FFF;
+}
+.btnContainer>form>button{
+    outline:none;
+    border:1px solid #e20202;
+    border-radius: 10px;
+    padding:5px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #fff;
+    color:#000;
+}
+.btnContainer>form>button:hover{
+    background-color: #e20202;
+    color:#fff ;
+}
+
+@media (max-width:830px) {
+    .allproductContainer{
+        justify-content: center;
+    }
+    .productContainer{
+        width:280px;
+    }
+}
+
+@media (max-width:600px) {
+    .dashboard_container{
+        display: block;
+    }
+    .dashboardMenu{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap:5px;
+        margin-top:20px;
+    }
+        .dashboardMenu>a {
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
+}

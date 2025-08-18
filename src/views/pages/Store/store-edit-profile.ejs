@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="/css/store/store-registration.css">
+
+<div class="form-container">
+  <h2> Update Store Profile</h2>
+  <form id="storeForm" action="/" method="post">
+    <div>
+      <label for="storeName">Store Name <span class="required">*</span></label>
+      <input type="text" id="storeName" name="storeName" required>
+    </div>
+    <div>
+      <label for="ownerName">Owner Name <span class="required">*</span></label>
+      <input type="text" itemref="ownerName" name="ownerName" required>
+    </div>
+
+     <div>
+      <label for="storePhoto">Store Photo </label>
+      <input type="file" id="storePhoto" name="storePhoto" accept="image/*" >
+    </div>
+
+    <div>
+      <label for="storeemail">Email Address <span class="required">*</span></label>
+      <input type="email" id="storeemail" name="storeemail" required>
+    </div>
+    
+    <div>
+      <label for="storeCategory">Store Category <span class="required">*</span></label>
+      <select id="storeCategory" name="storeCategory" required>
+        <option value="">Select Category</option>
+        <option value="Glossary">Glossary</option>
+        <option value="Restaurant">Restaurant</option>
+        <option value="Gift Shop">Gift Shop</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
+      <input type="tel" id="whatsapp" name="whatsapp" placeholder="+971 50 123 4567" required>
+    </div>
+
+    <div>
+      <label for="storeunitno"> Unit No. <span class="required">*</span></label>
+      <input type="text" id="storeunitno" name="storeunitno" required>
+    </div>
+    <div>
+      <label for="storebuildingno"> Building No. <span class="required">*</span></label>
+      <input type="text" id="storebuildingno" name="storebuildingno" required>
+    </div>
+    <div>
+      <label for="storestreetno"> Street No. <span class="required">*</span></label>
+      <input type="text" id="storestreetno" name="storestreetno" required>
+    </div>
+    <div>
+      <label for="storezoneno"> Zone No. <span class="required">*</span></label>
+      <input type="text" id="storezoneno" name="storezoneno" required>
+    </div>
+
+    
+
+    <div>
+      <label for="country">Country <span class="required">*</span></label>
+      <select id="country" name="country" required>
+        <option value="">Select Country</option>
+        <option value="Bahrain">Bahrain</option>
+        <option value="Kuwait">Kuwait</option>
+        <option value="Oman">Oman</option>
+        <option value="Qatar">Qatar</option>
+        <option value="Saudi Arabia">Saudi Arabia</option>
+        <option value="UAE">United Arab Emirates</option>
+      </select>
+    </div>
+    <div>
+      <label for="storecity">City <span class="required">*</span></label>
+      <input id="storecity" type="text" name="storecity" required>
+    </div>
+    <div>
+      <label for="storelocationmap">Store Google Map Location <span class="required">*</span></label>
+      <input type="url" id="storelocationmap" name="storelocationmap" placeholder="google map url" required>
+    </div>
+
+    <div>
+      <label for="workingHours">Store Working Hours <span class="required">*</span></label>
+      <input type="text" id="workingHours" name="workingHours" placeholder="e.g. 9 AM - 10 PM" required>
+    </div>
+    <div>
+      <label for="homeDelivery">Home Delivery <span class="required">*</span></label>
+      <select id="homeDelivery" name="homeDelivery" required>
+        <option value="">Select</option>
+        <option value="Available">Available</option>
+        <option value="Not Available">Not Available</option>
+      </select>
+    </div>
+   
+    <div class="checkbox-container">
+      <input type="checkbox" id="terms" required>
+      <label for="terms" style="font-weight:normal;">
+        By Clicking It You are Agree to Our All Terms and Condition
+      </label>
+    </div>
+
+    <button type="submit">Update Profile</button>
+  </form>
+</div>
+
+<script src="/js/storejs/store-registration.js"> </script>

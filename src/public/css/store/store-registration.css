@@ -1,0 +1,110 @@
+.form-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    width: 95%;
+    animation: fadeIn 0.5s ease-in-out;
+    margin:10px auto;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  h2 {
+    text-align: center;
+    color: rgba(1, 103, 1, 0.721);
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  form {
+    display: grid;
+    gap: 18px 50px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    background-color: #fafafa;
+    transition: all 0.25s ease;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: #7e57c2;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(126,87,194,0.2);
+  }
+
+  .checkbox-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    
+  }
+
+  .checkbox-container input {
+    transform: scale(1.2);
+    margin-top: 2px;
+    padding:0;
+    width:15px;
+    cursor: pointer;
+    outline: none;
+  }
+  .checkbox-container label{
+    cursor: pointer;
+  }
+  button {
+    grid-column: 1 / -1;
+    padding: 14px;
+    background: rgba(1, 103, 1, 0.721);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  button:hover {
+    background: rgba(1, 103, 1, 0.721);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+  }
+  
+  .passContainer{
+    position: relative;
+  }
+  .eyespass{
+    position:absolute;
+    right:20px;
+    z-index: 5;
+    cursor: pointer;
+    top:60%;
+  }
+  .passCondition{
+    color:#bd1616;
+  }

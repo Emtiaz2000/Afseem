@@ -1,0 +1,76 @@
+.loginformcontainer{
+    width:40%;
+    min-width: 340px;
+    margin:50px auto;
+    padding:20px;
+    background-color: #ffffff3f;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+.heading_login>h1{
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    font-family: "Bricolage Grotesque", sans-serif;
+}
+form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:40px;
+}
+.input_email,.input_pass{
+    width:100%;
+    display: flex;
+    justify-content:center;
+    align-items:  flex-start;
+    flex-direction: column;
+    gap:5px;
+
+}
+.input_email>input,.input_pass>input{
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    background-color: #fafafa;
+    transition: all 0.25s ease;
+}
+.input_pass{
+    position: relative;
+}
+.eyespass{
+    position:absolute;
+    right:20px;
+    z-index: 5;
+    cursor: pointer;
+    top:60%;
+  }
+input:focus{
+    outline: none;
+    border-color: #7e57c2;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(126,87,194,0.2);
+  }
+
+form>button{
+    width: 100%;
+    padding: 14px;
+    background: rgba(1, 103, 1, 0.721);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+form>button {
+    background: rgba(1, 103, 1, 0.721);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+  }

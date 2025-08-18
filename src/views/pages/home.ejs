@@ -1,0 +1,94 @@
+<!-- hero container -->
+ <h2 class="heroheading">Find Your Product from Nearest Store</h2>
+ <p class="heroheading_tag">Just What You Need</p>
+ <div class="hero_container">
+    
+    <div class="hero_left_heroimage">
+        <img src="/images/glossary_hero_image.jpg" alt="heroImage">
+    </div>
+    <div class="hero_middle_slider">
+        <section id="image-carousel" class="splide" aria-label="Beautiful Images">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <img src="/images/flowerBoke.jpg" alt="">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="/images/milk_image.jpg" alt="">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="/images/restuarantImage.jpg" alt="">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="/images/localvegistore.jpg" alt="">
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <div class="hero_right_heroimage">
+        <img src="/images/food_image.jpg" alt="heroImage">
+    </div>
+ </div>
+
+ <!-- category Section -->
+  <h2 class="catergyContainerHeading">Select Any Category</h1>
+  <p class="catergyContainerHeading_tag">From Fresh Groceries to Gourmet Meals and Gorgeous Blooms — All in One Place.</p>
+  <div class="catergyContainer">
+    <div class="category">
+        <img src="/images/categoryglossary.jpg" alt="glossary_hero_image">
+        <h2>Glossary Store</h2>
+        <a href="#"><i class="fa-solid fa-eye"></i> View Store</a>
+    </div>
+    <div class="category">
+        <img src="/images/categoryrestaurant.jpg" alt="glossary_hero_image">
+        <h2>Restaurants</h2>
+        <a href="#"><i class="fa-solid fa-eye"></i> View Store</a>
+    </div>
+    <div class="category">
+        <img src="/images/categorybouquet.jpg" alt="glossary_hero_image">
+        <h2>Bouquet Store</h2>
+        <a href="#"><i class="fa-solid fa-eye"></i> View Store</a>
+    </div>
+  </div>
+
+  <!-- visit Store now -->
+   <div class="homeStoreSection">
+        <h1>Your One-Stop Shop for Fresh, Flavor, and Fragrance.</h1>
+        <a href="#">View Store Now</a>
+   </div>
+
+   <!-- home small Description Afseem -->
+    <h1 class="choose_heading">Why Choose Afseem</h1>
+    <div class="whyChooseContainer">
+        <div class="whyChooseContainer_option">
+            <div class="homeCartIcon"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="option_container">
+                <h1>One-Stop Platform</h1>
+                <p>Grossary, Restaurant, flowers in one order</p>
+            </div>
+        </div>
+        <div class="whyChooseContainer_option">
+            <div class="homeCartIcon"><i class="fa-solid fa-truck-fast"></i></div>
+            <div class="option_container">
+                <h1>Fast Delivery</h1>
+                <p>Fresh & Quick to your doorstep</p>
+            </div>
+        </div>
+        <div class="whyChooseContainer_option">
+            <div class="homeCartIcon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="option_container">
+                <h1>Quality Guarantee</h1>
+                <p>Only Trusted Vendors</p>
+            </div>
+        </div>
+        
+    </div>
+
+ <script>
+    //slider code home page
+    document.addEventListener( 'DOMContentLoaded', function () {
+    const splide =new Splide( '#image-carousel',{type   : 'loop',perPage: 1, autoplay: true,interval:3000,});
+    splide.mount()
+  } );
+ </script>

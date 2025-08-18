@@ -1,0 +1,112 @@
+.subscriptioncontainer{
+    width:95%;
+    margin:20px auto;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:20px;
+    border-radius: 10px;
+}
+.storesearchsection{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    margin:20px 0px;
+}
+.storesearchsection>form{
+    width:95%;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+#searchseller{
+    width:70%;
+    height:45px;
+    border:1px solid #29242433;
+    outline: none;
+    border-radius: 5px;
+    padding:5px 8px;
+}
+.storesearchsection>form>button{
+    width:45px;
+    height:45px;
+    outline: none;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: .3s ease all;
+}
+
+.storesearchsection>form>button:hover{
+    background: #000000;
+    color:#fff;
+}
+.searchresult{
+    width:100%;
+}
+.searchuserresult{
+    width:95%;
+    margin:20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    flex-direction: column;
+}
+.userimage{
+    width:95%;
+    padding:20px;
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    border-radius: 15px;
+    gap:10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.userimage>div>img{
+    width:220px;
+    height:220px;
+    border-radius: 15px;
+}
+.userimage>div>h1{
+    font-size: 18px;
+    font-weight: 500;
+}
+.storelocationinfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px 5px;
+    flex-wrap: wrap;
+}
+.storelocationinfo>div{
+    width:200px;
+    padding:20px;
+}
+
+
+@media (max-width:550px) {
+    .storelocationinfo>div{
+        width:350px;
+        padding:10px;
+    }
+}
+.subscriptionbtn>form>button{
+    padding:10px 15px;
+    border:1px solid #000000;
+    cursor: pointer;
+    outline: none;
+    background-color: #fafafa;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 10px;
+    transition: .3s ease all;
+}
+.subscriptionbtn>form>button:hover{
+    color:#fff;
+    background-color: #000;
+}
