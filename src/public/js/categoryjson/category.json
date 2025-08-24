@@ -1,0 +1,35 @@
+{
+    "Grossary":{
+        "category":"Grossary",
+        "subCategories":[
+            "Fruits & Vegetables",
+            "Dairy & Eggs",
+            "Meat & Poultry",
+           "Fish & Seafood",
+            "Grains & Breads",
+            "Caned & Jarred Goods",
+            "Frozen Foods",
+            "Herbs & Spices",
+            "Snacks & Chips",
+            "Cookies and Biscuits",
+            "Chocolates & Candies",
+            "Nuts & Seeds",
+            "Water & Beverages",
+            "Bread & Baking Ingredients",
+            "Noodles & Pasta",
+            "Hygiene & Personal Care",
+            "Organic Foods",
+            "Household Supplies",
+            "Health & Wellness",
+            "Detergents & Cleaning Products",
+            "Baby Care",
+            "Pet Foods & Accessories",
+            "Pulse, Rice & Cooking Oil",
+            "Coffee & Tea",
+            "Stationary",
+            "Prepaid Cards",
+            "International Specialty"
+
+        ]
+    }
+}

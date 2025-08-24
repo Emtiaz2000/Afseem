@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="/css/store/store-registration.css">
+
+<div class="form-container">
+  <h2>Update User Profile</h2>
+  <form id="storeForm" action="/api/auth/register" method="post">
+    <div>
+      <label for="customerusername">User Name <span class="required">*</span></label>
+      <input type="text" id="customerusername" name="customerusername" required>
+    </div>
+
+     <div>
+      <label for="customerprofilephoto">Profile Photo <span class="required">*</span></label>
+      <input type="file" id="customerprofilephoto" name="customerprofilephoto" accept="image/*" required>
+    </div>
+
+    <div>
+      <label for="customeremail">Email Address <span class="required">*</span></label>
+      <input type="email" id="customeremail" name="customeremail" required>
+    </div>
+    
+
+    <div>
+      <label for="customerwhatsapp">WhatsApp Number <span class="required">*</span></label>
+      <input type="tel" id="customerwhatsapp" name="customerwhatsapp" placeholder="+971 50 123 4567" required>
+    </div>
+
+    <div>
+      <label for="customeraddressunitno"> Unit No. <span class="required">*</span></label>
+      <input type="text" id="customeraddressunitno" name="customeraddressunitno" required>
+    </div>
+    <div>
+      <label for="customeraddressbuildingno"> Building No. <span class="required">*</span></label>
+      <input type="text" id="customeraddressbuildingno" name="customeraddressbuildingno" required>
+    </div>
+    <div>
+      <label for="customeraddressstreetno"> Street No. <span class="required">*</span></label>
+      <input type="text" id="customeraddressstreetno" name="customeraddressstreetno" required>
+    </div>
+    <div>
+      <label for="customeraddresszoneno"> Zone No. <span class="required">*</span></label>
+      <input type="text" id="customeraddresszoneno" name="customeraddresszoneno" required>
+    </div>
+
+    
+
+    <div>
+      <label for="customercountry">Country <span class="required">*</span></label>
+      <select id="customercountry" name="customercountry" required>
+        <option value="">Select Country</option>
+        <option value="Bahrain">Bahrain</option>
+        <option value="Kuwait">Kuwait</option>
+        <option value="Oman">Oman</option>
+        <option value="Qatar">Qatar</option>
+        <option value="Saudi Arabia">Saudi Arabia</option>
+        <option value="UAE">United Arab Emirates</option>
+      </select>
+    </div>
+    <div>
+      <label for="customercity">City <span class="required">*</span></label>
+      <input id="customercity" type="text" name="customercity" required>
+    </div>
+
+    <button class="submitBTN" type="submit">Update Profile</button>
+  </form>
+</div>
+
+
+
+<script src="/js/storejs/store-registration.js"> </script>

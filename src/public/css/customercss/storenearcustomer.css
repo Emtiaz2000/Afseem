@@ -1,0 +1,85 @@
+.storesectionContainer{
+    width:95%;
+    margin:20px auto;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding:20px;
+    border-radius: 15px;
+}
+
+/* Stores near customer */
+
+.storecontainer,.subscribedStore{
+    width:100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    margin:20px auto;
+    gap:20px;
+    position:relative;
+    cursor: pointer;
+    
+}
+
+.subscribedStore{
+    padding:20px 20px;
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+    border-radius: 15px;
+}
+.storesection,.storesectionSubscribed{
+    width:240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:3px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    padding:10px 20px;
+    border-radius: 15px;
+    background-color: #fff;
+    transition:.4s ease all;
+}
+.storesection:hover,.storesectionSubscribed:hover{
+    transform: translateY(-10px);
+}
+.storesection>img,.storesectionSubscribed>img{
+    width:100%;
+    height:98%;
+    border-radius: 15px;
+}
+
+.storesection>h2,.storesectionSubscribed>h2{
+    font-family: "Libertinus Sans", sans-serif;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    
+}
+.storesection>h2>img,.storesectionSubscribed>h2>img{
+    width:20px;
+    height:20px;
+    text-align: center;
+}
+.storesection>a,.storesectionSubscribed>a{
+    font-family: "Libertinus Sans", sans-serif;
+    font-size: 1rem;
+    padding:10px 15px;
+    border:1px solid #5D9100;
+    border-radius: 20px;
+    transition: .4s ease all;
+    margin-bottom:30px;
+}
+
+.storesection>a:hover,.storesectionSubscribed>a:hover{
+    background-color: rgba(1, 103, 1, 0.721);
+    color:#fff;
+}
+
+
+@media (max-width:768px) {
+    .storecontainer,.subscribedStore{
+        justify-content: center;
+    }
+}
