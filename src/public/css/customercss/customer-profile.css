@@ -1,0 +1,95 @@
+.customerprofilecontainer{
+    width:95%;
+    border-radius: 10px;
+    margin:30px auto;
+    padding:20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.profile-left-side{
+    height:850px;
+    width:35%;
+    padding:10px;
+    margin-right:5px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 10px;
+}
+
+.imageandname{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:10px;
+}
+.imageandname>img{
+    width:150px;
+    height:150px;
+    border-radius: 50%;
+}
+.imageandname>h2{
+    font-family: "Libertinus Sans", sans-serif;
+}
+.customeraddress{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap:20px;
+    padding: 10px;
+}
+.customeraddress>div{
+    padding:10px;
+}
+
+.profile-right-side{
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 10px;
+    width:63%;
+    height:850px;
+    padding:20px;
+}
+.ordercontainer{
+    margin:20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom:10px;
+    border-bottom: 1px solid #5a5a5a;
+}
+.editdelete{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+.editdelete>a{
+    text-decoration: underline;
+    font-size: 18px;
+}
+.editdelete>form>button{
+    text-decoration: underline;
+    outline: none;
+    border: none;
+    background-color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    color: #db1111;
+}
+
+@media (max-width:770px) {
+    .customerprofilecontainer{
+        display: block;
+    }
+    .profile-left-side{
+        width:100%;
+        margin-bottom:30px;
+    }
+    .profile-right-side{
+        width:100%;
+        height:500px;
+    }
+}

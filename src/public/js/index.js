@@ -11,6 +11,6 @@ window.addEventListener('DOMContentLoaded',()=>{
             document.querySelector('.mobile_menu').style.display="none";
         })
     }
-})
 
-//AIzaSyA8okC-7dCEUbupWuWP8vzX6FD1hCly-AE
+    
+})

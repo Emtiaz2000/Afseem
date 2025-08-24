@@ -19,7 +19,7 @@ form{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap:40px;
+    gap:20px;
 }
 .input_email,.input_pass{
     width:100%;
@@ -73,4 +73,8 @@ form>button {
     background: rgba(1, 103, 1, 0.721);
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+  }
+  .forgetpass>p>a{
+    text-decoration: underline;
+    color: #F7931E;
   }

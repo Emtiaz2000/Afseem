@@ -31,7 +31,7 @@ app.set('layout', 'layouts/layout');
 app.use('/api', router);
 
 const getAController = (req: Request, res: Response) => {
-  console.log("This is from Emtiaz");
+  //console.log("This is from Emtiaz");
   res.render('pages/home');
 };
 
@@ -51,10 +51,15 @@ app.get('/store-profile', (req,res)=>{
 app.get('/add-product', (req,res)=>{
   res.render('pages/Store/add-product')
 });
-app.get('/store-editproduct', (req,res)=>{
+app.get('/edit-product', (req,res)=>{
   res.render('pages/Store/edit-product')
 });
-
+app.get('/edit-store-profile', (req,res)=>{
+  res.render('pages/Store/store-edit-profile')
+});
+app.get('/masterdata', (req,res)=>{
+  res.render('pages/Store/master-data')
+});
 app.get('/admin-storeinfo', (req,res)=>{
   res.render('pages/Admin/admin-storeinfo',{layout:'layouts/admin-layouts'})
 });
@@ -66,6 +71,32 @@ app.get('/admin-newseller', (req,res)=>{
 });
 app.get('/admin-sellersubscription', (req,res)=>{
   res.render('pages/Admin/admin-subscriptionapproval',{layout:'layouts/admin-layouts'})
+});
+
+app.post('/product',(req,res)=>{
+  console.log(req.body)
+})
+
+app.get('/store-category', (req,res)=>{
+  res.render('pages/Customer/selectcategory')
+});
+app.get('/store-near-you', (req,res)=>{
+  res.render('pages/Customer/storenearcustomerglossary')
+});
+app.get('/store/id', (req,res)=>{
+  res.render('pages/Customer/singlestorepage')
+});
+app.get('/customer-registration', (req,res)=>{
+  res.render('pages/Customer/customer-registration')
+});
+app.get('/customer-login', (req,res)=>{
+  res.render('pages/Customer/customer-login')
+});
+app.get('/customer-profile', (req,res)=>{
+  res.render('pages/Customer/customer-profile')
+});
+app.get('/customer-edit-profile', (req,res)=>{
+  res.render('pages/Customer/customer-edit-profile')
 });
 app.use(notFound);
 app.use(globalErrorHandler);
