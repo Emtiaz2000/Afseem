@@ -55,7 +55,7 @@ const registerUserWithShop = async (userPayload: IUser, shopPayload: IShop) => {
     // 5. Update user to add shop_id (in the same transaction)
     await User.updateOne(
       { _id: user._id },
-      { $set: { shop_id: newShop[0]._id } },
+      { $set: { shop: newShop[0]._id } },
       { session },
     );
 
