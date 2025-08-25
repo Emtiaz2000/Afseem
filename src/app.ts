@@ -73,6 +73,15 @@ app.get('/admin-sellersubscription', (req,res)=>{
   res.render('pages/Admin/admin-subscriptionapproval',{layout:'layouts/admin-layouts'})
 });
 
+app.get('/forgetpassword',(req,res)=>{
+  res.render('pages/forgetpassword')
+})
+app.get('/sentmail',(req,res)=>{
+  res.render('pages/checkyourmail')
+})
+app.get('/setnewpassword',(req,res)=>{
+  res.render('pages/changepassword')
+})
 app.post('/product',(req,res)=>{
   console.log(req.body)
 })

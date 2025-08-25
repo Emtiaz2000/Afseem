@@ -105,3 +105,32 @@
   .passCondition{
     color:#bd1616;
   }
+
+  .dropdown-subcategory {
+        position: relative;
+        width: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+
+ .dropdown-list {
+        position: absolute;
+        background: white;
+        border: 1px solid #ccc;
+        border-top: none;
+        width: 100%;
+        max-height: 150px;
+        overflow-y: auto;
+        display: none;
+        z-index: 999;
+        padding:15px;
+    }
+
+    .dropdown-list div {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .dropdown-list div:hover {
+        background-color: #f0f0f0;
+    }
