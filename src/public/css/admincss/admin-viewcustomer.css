@@ -12,16 +12,16 @@
     margin:auto;
 }
 .singleCustomer{
-    width:100%;
+    width:90%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap:30px;
-    border:1px solid gray;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     padding:20px;
     border-radius: 15px;
-    margin:10px 0px;
+    margin:20px auto;
 }
 .info{
     display: flex;
@@ -70,25 +70,25 @@
 }
 .deactiveCls{
     padding:10px 20px;
-    border:1px solid #7e0b03;
+    border:1px solid #f60a0a;
     border-radius: 10px;
     transition: .3s ease all;
 }
 .deactiveCls:hover{
     color:#fff;
-    background-color: #7e0b03;
+    background-color: #f60a0a;
 }
 .buttons>form>button{
     padding:10px 20px;
-    border:1px solid #7e0303;
+    border:1px solid #f60a0a;
     border-radius: 10px;
     background-color: #fff;
-    color:#7e0303;
+    color:#f60a0a;
     font-weight: bold;
     font-size: 15px;
     cursor: pointer;
 }
 .buttons>form>button:hover{
     color:#fff;
-    background-color: #7e0b03;
+    background-color: #f60a0a;
 }

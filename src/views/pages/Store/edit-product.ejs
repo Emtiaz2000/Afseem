@@ -1,31 +1,59 @@
-<link rel="stylesheet" href="/css/store/add-product.css">
+<link rel="stylesheet" href="/css/store/add-product.css" />
 <div class="addProductContainer">
-    <a class="backtodashboard" href="/store-dashboard"> <i class="fa-solid fa-arrow-left"></i> Go Back</a>
-    <h1>Update Product</h1>
-    <form action="">
-        <div>
-            <label for="productname">Product Name <span class="required">*</span></label>
-            <input type="text" name="productname" id="productname" required>
-        </div>
-        <div>
-            <label for="productprice">Product Price <span class="required">*</span></label>
-            <input type="text" name="productprice" id="productprice" required>
-        </div>
-        <div>
-            <label for="productprice">Select Currency <span class="required">*</span></label>
-            <select name="productprice" id="productprice" required>
-            <option value="BHD">BHD</option>
-            <option value="KD">KD</option>
-            <option value="OR">OR</option>
-            <option value="QR">QR</option>
-            <option value="SR">SR</option>
-            <option value="ED">ED</option>
-            </select>
-        </div>
-        <div>
-      <label for="productimage">Product Image</label>
-      <input type="file" id="productimage" name="productimage" accept="image/*" >
+  <a class="backtodashboard" href="/store-dashboard">
+    <i class="fa-solid fa-arrow-left"></i> Go Back</a
+  >
+  <h1>Update Product</h1>
+  <form action="">
+    <div>
+      <label for="productname">Product Name <span class="required">*</span></label>
+      <input type="text" name="productname" id="productname" required />
     </div>
-        <button class="submitbtn" type="submin">Update Product</button>
-    </form>
+    <div class="dropdown-subcategory">
+      <label for="subcategory"
+        >Selete Category <span class="required">*</span></label
+      >
+      <input
+        type="text"
+        name="subcategory"
+        id="subcategory"
+        placeholder="Type to search..."
+        required
+      />
+      <div class="dropdown-list" id="dropdown"></div>
+    </div>
+    <div>
+      <label for="productprice"
+        >Product Price <span class="required">*</span></label
+      >
+      <input type="number" name="productprice" id="productprice" required />
+    </div>
+    <div>
+      <label for="productofferprice">Offer Price </label>
+      <input type="number" name="productofferprice" id="productofferprice" />
+    </div>
+    <div>
+      <label for="currency">Select Currency <span class="required">*</span></label>
+      <select name="currency" id="currency" required>
+        <option value="BHD">BHD</option>
+        <option value="KD">KD</option>
+        <option value="OR">OR</option>
+        <option value="QR">QR</option>
+        <option value="SR">SR</option>
+        <option value="ED">ED</option>
+      </select>
+    </div>
+    <div>
+      <label for="productimage">Product Image</label>
+      <input
+        type="file"
+        id="productimage"
+        name="productimage"
+        accept="image/*"
+      />
+    </div>
+    <button class="submitbtn" type="submin">Update Product</button>
+  </form>
 </div>
+
+<script src="/js/storejs/add-product.js"></script>
