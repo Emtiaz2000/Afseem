@@ -38,6 +38,7 @@ const ShopSchema = new Schema<IShop, ShopModel>(
     },
     shop_address: {
       locationMap: { type: String, trim: true },
+      address: { type: String, required: true },
       street: { type: String, required: true },
       zip: { type: String, required: true },
       city: { type: String, required: true },
