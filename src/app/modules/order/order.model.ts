@@ -3,6 +3,7 @@ import { IOrder, IOrderItem } from './order.interface';
 
 const orderItemSchema = new Schema<IOrderItem>({
   product_id: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+  product_name: { type: String, required: true },
   quantity: { type: Number, required: true, min: 1 },
   price: { type: Number },
 });
@@ -25,6 +26,7 @@ const orderSchema = new Schema<IOrder>(
     },
     delivery_address: {
       locationMap: { type: String },
+      address: { type: String, required: true },
       street: { type: String, required: true },
       zip: { type: String, required: true },
       city: { type: String, required: true },
