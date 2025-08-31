@@ -4,6 +4,7 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     padding:20px;
     border-radius: 15px;
+    min-height: 350px;
 }
 
 /* Stores near customer */
@@ -17,9 +18,9 @@
     margin:20px auto;
     gap:20px;
     position:relative;
-    cursor: pointer;
     
 }
+
 
 .subscribedStore{
     padding:20px 20px;
@@ -39,9 +40,7 @@
     background-color: #fff;
     transition:.4s ease all;
 }
-.storesection:hover,.storesectionSubscribed:hover{
-    transform: translateY(-10px);
-}
+
 .storesection>img,.storesectionSubscribed>img{
     width:100%;
     height:98%;
@@ -55,6 +54,11 @@
     justify-content: center;
     align-items: center;
     gap: 2px;
+    
+}
+.categorytext,.cityaddress{
+    font-size: .8rem;
+    padding:3px 0px;
     
 }
 .storesection>h2>img,.storesectionSubscribed>h2>img{
@@ -75,6 +79,10 @@
 .storesection>a:hover,.storesectionSubscribed>a:hover{
     background-color: rgba(1, 103, 1, 0.721);
     color:#fff;
+}
+.storeid {
+    font-size: 10px;
+    color: #F7931E;
 }
 
 

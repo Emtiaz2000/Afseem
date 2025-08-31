@@ -1,0 +1,61 @@
+.productuploaderSection{
+    width:95%;
+    border-radius: 10px;
+    margin: auto;
+    padding:20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    min-height:380px;
+    margin:20px auto;
+}
+.uploadform{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:5px;
+}
+.uploadform>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:10px;
+}
+#uploadfile{
+    width:260px;
+    border:1px solid #F26922;
+    border-radius: 10px;
+    padding:10px 5px;
+    cursor: pointer;
+}
+.csvuploadbtn{
+    background-color: #fff;
+    border:1px solid #F26922;
+    padding:5px;
+    width:100px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.csvuploadbtn:hover{
+    color:#FFF;
+    background: #F26922;
+}
+.downloadformate{
+    width:100%;
+    text-align: right;
+    margin-bottom:30px;
+}
+.downloadformate>a{
+    padding:5px 10px;
+    background-color: #fff;
+    border:1px solid #F26922;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.downloadformate>a:hover{
+    color:#FFF;
+    background: #F26922;
+}

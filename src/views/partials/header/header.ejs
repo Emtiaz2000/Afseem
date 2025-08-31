@@ -7,26 +7,48 @@
     </div>
     <div class="header_menu">
         <div class="header_menu_item">
-            <a href="/customer-registration">Register</a>
-            <a href="/customer-login">Login</a>
-            <a href="/store-category">Store</a>
-            <a href="customer-profile">Profile</a>
-            <a href="/masterdata">Dashboard</a>
-            <a href="#">Logout</a>
+            <% if (user && user.role === 'Seller') { %>
+                <a href="/store-dashboard">Dashboard</a>
+                <a href="/store-profile">Profile</a>
+                <a href="/add-product">Add Product</a>
+                <a href="/product-upload">Upload Product</a>
+                <a href="/store-logout">Logout</a>
+            <% } else if(user && user.role === 'User') { %>
+                <a href="/store-category">Store</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/registration">Register</a>
+                <a href="/login">Login</a>
+                <a href="/store-category">Store</a>
+                <div class="cartIc"><i class="fa-solid fa-cart-shopping"></i></div>
+            <% } %> %>
         </div>
         
         <div class="Icon_container">
-            <div class="cartIc"><i class="fa-solid fa-cart-shopping"></i></div>
-            <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
+            <% if (user && user.role === 'User') { %>
+                <div class="cartIc"><i class="fa-solid fa-cart-shopping"></i></div>
+            <% } %>
+             <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
         </div>
     </div>
     <div class="mobile_menu">
-            <a href="/customer-registration">Register</a>
-            <a href="/customer-login">Login</a>
-            <a href="/store-category">Store</a>
-            <a href="customer-profile">Profile</a>
-            <a href="/masterdata">Dashboard</a>
-            <a href="#">Logout</a>
+            <% if (user && user.role === 'Seller') { %>
+                <a href="/store-dashboard">Dashboard</a>
+                <a href="/store-profile">Profile</a>
+                <a href="/add-product">Add Product</a>
+                <a href="/product-upload">Upload Product</a>
+                <a href="/store-logout">Logout</a>
+            <% } else if(user && user.role === 'User') { %>
+                <a href="/store-category">Store</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/registration">Register</a>
+                <a href="/login">Login</a>
+                <a href="/store-category">Store</a>
+                <div class="cartIc"><i class="fa-solid fa-cart-shopping"></i></div>
+            <% } %> %>
         <div class="menuCross"><i class="fa-solid fa-xmark"></i></div>
     </div>
     

@@ -1,262 +1,227 @@
 <link rel="stylesheet" href="/css/customercss/singlestorepage.css">
+<%
+    function formatTime12h(timeStr) {
+        if (!timeStr) return "";
+        const [hour, minute] = timeStr.split(":").map(Number);
+        const h = hour % 12 || 12;
+        const ampm = hour < 12 ? "AM" : "PM";
+        return `${h}:${minute.toString().padStart(2, '0')} ${ampm}`;
+    }
+%>
+
 <div class="singlestorecontainer">
+    <% if(error.length>0){ %>
+      <div class="errorContainer">
+        <% error.forEach(element => { %>
+          <p><%= element.msg %></p>
+        <% }); %>
+        <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+      </div>
+    <% } %>
     <h2>Store Items</h2>
-    <div class="storeproducts">
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
-        <div class="productcontainer">
-            <img src="/images/bagofrice.jpg" alt="productimage">
-            <h1>Bag of 1kg Rice</h1>
-            <p class="productprice">Price: <span class="priceamount">50</span>  AUD</p>
-            <p class="productcount">
-                <button class="dec_icon"><span>-</span></button>
-                <span class="item_count" data-quantity="1">1</span>
-                <button class="inc_icon"><span>+</span></button>
-            </p>
-            <div class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
-        </div>
+    <div class="storesearchsection">
+        <form action="/store/<%= store._id %>" method="get">
+        <input type="text" name="searchproduct" id="searchproduct" value="<%= searchitem || '' %>" placeholder="Search products here....">
+        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
     </div>
+    <% if(store){ %> 
+        <div class="filterSection"> 
+            <label class="showCategory">Show Category <i class="fa-solid fa-sort"></i> </label>
+            <div id="categoryFilter">
+                <div><a href="/store/<%= store._id %>">All</a></div>
+                <% result.forEach((category)=>{ %>
+                    <div><a href="?subcategory=<%= encodeURIComponent(category._id) %>"><%= category._id %> (<%= category.totalProducts %>)</a></div>
+                <% }) %>
+            </div>
+        </div>
+    <% } %>
+        <% if(discountproducts.length>0){ %>
+            <div class="discountproductcontainer">
+                <h1 class="productheading">Products on Sale!</h1>
+                <div class="storeproducts">
+                    <% discountproducts.forEach((product)=>{ %>
+                        <div class="productcontainer">
+                            <img src="<%= product.productimage %>" alt="productimage">
+                            <h1><%= product.productname %></h1>
+                            <span class="subcategory">Sub-categ: <%= product.subcategory %></span>
+                            <% if(product.productofferprice){ %>
+                                <p class="productprice">Regular:  <span class="regularPrice"><%= product.productprice %> <span><%= product.currency %></span> </p>
+                                <p class="productprice">Offer Price: <span class="priceamount"><%= product.productofferprice %></span> <span class="currency"><%= product.currency %></span></p>
+                            <% }else { %>
+                                <p class="productprice">Price: <span class="priceamount"><%= product.productprice %></span>  <span class="currency"><%= product.currency %></span></p>
+                            <% } %>
+                            <p class="productcount">
+                                <button class="dec_icon"><span>-</span></button>
+                                <span class="item_count" data-quantity="1">1</span>
+                                <button class="inc_icon"><span>+</span></button>
+                            </p>
+                            <div data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
+                        </div>
+                    <% }) %>
+                </div>
+                <!-- Pagination -->
+                <div class="pagination">
+                    <% if (paginationDiscount.current > 1) { %>
+                            <a href="?pageDiscount=<%= paginationDiscount.current - 1 %><% if (subcategoryQuery) { %>&subcategory=<%= encodeURIComponent(subcategoryQuery) %><% } %>">
+                            ⬅ Previous
+                            </a>
+                    <% } %>
+
+                        <span> Page <%= paginationDiscount.current %> of <%= paginationDiscount.totalPages %> </span>
+
+                    <% if (paginationDiscount.current < paginationDiscount.totalPages) { %>
+                            <a href="?pageDiscount=<%= paginationDiscount.current + 1 %><% if (subcategoryQuery) { %>&subcategory=<%= encodeURIComponent(subcategoryQuery) %><% } %>">
+                            Next ➡
+                            </a>
+                    <% } %>
+                </div>
+            </div>
+            
+        <% } %>
+    <% if(products.length>0){ %>
+        <h1 class="productheading">Regular Products</h1>
+        <div class="storeproducts" id="regularProductSection" data-productpage="<%= paginationRegular.totalPages %>">
+            <% products.forEach((product)=>{ %>
+                <div class="productcontainer">
+                    <img src="<%= product.productimage %>" alt="productimage">
+                    <h1><%= product.productname %></h1>
+                    <span class="subcategory">Sub-categ: <%= product.subcategory %></span>
+                    <% if(product.productofferprice){ %>
+                        <p class="productprice">Regular:  <span class="regularPrice"><%= product.productprice %> <span><%= product.currency %></span> </p>
+                        <p class="productprice">Offer Price: <span class="priceamount"><%= product.productofferprice %></span> <span class="currency"><%= product.currency %></span></p>
+                    <% }else { %>
+                        <p class="productprice">Price: <span class="priceamount"><%= product.productprice %></span>  <span class="currency"><%= product.currency %></span></p>
+                    <% } %>
+                    <p class="productcount">
+                        <button class="dec_icon"><span>-</span></button>
+                        <span class="item_count" data-quantity="1">1</span>
+                        <button class="inc_icon"><span>+</span></button>
+                    </p>
+                    <div data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-plus"></i></div>
+                </div>
+            <% }) %>
+        </div>
+        
+        
+        <div id="endofcontent"></div>
+        <div id="loading" style="display:none;">Loading...</div>
+        <button id="loadMoreBtn">Load More</button>
+    <% }else{ %>
+        <div>No Product in this Store!</div>
+    <% } %>
+    
     <hr>
     <br>
-    <div class="storeinfosection">
-        <div class="storeimage">
-            <img src="/images/food_image.jpg" alt="">
+    <% if(store){ %> 
+        <div class="storeinfosection">
+            <div class="storeimage">
+                <img src="/uploads/stores/<%= store.storePhoto %>" alt="">
+            </div>
+            <div class="addressinformation">
+                <div class="storeaddress">
+                    <h2>Store name:  <span><%= store.storeName %></span></h2>
+                    <p>Owner name: <span><%= store.ownerName %></span></p>
+                    <p>Business Type: <span><%= store.storeCategory %></span></p>
+                </div>
+                <br>
+                <div class="storeaddressbrif">
+                    <p class="storelocationheading"><b>Store address :</b></p>
+                    <p><span>Unit No:</span>  <%= store.storeunitno %></p>
+                    <p><span>Building No:</span> <%= store.storebuildingno %></p>
+                    <p><span>Street No :</span> <%= store.storestreetno %></p>
+                    <p><span>Zone No :</span> <%= store.storezoneno %></p>
+                </div>
+                <br>
+                <div class="storeotherinfo">
+                    <p><span>Business Hours:</span> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
+                    <p><span>WhatsApp No:</span> <%= store.whatsapp %></p>
+                    <p><span>Delivery:</span> <%= store.homeDelivery %></p>
+                </div>
+            </div>
+            
         </div>
-        <div class="addressinformation">
-            <div class="storeaddress">
-                <h2>Store name:  <span>Bakery store in dubai</span></h2>
-                <p>Owner name: <span>Bakery store in dubai</span></p>
-            </div>
-            <br>
-            <div class="storeaddressbrif">
-                <p class="storelocationheading"><b>Store address :</b></p>
-                <p><b>Unit No.: </b> unit number</p>
-                <p><b>Building No :</b> building number</p>
-                <p><b>Street No.  :</b> street no</p>
-                <p><b>Zone No.  :</b> xone no</p>
-            </div>
-            <br>
-            <div class="storeotherinfo">
-                <p><b>Business Hours.:</b> 8AM - 9PM</p>
-                <p><b>WhatsApp No.:</b> this is wp number</p>
-                <p><b>Delivery:</b> available or not available</p>
-            </div>
-            </div>
-        
-    </div>
+    <%} %>
     <br>
     <hr>
     <div class="reviewformcontainer">
-    <div class="heading_login"><h1>Leave a Review</h1></div>
-    <form id="sellerloginform" action="">
-        <div class="starsreview">
-            <i data-id="1" title="1 Star" class="fa-regular fa-star"></i><i data-id="2" title="2 Stars" class="fa-regular fa-star"></i><i title="3 Stars" data-id="3" class="fa-regular fa-star"></i><i title="4 Stars" data-id="4" class="fa-regular fa-star"></i><i title="5 Stars" data-id="5" class="fa-regular fa-star"></i>
-            <input type="hidden" name="starvalue" id="starratingvalue" value="1">
+    <div class="heading_login"><h1>Review</h1></div>
+    <% if(comments.length>0){ %>
+        <div class="allcomments">
+        <% comments.forEach((comment)=>{ %> 
+            <div class="commentcontainer">
+                <div>
+                    <p class="commentAuth"><%= comment.authname %></p>
+                    <span class="commentauthid"><%= comment.auth %></span>
+                </div>
+                
+                <p class="commentStart"> 
+                    <% for(i=1;i<= comment.stars;i++){ %>
+                        <span><i class="fa-solid fa-star"></i></span>
+                    <% } %>
+                </p>
+                <p class="commenttext">
+                    <%= comment.comment %>
+                </p>
+                <% if(user){ %>
+                    <% if(comment.auth == user.id){ %>
+                            <div class="deletecommentbtn">
+                                <form action="/delete-comment/<%= comment._id %>/<%= store._id  %>?_method=DELETE" method="POST"><button class="deleteBtnComment">Delete Comment</button></form>
+                            </div>
+                    <% } %>
+                <% } %> 
+            </div>
+        <% }) %>
         </div>
-        <div class="commentwrite">
-            <label for="commettextarea">Write your Review Here</label>
-            <textarea name="customerreview" id="commettextarea" placeholder="Your Review" required></textarea>
-            
+        <!-- Pagination -->
+         <div class="pagination">
+            <% if (commentpagination.currentPage > 1) { %>
+                <a style="text-decoration: underline;" href="?commentpage=<%= commentpagination.currentPage - 1 %>">Prev</a>
+            <% } %>
+
+            <span>Comment pages <%= commentpagination.currentPage %> of <%= commentpagination.totalCommentPage %></span>
+
+            <% if (commentpagination.currentPage < commentpagination.totalCommentPage) { %>
+                <a style="text-decoration: underline;" href="?commentpage=<%= commentpagination.currentPage + 1 %>">Next</a>
+            <% } %>
         </div>
-        <button type="submit">Submit Review</button>
-    </form>
+        <!-- <div class="pagination">
+        <% if (commentpagination.currentPage > 1) { %>
+            <a href="?commentpage=<%= commentpagination.currentPage - 1 %>">Prev</a>
+        <% } %>
+
+        <% for (let i = 1; i <= commentpagination.totalCommentPage; i++) { %>
+            <% if (i === commentpagination.currentPage) { %>
+            <strong><%= i %></strong>
+            <% } else { %>
+            <a href="?commentpage=<%= i %>"><%= i %></a>
+            <% } %>
+        <% } %>
+
+        <% if (commentpagination.currentPage < commentpagination.totalCommentPage) { %>
+            <a href="?page=<%= commentpagination.currentPage + 1 %>">Next</a>
+        <% } %>
+        </div> -->
+    <% } %>
+    <% if(user){ %>
+        <hr>
+        <form id="sellerloginform" action="/post-comment/<%= store._id %>" method="POST">
+            <h1>Write your Review</h1>
+            <div class="starsreview">
+                <i data-id="1" title="1 Star" class="fa-regular fa-star"></i><i data-id="2" title="2 Stars" class="fa-regular fa-star"></i><i title="3 Stars" data-id="3" class="fa-regular fa-star"></i><i title="4 Stars" data-id="4" class="fa-regular fa-star"></i><i title="5 Stars" data-id="5" class="fa-regular fa-star"></i>
+                <input type="hidden" name="starvalue" id="starratingvalue" value="0">
+            </div>
+            <div class="commentwrite">
+                <label for="commettextarea">Write your Review Here</label>
+                <textarea name="customerreview" id="commettextarea" placeholder="Your Review" required></textarea>
+                
+            </div>
+            <button type="submit">Submit Review</button>
+        </form>
+    <% } %>
+    
 </div>
-    <a class="call-wp" href="https://wa.me/+8801630981451" target="_blank"> <i class="fa-brands fa-whatsapp "></i></a>
+    <a class="call-wp" href="https://wa.me/<%= store.whatsapp %>" target="_blank"> <i class="fa-brands fa-whatsapp "></i></a>
 </div>
 <script src="/js/customerjs/customerreview.js"></script>
+<script src="/js/customerjs/productapi.js"></script>

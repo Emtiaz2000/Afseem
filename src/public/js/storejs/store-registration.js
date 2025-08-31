@@ -634,8 +634,8 @@ const saudiPlaces = [
 
 
 
-  let cities =[...QatarCities] ;
-
+  let cities ;
+  const countryisocode = document.querySelector("#countryisocode")
   const passwordField = document.querySelector('#storepassword');
   const submitBtn = document.querySelector('.submitBTN')
 // Prevent Enter key from submitting form
@@ -653,20 +653,48 @@ const saudiPlaces = [
     storecity.value=''
   })
 
-  storecity.addEventListener('focus',()=>{showDropdown(cities)})
-  storecity.addEventListener('keyup',()=>{
+  storecity.addEventListener('focus',()=>{
     if(country.value=='Qatar'){
+      countryisocode.value='QA'
       cities=[...QatarCities]
     }else if(country.value=='Kuwait'){
+      countryisocode.value='KW'
       cities=[...kuwaitPlaces]
     }else if(country.value=='Bahrain'){
+      countryisocode.value='BH'
       cities=[...bahrainPlaces]
     }else if(country.value=='Oman'){
+      countryisocode.value='OM'
       cities=[...omanPlaces]
     }else if(country.value=='Saudi Arabia'){
+      countryisocode.value='SA'
       cities=[...saudiPlaces] 
     }else{
       cities=[...uaePlaces]
+      countryisocode.value='AE'
+    }
+    showDropdown(cities)
+  
+  })
+  storecity.addEventListener('keyup',()=>{
+    if(country.value=='Qatar'){
+      countryisocode.value='QA'
+      cities=[...QatarCities]
+    }else if(country.value=='Kuwait'){
+      countryisocode.value='KW'
+      cities=[...kuwaitPlaces]
+    }else if(country.value=='Bahrain'){
+      countryisocode.value='BH'
+      cities=[...bahrainPlaces]
+    }else if(country.value=='Oman'){
+      countryisocode.value='OM'
+      cities=[...omanPlaces]
+    }else if(country.value=='Saudi Arabia'){
+      countryisocode.value='SA'
+      cities=[...saudiPlaces] 
+    }else{
+      cities=[...uaePlaces]
+      countryisocode.value='AE'
     }
     const value = storecity.value.toLowerCase();
         dropdown.innerHTML = "";
@@ -731,7 +759,7 @@ const saudiPlaces = [
   }
  if(passwordField){
   passwordField.addEventListener('keyup',()=>{
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[^A-Za-z0-9])\S{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
     if(passwordRegex.test(passwordField.value)){
       passCondition.style.display="none";
       submitBtn.disabled=false
@@ -742,6 +770,16 @@ const saudiPlaces = [
   })
  }
 
+ let inputs = document.querySelectorAll('input[type="number"]')
+        inputs.forEach((input)=>{
+        input.addEventListener('input',(e)=>{
+            let value = parseInt(e.target.value)
+            if(value<=0){
+                alert('Price must be greater than 0!')
+                e.target.value=''
+            }
+        })
+    })
 
 })
 

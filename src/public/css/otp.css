@@ -1,0 +1,47 @@
+.otpSend{
+    width:95%;
+    margin:20px auto;
+    height: 300px;
+    padding:20px;
+    background-color: #ffffff3f;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+.otpSend>p{
+    text-align: center;
+    margin-top: 20px;
+}
+.otpchecker{
+    height:98%;
+    width:98%;
+    margin: auto;
+}
+.otpchecker>form{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:5px;
+}
+.otpchecker>form>input{
+    outline: none;
+    border:1px solid #F7931E;
+    height:35px;
+    width:280px;
+    border-radius: 8px;
+    padding:10px;
+}
+.otpchecker>form>button{
+    outline: none;
+    border:1px solid #F7931E;
+    background-color: #fff;
+    font-size: 16px;
+    padding:5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.otpchecker>form>button:hover{
+    background-color: #F7931E;
+    color:#fff;
+}

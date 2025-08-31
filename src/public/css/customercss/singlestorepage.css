@@ -51,6 +51,7 @@
     width:174px;
     border-radius: 10px;
     height:340px;
+    background-color: #fff;
 }
 .storeproducts{
     margin:20px 0px;
@@ -58,8 +59,14 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap:15px;
+    gap:5px;
     flex-wrap: wrap;
+}
+.discountproductcontainer{
+    border-radius: 10px;
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+    padding:10px;
+    margin:20px 0px;
 }
 .productcontainer>img{
     width:120px;
@@ -68,9 +75,29 @@
     display: block;
 }
 .productcontainer>h1{
-    font-size: .9rem;
+    font-size: 1rem;
     font-weight: normal;
     text-align: center;
+}
+.subcategory{
+    text-align: center;
+    font-size: .55rem;
+    display: block;
+    margin:3px auto;
+}
+.storeaddressbrif>p{
+    font-size: 1rem;
+}
+.storeaddressbrif>p>span,.storeotherinfo>p>span{
+    font-size:1rem;
+    font-weight: 500;
+}
+.productheading{
+    font-size: 1.4rem;
+}
+.regularPrice{
+    text-decoration: line-through;
+    color: #e20202;
 }
 .productprice{
     text-align: center;
@@ -103,7 +130,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    border:1px solid #f15a24;;
+    border:1px solid #f15a24;
 
 }
 .storelocationheading{
@@ -190,8 +217,167 @@ form>button{
     letter-spacing: 0.5px;
     box-shadow: 0 6px 15px rgba(94,53,177,0.3);
 }
+.filterSection{
+    width:100%;
+    position: relative;
+    text-align: right;
+}
+.showCategory{
+    cursor: pointer;
+}
+#categoryFilter{
+    display: none;
+    width:300px;
+    height:auto;
+    padding:20px 10px;
+    box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1000;
+    background-color: #fff;
+    top:25px;
+    right:0px;
+}
+#categoryFilter>div{
+    margin:10px 0px;
+}
+#categoryFilter>div>a{
+   position:relative;
+   height:20px;
+}
+#categoryFilter>div>a::before{
+    content: '';
+    position:absolute;
+    width:0%;
+    height:2px;
+    background-color: #F15A24;
+    bottom:-3px;
+    transition: .4s ease all;
+}
 
+#categoryFilter>div>a:hover::before{
+    width:100%;
+}
 
+.allcomments{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap:18px;
+    margin: 20px 0px 40px 0px;
+
+}
+.commentcontainer{
+    width: 95%;
+    box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+    padding:10px 20px;
+    border-radius: 10px;
+}
+.commentAuth{
+    margin-top:5px;
+    text-transform: capitalize;
+    font-size: 18px;
+}
+.commentauthid{
+    font-size: 10px;
+    color:#F15A24;
+    display: block;
+}
+.commentStart{
+    font-size: 20px;
+    color:#F15A24;
+    
+}
+.commenttext{
+    font-size: 20px;
+    font-style: italic;
+    padding-bottom: 20px;
+    border-left: 5px solid #6c63ff;
+    padding: 10px 20px;
+    margin: 20px 0;
+    background: #f9f9ff;
+    border-radius: 8px;
+    text-transform: capitalize;
+}
+.deletecommentbtn{
+    width:100%;
+
+}
+.deletecommentbtn>form{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+.deleteBtnComment{
+    width:170px;
+    border:1px solid #e20202;
+    outline: none;
+    background-color: #fff;
+    color:#000;
+    height:30px;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    margin-top:5px;
+    transition: .1s ease all;
+}
+.deleteBtnComment:hover{
+    color:#fff;
+    background: #e20202;
+}
+.storesearchsection{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    margin:20px 0px;
+    padding:30px 0px 20px 0px;
+   box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+   border-radius: 15px;
+}
+.storesearchsection>form{
+    width:95%;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    flex-direction: row;
+}
+#searchproduct{
+    width:60%;
+    min-width: 300px;
+    height:40px;
+    border:1px solid #F15A24;
+    outline: none;
+    border-radius: 10px;
+    padding:5px 8px;
+    font-size: 15px;
+}
+.storesearchsection>form>button{
+    width:45px;
+    height:45px;
+    outline: none;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #F15A24;
+    cursor: pointer;
+    transition: .3s ease all;
+    color:#F15A24;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.storesearchsection>form>button:hover{
+    background: #F15A24;
+    color:#fff;
+}
 
 @media (max-width:1024px) {
     .storeproducts{
@@ -216,5 +402,8 @@ form>button{
     }
     .call-wp{
         right:5px;
+    }
+    .singlestorecontainer{
+        padding:5px;
     }
 }

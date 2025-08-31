@@ -1,7 +1,7 @@
 .form-container{
     width:95%;
     margin:20px auto;
-    height: 500px;
+    min-height: 400px;
     padding:20px;
     background-color: #ffffff3f;
     border-radius: 20px;
@@ -17,27 +17,35 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     flex-direction: column;
-     gap:30px;    
+     flex-direction: column;   
      margin: auto;
 }
 #changepass>div{
-    width:95%;
+    width:330px;
     display: flex;
      justify-content: center;
      align-items: flex-start;
      flex-direction: column;
+     min-height:80px;
 }
 .passContainer{
-    display: flex;
+     display: flex;
      justify-content: center;
      align-items: flex-start;
      flex-direction: column;
      gap:5px;
-     width: 100%;
+     width: 330px;
+     margin:auto;
+}
+.passCondition{
+    color:#ea0909;
+}
+.otpsuccesstext{
+    text-align: center;
+    color:#02890f;
 }
 .passContainer>input{
-    width:100%;
+    width:320px;
     height:35px;
     border:1px solid #0000003f;
     border-radius: 5px;

@@ -1,91 +1,64 @@
 <link rel="stylesheet" href="/css/admincss/admin-storeinfo.css">
+
+
 <h1 class="allStoreHead">
     All Stores
 </h1>
+<div class="storesearchsection">
+        <form action="/admin-storeinfo" method="get">
+        <input type="text" name="searchseller" id="searchseller"  placeholder="Search here....">
+        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
 <div class="allStoreConatainer">
     
-    <div class="singleStore">
-        <div class="info">
-            <div class="storeImage">
-                <img src="/images/restuarantimage.jpg" alt="">
-            </div>
-            <div class="storeName"><b>Store Name:</b> Emtiaz Emon Store <br>
-                <b>Store id:</b> 12345678901234560
-            </div>
-            <div class="storeemail"><b>Email:</b> Emon00000@gmail.com</div>
-            <div class="storepass"><b>Password:</b> Emon@1234567</div>
+    <% if(stores.length>0){ %>
+        <div class="findSubscribedStore">
+            <a href="?subscription=true">Subscribed Sellers</a>
         </div>
-        <div class="statusBt">
-            <div class="status">Status: Active</div>
-            <div class="buttons">
-                <a class="deactiveCls" href="#">Deactive</a>
-                <a class="activeCls" href="#">Active</a>
-                <form><button type="submit">Delete Store</button></form>
+        <% stores.forEach((store)=>{ %>
+            <div class="singleStore">
+                <div class="info">
+                    <div class="storeImage">
+                        <img src="/uploads/stores/<%= store.storePhoto %>" alt="">
+                    </div>
+                    <div class="storeName"><b>Store Name:</b> <%= store.storeName %> <br>
+                        <b>Store id:</b> <%= store._id %>
+                    </div>
+                    <div class="storeemail"><b>Email:</b> <%= store.storeemail %></div>
+                    <div class="storepass"><b>Password:</b> <%= store.trackpassword %></div>
+                </div>
+                <div class="statusBt">
+                    <div class="status">Status: <% if(store.activestatus){ %>Active<% }else{ %> <span style="color:red;">Deactive</span> <% } %></div>
+                    <div class="status"> <% if(store.subscription){ %> <span class="subscribed">Subscribed <img src="/images/verified.png" alt=""></span><% }else{ %>  <% } %></div>
+                    <div class="buttons">
+                        <% if(store.activestatus){ %>
+                           <form action="/admin-store/deactive/<%= store._id %>" method="post">
+                            <button class="deactiveCls" >Deactive</button>
+                           </form> 
+                        <% }else{ %>
+                            <form action="/admin-store/active/<%= store._id %>" method="post">
+                                <button class="activeCls" >Active</button>
+                            </form>
+                        <% } %>
+                        <form action="/admin-store/delete/<%= store._id %>" method="post"><button type="submit">Delete Store</button></form>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        <% }) %>
+        <div style="text-align: center;">
+        <% if (currentPage > 1) { %>
+            <a style="text-decoration: underline;" href="?page=<%= currentPage - 1 %>">Previous</a>
+        <% } %>
 
-    <div class="singleStore">
-        <div class="info">
-            <div class="storeImage">
-                <img src="/images/restuarantimage.jpg" alt="">
-            </div>
-            <div class="storeName"><b>Store Name:</b> Emtiaz Emon Store <br>
-                <b>Store id:</b> 12345678901234560
-            </div>
-            <div class="storeemail"><b>Email:</b> Emon00000@gmail.com</div>
-            <div class="storepass"><b>Password:</b> Emon@1234567</div>
-        </div>
-        <div class="statusBt">
-            <div class="status">Status: Active</div>
-            <div class="buttons">
-                <a class="deactiveCls" href="#">Deactive</a>
-                <a class="activeCls" href="#">Active</a>
-                <form><button type="submit">Delete Store</button></form>
-            </div>
-        </div>
-    </div>
+        Page <%= currentPage %> of <%= totalPages %>
 
-    <div class="singleStore">
-        <div class="info">
-            <div class="storeImage">
-                <img src="/images/restuarantimage.jpg" alt="">
-            </div>
-            <div class="storeName"><b>Store Name:</b> Emtiaz Emon Store <br>
-                <b>Store id:</b> 12345678901234560
-            </div>
-            <div class="storeemail"><b>Email:</b> Emon00000@gmail.com</div>
-            <div class="storepass"><b>Password:</b> Emon@1234567</div>
-        </div>
-        <div class="statusBt">
-            <div class="status">Status: Active</div>
-            <div class="buttons">
-                <a class="deactiveCls" href="#">Deactive</a>
-                <a class="activeCls" href="#">Active</a>
-                <form><button type="submit">Delete Store</button></form>
-            </div>
-        </div>
+        <% if (currentPage < totalPages) { %>
+            <a style="text-decoration: underline;" href="?page=<%= currentPage + 1 %>">Next</a>
+        <% } %>
     </div>
-
-    <div class="singleStore">
-        <div class="info">
-            <div class="storeImage">
-                <img src="/images/restuarantimage.jpg" alt="">
-            </div>
-            <div class="storeName"><b>Store Name:</b> Emtiaz Emon Store <br>
-                <b>Store id:</b> 12345678901234560
-            </div>
-            <div class="storeemail"><b>Email:</b> Emon00000@gmail.com</div>
-            <div class="storepass"><b>Password:</b> Emon@1234567</div>
-        </div>
-        <div class="statusBt">
-            <div class="status">Status: Active</div>
-            <div class="subscribed">Subscribed <img src="/images/verified.png" alt="varified"></div>
-            <div class="buttons">
-                <a class="deactiveCls" href="#">Deactive</a>
-                <a class="activeCls" href="#">Active</a>
-                <form><button type="submit">Delete Store</button></form>
-            </div>
-        </div>
-    </div>
+    <% }else{ %>
+        <h2>No Store Found!</h2>
+    <% } %>
+    
 </div>

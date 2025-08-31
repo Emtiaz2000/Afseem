@@ -11,6 +11,52 @@
     text-align: left;
     margin:auto;
 }
+.storesearchsection{
+    width:95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    margin: auto;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height:80px;
+    border-radius: 15px;
+}
+.storesearchsection>form{
+    width:95%;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+#searchseller{
+    width:60%;
+    min-width: 280px;
+    height:40px;
+    border:1px solid #F15A24;
+    outline: none;
+    border-radius: 10px;
+    padding:5px 8px;
+    font-size: 16px;
+}
+.storesearchsection>form>button{
+    width:45px;
+    height:45px;
+    outline: none;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #F15A24;
+    cursor: pointer;
+    transition: .3s ease all;
+    color:#F15A24;
+}
+
+.storesearchsection>form>button:hover{
+    background: #F15A24;
+    color:#fff;
+}
+
 .singleStore{
     width:90%;
     display: flex;
@@ -63,6 +109,21 @@
 }
 .subscribed>img{
     width:20px;
+}
+.findSubscribedStore{
+    text-align: right;
+    height:40px;
+    padding-right:5px;
+}
+.findSubscribedStore>a{
+    font-weight: bold;
+    padding:5px 10px;
+    border:1px solid #F15A24;
+    border-radius: 5px;
+}
+.findSubscribedStore>a:hover{
+    background-color: #F15A24;
+    color:#FFF;
 }
 .buttons{
     display: flex;

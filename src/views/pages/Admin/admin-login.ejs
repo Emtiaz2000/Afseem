@@ -1,7 +1,13 @@
-<link rel="stylesheet" href="css/admincss/admin-login.css">
+<link rel="stylesheet" href="/css/admincss/admin-login.css">
 <div class="loginformcontainer">
+    <% if (error_msg!='') { %>
+    <div style="background-color: red !important;" class="errorContainer">
+        <p><%= error_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+    <% } %>
     <div class="heading_login"><h1>Admin Login</h1></div>
-    <form id="sellerloginform" action="">
+    <form id="sellerloginform" action="/auth/afseem/admin-login" method="post">
         <div class="input_email">
             <label for="loginuseremail">Email Address</label>
             <input type="email" name="adminloginemail" id="loginuseremail" placeholder="Admin@mail.com" required>
@@ -10,6 +16,9 @@
             <label for="loginuserpass">Password</label>
             <input type="password" name="adminloginpass" id="loginuserpass" required>
             <i class="fa-solid fa-eye eyespass"></i> 
+        </div>
+        <div>
+            <p>Admin Forget Password🤯 ? <a style="text-decoration: underline; color:#F7931E" href="/admin-change-password">Click Here</a></p>
         </div>
         <button type="submit">Admin Login</button>
     </form>

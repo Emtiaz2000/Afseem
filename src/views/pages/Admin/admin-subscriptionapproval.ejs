@@ -2,53 +2,65 @@
 <div class="subscriptioncontainer">
     <h1>Search User</h1>
     <div class="storesearchsection">
-        <form action="#">
-        <input type="text" name="searchseller" id="searchseller" placeholder="Search here....">
+        <form action="/admin-sellersubscription" method="get">
+        <input type="text" name="searchseller" id="searchseller" value="<%= query %>" placeholder="Search here....">
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
     </div>
     <br>
     <hr>
-    <div class="searchresult">
-        <div class="searchuserresult">
-            <div class="userimage">
-                <div>
-                    <img src="/images/food_image.jpg" alt="">
-                    <h1>User Name</h1>
-                    <p>User Id: 1234567890988</p>
+    <% if(store){ %>
+        <div class="searchresult">
+            <div class="searchuserresult">
+                <div class="userimage">
+                    <div>
+                        <img src="/uploads/stores/<%= store.storePhoto %>" alt="">
+                        <h1><%= store.storeName %></h1>
+                        <p class="userID">User Id: <%= store._id %></p>
+                    </div>
+                    <div class="storelocationinfo">
+                        <div>
+                            <p style="text-transform: capitalize;"><b>Business Type:</b> <%= store.storeCategory %></p>
+                        </div>
+                        <div>
+                            <p><b>Country:</b> <%= store.country %></p>
+                        </div>
+                        <div>
+                            <p><b>City:</b> <%= store.storecity %></p>
+                        </div>
+                        <div>
+                            <p><b>Unit No.:</b> <%= store.storeunitno %> </p>
+                        </div>
+                        <div>
+                            <p><b>Building No:</b> <%= store.storebuildingno %></p>
+                        </div>
+                        <div>
+                            <p><b>Street No:</b> <%= store.storestreetno %></p>
+                        </div>
+                        <div>
+                            <p><b>Zone No:</b> <%= store.storezoneno %></p>
+                        </div>
+                    </div>
+                    
                 </div>
-                <div class="storelocationinfo">
-                    <div>
-                        <p><b>Business Type:</b> Grocery</p>
-                    </div>
-                    <div>
-                        <p><b>Country:</b> OMAN</p>
-                    </div>
-                    <div>
-                        <p><b>City:</b> Al Mahkaran</p>
-                    </div>
-                    <div>
-                        <p><b>Unit No.:</b> </p>
-                    </div>
-                    <div>
-                        <p><b>Building No. :</b></p>
-                    </div>
-                    <div>
-                        <p><b>Street No. :</b></p>
-                    </div>
-                    <div>
-                        <p><b>Zone No. :</b></p>
-                    </div>
+                
+                <div class="subscriptionbtn">
+                    <form action="/store-subscription-approval/<%= store._id %>" method="post">
+                        <div>
+                            <label for="subscriptiontype">Subscription Type:</label>
+                            <select name="subscriptiontype" id="subscriptiontype">
+                                <option value="monthly" selected>1 Month</option>
+                                <option value="yearly">1 Year</option>
+                            </select>
+                        </div>
+                        <br>
+                        <br>
+                        <button type="submit">Approve Subscription </button>
+                    </form>
                 </div>
                 
             </div>
-            
-            <div class="subscriptionbtn">
-                <form action="#">
-                    <button type="submit">Approve Subscription </button>
-                </form>
-            </div>
-            
         </div>
-    </div>
+    <% } %>
+    
 </div>

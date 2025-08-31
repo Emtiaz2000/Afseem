@@ -8,15 +8,32 @@ window.addEventListener('DOMContentLoaded',()=>{
             review.value= dataId
         })
     })
+
+    //show category text
+    const showCategory = document.querySelector('.showCategory')
+    const filterSection = document.querySelector('#categoryFilter')
+
+    //showing category
+    showCategory.addEventListener('click',()=>{
+        filterSection.style.display="block"
+    })
+
+    //hiding category list
+    document.addEventListener("click", function (e) {
+        if (!e.target.closest(".showCategory") && !e.target.closest("#categoryFilter")) {
+            filterSection.style.display = "none";
+        }
+    });
+
+    function fillStars(dataValue){
+        let stars= document.querySelectorAll('.starsreview i')
+        stars.forEach(star=>{
+            if(star.getAttribute('data-id')<= dataValue){
+                star.className="fa-solid fa-star"
+            }else{
+                star.className="fa-regular fa-star"
+            }  
+        })  
+    }
 })
 
-function fillStars(dataValue){
-    let stars= document.querySelectorAll('.starsreview i')
-    stars.forEach(star=>{
-        if(star.getAttribute('data-id')<= dataValue){
-            star.className="fa-solid fa-star"
-        }else{
-            star.className="fa-regular fa-star"
-        }
-    })
-}

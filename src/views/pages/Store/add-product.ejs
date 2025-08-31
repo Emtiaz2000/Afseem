@@ -1,25 +1,47 @@
 <link rel="stylesheet" href="/css/store/add-product.css" />
 <div class="addProductContainer">
+  <% if(error.length>0){ %>
+    <div class="errorContainer">
+      <% error.forEach(element => { %>
+        <p><%= element.msg %></p>
+      <% }); %>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+  <% if (error_msg!='') { %>
+    <div style="background-color: red !important;" class="errorContainer">
+        <p><%= error_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+  <% if (success_msg!='') { %>
+    <div style="background-color: green !important;" class="errorContainer">
+        <p><%= success_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
   <a class="backtodashboard" href="/store-dashboard"
-    ><i class="fa-solid fa-arrow-left"></i> Go Back</a
-  >
+    ><i class="fa-solid fa-arrow-left"></i> Go Back</a>
   <h1>Add Product</h1>
-  <form action="/product" method="post">
+  <form action="/add-product" method="post" enctype="multipart/form-data">
     <div>
-      <label for="productname"
-        >Product Name <span class="required">*</span></label
-      >
+      <label for="productname">Product Name <span class="required">*</span></label>
       <input type="text" name="productname" id="productname" required />
     </div>
+    <input type="hidden" name="checkCategory" value="<%= category %>" id="checkcategory">
     <div class="dropdown-subcategory">
       <label for="subcategory">Selete Category <span class="required">*</span></label>
       <input type="text" name="subcategory" id="subcategory" placeholder="Type to search..." required/>
       <div class="dropdown-list" id="dropdown"></div>
     </div>
     <div>
+      <label for="sku"
+        >SKU Number <span class="required">*</span></label>
+      <input type="number"  name="sku" id="sku" required />
+    </div>
+    <div>
       <label for="productprice"
-        >Regular Price <span class="required">*</span></label
-      >
+        >Regular Price <span class="required">*</span></label>
       <input type="number"  name="productprice" id="productprice" required />
     </div>
     <div>
@@ -40,19 +62,30 @@
       </select>
     </div>
     <div>
-      <label for="productimage"
-        >Product Image <span class="required">*</span></label
-      >
-      <input
-        type="file"
-        id="productimage"
-        name="productimage"
-        accept="image/*"
-        required
-      />
+        <label class="uploadImagelabel" for="productimage"> <img  class="imageIconUploading" src="/images/icons/uploadimage.png" alt="uploadphoto"> Product Image </label>
+        
+        <input
+          style="display: none;"
+          type="file"
+          id="productimage"
+          name="productimage"
+          accept="image/*"
+          />
+        <p class="imageuploadingtext"> File Selected: <span id="productUploadimage"></span></p>
+        <p style="text-align: center;">or</p>
+        <label class="uploadImagelabel" for="takephoto"><img  class="imageIconUploading" src="/images/icons/cameraicon.png" alt="takephoto">  Take a Photo </label>
+        <input 
+        style="display: none;"
+        type="file" 
+        accept="image/*" 
+        id="takephoto"
+        name="takephoto"
+        capture="environment">
+        <p class="takephototext"> File Selected: <span id="takephotofile"></span></p>
+        <p>upload Image or Take a Photo <span class="required">*</span></p>
+      
     </div>
     <input type="hidden" id="addproductbehaviour" name="addproductbehaviour" value="false">
-    <button class="submitbtn" type="submit">Add Product</button>
     <button id="submitbtnaddmore" class="submitbtn" type="submit">Create & Add Another</button>
   </form>
 </div>

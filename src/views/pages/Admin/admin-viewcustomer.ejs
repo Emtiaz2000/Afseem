@@ -3,26 +3,38 @@
     All Customers
 </h1>
 <div class="allCustomerConatainer">
-    
-    <div class="singleCustomer">
-        <div class="info">
-            <div class="customerImage">
-                <img src="/images/restuarantimage.jpg" alt="">
-            </div>
-            <div class="customename"><b>Customer Name:</b> Emtiaz Emon Store <br>
-                <b>Customer id:</b> 12345678901234560
-            </div>
-            <div class="customeremail"><b>Email:</b> Emon00000@gmail.com</div>
-            <div class="customerpass"><b>Password:</b> Emon@1234567</div>
-            <div class="vieworder"><a href="#"><i class="fa-solid fa-eye eyespass"></i> <b>View Orders</b></a> </div>
+    <% if(users.length>0){ %>
+        <% users.forEach(user => { %>
+            <div class="singleCustomer">
+                <div class="info">
+                    <div class="customerImage">
+                        <img src="/uploads/customers/<%= user.customerprofilephoto %>" alt="">
+                    </div>
+                    <div class="customename"><b>Customer Name:</b> <%= user.customerusername %> <br>
+                        <b>Customer id:</b> <%= user._id %>
+                    </div>
+                    <div class="customeremail"><b>Email:</b> <%= user.customeremail %></div>
+                    <div class="customerpass"><b>Password:</b> <%= user.trackpassword %></div>
+                    <div class="vieworder"><a href="#"><i class="fa-solid fa-eye eyespass"></i> <b>View Orders</b></a> </div>
+                </div>
+                <div class="statusBt">
+                    <div class="buttons">
+                        <form action="/admin-user/delete/<%= user._id %>" method="post"><button type="submit">Delete Customer Account</button></form>
+                    </div>
+                </div>
         </div>
-        <div class="statusBt">
-            
-            <div class="buttons">
-                <form><button type="submit">Delete Customer Account</button></form>
-            </div>
-        </div>
-    </div>
+        <% }); %>
+    <% } %>
+    <div style="text-align: center;" class="pagination">
+        <% if (currentPage > 1) { %>
+            <a style="text-decoration: underline;" href="?page=<%= currentPage - 1 %>">Previous</a>
+        <% } %>
 
+        <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+        <% if (currentPage < totalPages) { %>
+            <a style="text-decoration: underline;" href="?page=<%= currentPage + 1 %>">Next</a>
+        <% } %>
+    </div>
     
 </div>

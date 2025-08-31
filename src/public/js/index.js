@@ -12,5 +12,17 @@ window.addEventListener('DOMContentLoaded',()=>{
         })
     }
 
+
+    let errorCross = document.querySelector('.crossError')
+    let errorContainer =document.querySelector('.errorContainer')
+
+    errorCross.addEventListener('click',()=>{
+        errorContainer.style.display='none'
+    })
     
+  
+    
+    
+
+
 })

@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/css/changepass.css">
+<div class="form-container">
+  <% if(error.length>0){ %>
+    <div class="errorContainer">
+      <% error.forEach(element => { %>
+        <p><%= element.msg %></p>
+      <% }); %>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+  <h2> Set Password</h2>
+  <p class="otpsuccesstext"> <%= msg %></p>
+  <form id="changepass" action="/store-changepassword-verify-otp" method="POST">
+    <div>
+        <div class="passContainer">
+            <label for="useremail">Email Address <span class="required">*</span></label>
+            <input placeholder="example@mail.com" value="<%= useremail %>" type="email" id="useremail" name="useremail" required>
+        </div>
+    </div>
+    <div>
+        <div class="passContainer">
+            <label for="opt">OTP <span class="required">*</span></label>
+            <input placeholder="6 digit otp" type="text" id="otp" name="otp" required>
+        </div>
+    </div>
+    <div>
+        <div class="passContainer">
+            <label for="newpassword">New Password <span class="required">*</span></label>
+            <input type="text" id="newpassword" name="newpassword" required>
+        </div>
+        <p class="passCondition">Password must contain mininum 8 chars, at least one uppercase, at least one special character and one Number</p>
+    </div>
+    <div>
+        <div class="passContainer">
+            <label for="confirmPass">Confirm Password <span class="required">*</span></label>
+            <input type="text" id="confirmPass" name="confirmPass" required>
+        </div>
+        </div>
+    <button class="submitBTN" type="submit">Change Password</button>
+  </form>
+</div>
+
+
+
+<script src="/js/changepass.js"> </script>

@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded',()=>{
-    const options = ["Fruits & Vegetables",
+    const grocery = ["Fruits & Vegetables",
             "Dairy & Eggs",
             "Meat & Poultry",
            "Fish & Seafood",
@@ -26,15 +26,50 @@ window.addEventListener('DOMContentLoaded',()=>{
             "Stationary",
             "Prepaid Cards",
             "International Specialty"];
+    const restaurent = [
+                "Soups",
+                "Salads",
+                "Bread",
+                "Main Courses",
+                "Grilled/BBQ",
+                "Pasta & Noodles",
+                "Rice Dishes",
+                "Burgers & Sandwiches",
+                "Broasted",
+                "Pizza & Flatbreads",
+                "Seafood",
+                "Meat & Poultry",
+                "Vegetarian & Vegan",
+                "Indian Dishes",
+                "Middle Eastern Dishes",
+                "Breakfast / Brunch",
+                "Desserts",
+                "Beverages",
+                "Milkshakes & Specialty Drinks"
+                ];
+    let options;
+    //checkCategory
+    const checkcategory = document.querySelector('#checkcategory')
     const input = document.querySelector("#subcategory");
     const dropdown = document.getElementById("dropdown");
     const submitbtnaddmore = document.querySelector('#submitbtnaddmore')
+    if(checkcategory.value=="grocery"){
+            options=[...grocery]
+        }else if(checkcategory.value=="restaurant"){
+            options=[...restaurent]
+        }else{
+            options=[]
+        }
 
+        //console.log(options)
 
-        //getting value of add another product to true
-    submitbtnaddmore.addEventListener('click',()=>{
-        document.querySelector('#addproductbehaviour').value=true
-    })
+    //getting value of add another product to true
+    if(submitbtnaddmore){
+        submitbtnaddmore.addEventListener('click',()=>{
+            document.querySelector('#addproductbehaviour').value=true
+        })
+
+    }
 
 
 
@@ -73,6 +108,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     function showDropdown(){
         dropdown.innerHTML = "";
         dropdown.style.display = "block";
+        
         options.forEach(option => {
             const div = document.createElement("div");
             div.textContent = option;
@@ -93,9 +129,9 @@ window.addEventListener('DOMContentLoaded',()=>{
     });
 
 
-    //number input validation
+      //number input validation
     let inputs = document.querySelectorAll('input[type="number"]')
-    inputs.forEach((input)=>{
+        inputs.forEach((input)=>{
         input.addEventListener('input',(e)=>{
             let value = parseInt(e.target.value)
             if(value<=0){
@@ -104,6 +140,43 @@ window.addEventListener('DOMContentLoaded',()=>{
             }
         })
     })
+
+
+    const uploadInput = document.getElementById('productimage');
+    const takephoto = document.querySelector("#takephoto")
+    const fileName = document.getElementById('productUploadimage');
+    const takephotofile = document.querySelector("#takephotofile")
+    const imageuploadingtext = document.querySelector(".imageuploadingtext")
+    const takephototext = document.querySelector('.takephototext')
+
+    uploadInput.addEventListener('change', () => {
+        if(uploadInput.files.length > 0) {
+        fileName.textContent = uploadInput.files[0].name;
+        imageuploadingtext.style.display="block"
+        takephotofile.textContent = "No file selected";
+        takephototext.style.display="none"
+        if(takephoto.files.length>0){
+            takephoto.value=''
+        }
+        } else {
+        fileName.textContent = "No file selected";
+         imageuploadingtext.style.display="none"
+        }
+    });
+    takephoto.addEventListener('change', () => {
+        if(takephoto.files.length > 0) {
+        takephotofile.textContent = takephoto.files[0].name;
+        takephototext.style.display="block"
+        fileName.textContent = "No file selected";
+         imageuploadingtext.style.display="none"
+        if(uploadInput.files.length>0){
+            uploadInput.value=''
+        }
+        } else {
+         takephotofile.textContent = "No file selected";
+         takephototext.style.display="none"
+        }
+    });
     
 })
 

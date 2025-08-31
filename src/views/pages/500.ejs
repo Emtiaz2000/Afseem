@@ -1,0 +1,31 @@
+
+<style>
+    .errpage{
+        width:95%;
+        margin:20px auto;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        padding:20px;
+        border-radius: 15px;
+        position:relative;
+        min-height: 300px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap:5px;
+    }
+    .errpage>h1{
+        font-size: 80px;
+        color:#b2b1b1;
+    }
+    .errpage>a{
+        padding:5px 20px;
+        border:1px solid #F7931E;
+        border-radius: 5px;
+    }
+</style>
+<div class="errpage">
+    <h1>500</h1>
+    <p><%= msg %></p>
+    <a href="/">Go Home</a>
+</div>

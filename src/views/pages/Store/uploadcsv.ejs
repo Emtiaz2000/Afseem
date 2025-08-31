@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/css/store/uploadcsv.css">
+
+<div class="productuploaderSection">
+    <div class="downloadformate"><a href="#">Download Format</a></div>
+    <% if (error_msg!='') { %>
+    <div style="background-color: red !important;" class="errorContainer">
+        <p><%= error_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+    <% } %>
+    <div class="uploadingoption">
+        <form class="uploadform" action="/product-upload" method="post" enctype="multipart/form-data">
+            <h1>Upload Products</h1>
+            <br>
+            <div>
+                <label class="uploadlabel" for="uploadfile">Upload CSV  file <span class="required">*</span></label>
+                <input type="file" name="csvfile" accept=".csv, .xlsx" id="uploadfile" required>
+            </div>
+            <div>
+                <button class="csvuploadbtn" type="submit"><i class="fa-solid fa-upload"></i> Upload</button>
+            </div>
+        </form>
+    </div>
+</div>

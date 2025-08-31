@@ -1,152 +1,78 @@
 <link rel="stylesheet" href="/css/store/master-data.css" />
 
 <div class="masterDashboardContainer">
+  <div class="headingcotainer">
+    <h1>Dashboard</h1>
+  </div>
   <div class="masterdatacategorycontainer">
     <div class="filtertext"><span>Filter</span> <span class="filterIcon"><i class="fa-solid fa-list"></i></span> <span class="closefilter"><i class="fa-solid fa-ban"></i></span></div>
     <div class="masterdatabodycontainer">
       <div id="CategorySearch">
-      <div>
-        <p class="filterOption active">All <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Fruits &amp; Vegetables <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Dairy &amp; Eggs <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Meat &amp; Poultry <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Fish &amp; Seafood <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Grains &amp; Breads <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Caned &amp; Jarred Goods <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Frozen Foods <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Herbs &amp; Spices <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Snacks &amp; Chips <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Cookies and Biscuits <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Chocolates &amp; Candies <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Nuts &amp; Seeds <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Water &amp; Beverages <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">
-          Bread &amp; Baking Ingredients <span>(10)</span>
-        </p>
-      </div>
-      <div>
-        <p class="filterOption">Noodles &amp; Pasta <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">
-          Hygiene &amp; Personal Care <span>(10)</span>
-        </p>
-      </div>
-      <div>
-        <p class="filterOption">Organic Foods <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Household Supplies <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Health &amp; Wellness <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">
-          Detergents &amp; Cleaning Products <span>(10)</span>
-        </p>
-      </div>
-      <div>
-        <p class="filterOption">Baby Care <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">
-          Pet Foods &amp; Accessories <span>(10)</span>
-        </p>
-      </div>
-      <div>
-        <p class="filterOption">
-          Pulse, Rice &amp; Cooking Oil <span>(10)</span>
-        </p>
-      </div>
-      <div>
-        <p class="filterOption">Coffee &amp; Tea <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Stationary <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">Prepaid Cards <span>(10)</span></p>
-      </div>
-      <div>
-        <p class="filterOption">International Specialty <span>(10)</span></p>
-      </div>
-      </div>
-      <div class="filterresult">
-        <div class="productContainer">
-          <div class="productImage">
-              <img src="/images/glossary_hero_image.jpg" alt="">
-          </div>
-          <h2>Product Name</h2>
-          <span>Store Id: 12345</span>
-          <p class="productPrice">Price: 50 AED</p>
-          <p class="productStatus">Available</p>
-          <div class="btnContainer">
-              <a href="#"><i class="fa-solid fa-pencil"></i>Edit</a>
-              <form> <button type="submit" class="deleteBtn">Delete</button></form>
-          </div>
-        
+        <div>
+          <p class="filterOption active"><a href="/store-dashboard">All</a> <span></span></p>
         </div>
-        <div class="productContainer">
-          <div class="productImage">
-              <img src="/images/glossary_hero_image.jpg" alt="">
+        <% result.forEach(items=>{ %>
+          <div>
+          <a class="<% if(activeUrl==items._id){ %> active <% } %>" href="/store-dashboard?subcategory=<%= encodeURIComponent(items._id) %>" class="filterOption "><%= items._id %> <span>(<%= items.totalProducts %>)</span></a>
           </div>
-          <h2>Product Name</h2>
-          <span>Store Id: 12345</span>
-          <p class="productPrice ">Regular: <span class="regularPrice">70 AED</span></p>
-          <p class="productPrice">Offer Price: <b>50</b> AED</p>
-          <p class="productStatus">Available</p>
-          <div class="btnContainer">
-              <a href="#"><i class="fa-solid fa-pencil"></i>Edit</a>
-              <form> <button type="submit" class="deleteBtn">Delete</button></form>
-          </div>
-        
-        </div>
-        <div class="productContainer">
-          <div class="productImage">
-              <img src="/images/glossary_hero_image.jpg" alt="">
-          </div>
-          <h2>Product Name</h2>
-          <span>Store Id: 12345</span>
-          <p class="productPrice">Price: 50 AED</p>
-          <p class="productStatus">Available</p>
-          <div class="btnContainer">
-              <a href="#"><i class="fa-solid fa-pencil"></i>Edit</a>
-              <form> <button type="submit" class="deleteBtn">Delete</button></form>
-          </div>
-        
-        </div>
+        <% }) %>
+      
       </div>
+      <% if(products.length>0){ %>
+        <div class="filterresult">
+          <% products.forEach((product)=>{ %>
+            <div class="productContainer">
+              <div class="productStatus">
+                <% if(product.enable){ %>
+                  <img src="/images/icons/statusactive.svg" alt="active">
+                  <% }else{ %>
+                    <img src="/images/icons/offline.svg" alt="offline">
+                <% } %>
+              </div>
+              <div class="productImage">
+                  <img src="<%= product.productimage %>" alt="">
+                  
+              </div>
+              <h2><%= product.productname %></h2>
+              <span class="store-id">Store Id: <%= product.store %></span>
+              <span class="subcategory">Sub-cat:: <%= product.subcategory %></span>
+              <% if(product.productofferprice){%>
+                        <p class="productPrice">Regular:  <span class="regularPrice"><%= product.productprice %> <%= product.currency %></span> </p>
+                        <p class="productPrice">Offer Price: <%= product.productofferprice %> <%= product.currency %></p>
+              <% } else { %>
+                        <p class="productPrice">Price: <%= product.productprice %> <%= product.currency %></p>
+              <% } %>
+              <div class="btnContainer">
+                  <a href="/edit-product/<%= product._id %>"><i class="fa-solid fa-pencil"></i>Edit</a>
+                  <form action="/product/<%= product._id %>?_method=DELETE" method="POST"> <button type="submit" class="deleteBtn">Delete</button></form>
+              </div>
+              <div class="btnContainer">
+                <% if(product.enable){ %>
+                  <form action="/product/<%= product._id %>/disable" method="post"><button class="disablebtn">Disable</button></form>
+                <% } else { %>
+                  <form action="/product/<%= product._id %>/enable" method="post"><button class="enablebtn">Enable</button></form>
+                <% } %>
+              </div>
+            </div>
+          <% }) %>
+
+        </div>
+        <% }else{ %>
+          <h1>No Product Found!</h1>
+        <% } %>
     </div>
-    
+          
+    <div class="pagination">
+          <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %>&limit=9<% if (activeUrl) { %>&subcategory=<%= encodeURIComponent(activeUrl) %><% } %>">Prev</a>
+          <% } %>
+
+          <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+          <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>&limit=9<% if (activeUrl) { %>&subcategory=<%= encodeURIComponent(activeUrl) %><% } %>">Next</a>
+          <% } %>
+    </div>   
   </div>
 </div>
 

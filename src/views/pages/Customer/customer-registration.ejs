@@ -2,7 +2,15 @@
 
 <div class="form-container">
   <h2>  Registration Form</h2>
-  <form id="storeForm" action="/api/auth/register" method="post">
+    <% if(error.length>0){ %>
+      <div class="errorContainer">
+        <% error.forEach(element => { %>
+          <p><%= element.msg %></p>
+        <% }); %>
+        <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+      </div>
+    <% } %>
+  <form id="userForm" action="/registration" method="post" enctype="multipart/form-data">
     <div>
       <label for="customerusername">User Name <span class="required">*</span></label>
       <input type="text" id="customerusername" name="customerusername" required>
@@ -26,46 +34,43 @@
 
     <div>
       <label for="customeraddressunitno"> Unit No. <span class="required">*</span></label>
-      <input type="text" id="customeraddressunitno" name="customeraddressunitno" required>
+      <input type="number" id="customeraddressunitno" name="customerunitno" required>
     </div>
     <div>
       <label for="customeraddressbuildingno"> Building No. <span class="required">*</span></label>
-      <input type="text" id="customeraddressbuildingno" name="customeraddressbuildingno" required>
+      <input type="number" id="customeraddressbuildingno" name="customerbuildingno" required>
     </div>
     <div>
       <label for="customeraddressstreetno"> Street No. <span class="required">*</span></label>
-      <input type="text" id="customeraddressstreetno" name="customeraddressstreetno" required>
+      <input type="number" id="customeraddressstreetno" name="customerstreetno" required>
     </div>
     <div>
       <label for="customeraddresszoneno"> Zone No. <span class="required">*</span></label>
-      <input type="text" id="customeraddresszoneno" name="customeraddresszoneno" required>
+      <input type="number" id="customeraddresszoneno" name="customerzoneno" required>
     </div>
-
-    
-
     <div>
       <label for="customercountry">Country <span class="required">*</span></label>
       <select id="customercountry" name="customercountry" required>
-        <option value="">Select Country</option>
+        <option value="Qatar" selected>Qatar</option>
         <option value="Bahrain">Bahrain</option>
         <option value="Kuwait">Kuwait</option>
         <option value="Oman">Oman</option>
-        <option value="Qatar">Qatar</option>
         <option value="Saudi Arabia">Saudi Arabia</option>
         <option value="UAE">United Arab Emirates</option>
       </select>
     </div>
-    <div>
+    <div class="dropdown-subcategory">
       <label for="customercity">City <span class="required">*</span></label>
       <input id="customercity" type="text" name="customercity" required>
+      <div class="dropdown-list" id="dropdown"></div>
     </div>
     <div>
       <div class="passContainer">
-      <label for="storepassword">Login Password <span class="required">*</span></label>
-      <input type="password" id="storepassword" name="storepassword" required>
+      <label for="customerpassword">Login Password <span class="required">*</span></label>
+      <input type="password" id="customerpassword" name="customerpassword" required>
       <i class="fa-solid fa-eye eyespass"></i> 
     </div>
-    <p class="passCondition">Password must contain mininum 8 chars, at least one uppercase, at least one special character</p>
+    <p class="passCondition">Password must contain mininum 8 chars, at least one uppercase, at least one special character and one Number</p>
     </div>
     
     <div class="checkbox-container">
@@ -81,4 +86,4 @@
 
 
 
-<script src="/js/storejs/store-registration.js"> </script>
+<script src="/js/customerjs/customer-registration.js"> </script>

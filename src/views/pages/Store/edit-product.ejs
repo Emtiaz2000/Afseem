@@ -1,14 +1,23 @@
 <link rel="stylesheet" href="/css/store/add-product.css" />
 <div class="addProductContainer">
+  <% if(error.length>0){ %>
+    <div class="errorContainer">
+      <% error.forEach(element => { %>
+        <p><%= element.msg %></p>
+      <% }); %>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
   <a class="backtodashboard" href="/store-dashboard">
     <i class="fa-solid fa-arrow-left"></i> Go Back</a
   >
   <h1>Update Product</h1>
-  <form action="">
+  <form action="/edit-product/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <div>
       <label for="productname">Product Name <span class="required">*</span></label>
-      <input type="text" name="productname" id="productname" required />
+      <input type="text" value="<%= product.productname %>" name="productname" id="productname" required />
     </div>
+    <input type="hidden" name="checkCategory" value="<%= category %>" id="checkcategory">
     <div class="dropdown-subcategory">
       <label for="subcategory"
         >Selete Category <span class="required">*</span></label
@@ -18,39 +27,60 @@
         name="subcategory"
         id="subcategory"
         placeholder="Type to search..."
+        value="<%= product.subcategory %>"
         required
       />
       <div class="dropdown-list" id="dropdown"></div>
     </div>
     <div>
+      <label for="sku"
+        >SKU Number <span class="required">*</span></label>
+      <input type="number" value="<%= product.sku %>"  name="sku" id="sku" required />
+    </div>
+    <div>
       <label for="productprice"
         >Product Price <span class="required">*</span></label
       >
-      <input type="number" name="productprice" id="productprice" required />
+      <input type="number" value="<%= product.productprice %>" name="productprice" id="productprice" required />
     </div>
     <div>
       <label for="productofferprice">Offer Price </label>
-      <input type="number" name="productofferprice" id="productofferprice" />
+      <input type="number" value="<%= product.productofferprice %>" name="productofferprice" id="productofferprice" />
     </div>
     <div>
       <label for="currency">Select Currency <span class="required">*</span></label>
       <select name="currency" id="currency" required>
-        <option value="BHD">BHD</option>
-        <option value="KD">KD</option>
-        <option value="OR">OR</option>
-        <option value="QR">QR</option>
-        <option value="SR">SR</option>
-        <option value="ED">ED</option>
+        <option value="BHD" <% if(product.currency=='BHD'){ %>selected<% } %> >BHD</option>
+        <option value="KD"  <% if(product.currency=='KD'){ %>selected<% } %>>KD</option>
+        <option value="OR"  <% if(product.currency=='OR'){ %>selected<% } %>>OR</option>
+        <option value="QR"  <% if(product.currency=='QR'){ %>selected<% } %>>QR</option>
+        <option value="SR"  <% if(product.currency=='SR'){ %>selected<% } %>>SR</option>
+        <option value="ED"  <% if(product.currency=='ED'){ %>selected<% } %>>ED</option>
       </select>
     </div>
     <div>
-      <label for="productimage">Product Image</label>
-      <input
-        type="file"
-        id="productimage"
-        name="productimage"
-        accept="image/*"
-      />
+        <label class="uploadImagelabel" for="productimage"> <img  class="imageIconUploading" src="/images/icons/uploadimage.png" alt="uploadphoto"> Product Image </label>
+        
+        <input
+          style="display: none;"
+          type="file"
+          id="productimage"
+          name="editproductimage"
+          accept="image/*"
+          />
+        <p class="imageuploadingtext"> File Selected: <span id="productUploadimage"></span></p>
+        <p style="text-align: center;">or</p>
+        <label class="uploadImagelabel" for="takephoto"><img  class="imageIconUploading" src="/images/icons/cameraicon.png" alt="takephoto">  Take a Photo </label>
+        <input 
+        style="display: none;"
+        type="file" 
+        accept="image/*" 
+        id="takephoto"
+        name="edittakephoto"
+        capture="environment">
+        <p class="takephototext"> File Selected: <span id="takephotofile"></span></p>
+        <p>upload Image or Take a Photo <span class="required">*</span></p>
+      
     </div>
     <button class="submitbtn" type="submin">Update Product</button>
   </form>

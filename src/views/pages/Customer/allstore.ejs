@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="css/customercss/storenearcustomer.css">
+<div class="storesectionContainer">
+    <!-- time function -->
+     <%
+    function formatTime12h(timeStr) {
+        if (!timeStr) return "";
+        const [hour, minute] = timeStr.split(":").map(Number);
+        const h = hour % 12 || 12;
+        const ampm = hour < 12 ? "AM" : "PM";
+        return `${h}:${minute.toString().padStart(2, '0')} ${ampm}`;
+    }
+    %>
+    <% if(subscribedStore.length>0 || stores.length>0) { %>
+        <h1>Stores in Your Area</h1>
+    <% } %>
+    <% if(error){ %>
+        <p><%= error %></p>
+    <% } %>
+   
+    <br><br>
+<% if((subscribedStore.length>0) || (stores.length>0) ){ %>
+
+    <% if(subscribedStore.length>0){ %>
+            <h2>Highlight</h1>    
+            <div class="subscribedStore">
+                <% subscribedStore.forEach((store)=>{ %>
+                    <div class="storesectionSubscribed">
+                        <img src="/images/categoryglossary.jpg" alt="glossary_hero_image">
+                        <h2><%= store.storeName %> <img src="/images/verified.png" alt="varified"></h2>
+                        <p class="storeid"><%= store._id %></p>
+                        <p class="categorytext">Category: <%= store.storeCategory %></p>
+                        <p class="cityaddress">City: <%= store.storecity %></p>
+                        <p>
+                            <span class="cityaddress unit"><b>Unit No</b>: <%= store.storeunitno %></span>,
+                            <span class="cityaddress buiding"><b>Building No:</b> <%= store.storebuildingno %>,</span>
+                            <span class="cityaddress street"><b>Steet No:</b> <%= store.storestreetno %>,</span>
+                            <span class="cityaddress zone"><b>Zone No:</b> <%= store.storezoneno %></span>
+                        </p>
+                        <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
+                        <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
+                        <br>
+                        <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>
+                    </div>
+                <% }) %>
+                    
+            </div>
+            <!-- Pagination -->
+                 <div class="pagination">
+                    <% if (paginationSubscribed.current > 1) { %>
+                            <a href="?pageDiscount=<%= paginationSubscribed.current - 1 %>">
+                            ⬅ Previous
+                            </a>
+                    <% } %>
+
+                        <span>Highlight Store Page <%= paginationSubscribed.current %> of <%= paginationSubscribed.totalPages %> </span>
+
+                    <% if (paginationSubscribed.current < paginationSubscribed.totalPages) { %>
+                            <a href="?pageDiscount=<%= paginationSubscribed.current + 1 %>">
+                            Next ➡
+                            </a>
+                    <% } %>
+                </div> 
+            <br><br>        
+    <% } %>
+    <% if(stores.length>0){ %> 
+        <h1>All Stores</h1>
+        <div class="storecontainer" id="regularstorecontainer" data-regularstorepage="<%= paginationRegular.totalPages %>">
+        
+            <% stores.forEach((store)=>{ %>
+                <div class="storesection">
+                    <img src="/uploads/stores/<%= store.storePhoto %>" alt="glossary_hero_image">
+                    <h2><%= store.storeName %></h2>
+                    <p class="storeid"><%= store._id %></p>
+                    <p class="categorytext">Category: <%= store.storeCategory %></p>
+                    <p class="cityaddress">City: <%= store.storecity %></p>
+                    <p>
+                        <span class="cityaddress unit"><b>Unit No</b>: <%= store.storeunitno %></span>,
+                        <span class="cityaddress buiding"><b>Building No:</b> <%= store.storebuildingno %>,</span>
+                        <span class="cityaddress street"><b>Steet No:</b> <%= store.storestreetno %>,</span>
+                        <span class="cityaddress zone"><b>Zone No:</b> <%= store.storezoneno %></span>
+                    </p>
+                    <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
+                    <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
+                    <br>
+                    <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>
+                </div>
+            <% }) %>
+        </div>
+        <div id="endofcontent"></div>
+        <div id="loading" style="display:none;">Loading...</div>
+        <button id="loadMoreBtn">Load More</button>
+<% }} else { %>
+    
+        <h1 class="noproduct">No Store Found!</h1>
+        <a href="/store-category">Go Store ➡</a>
+    <% } %>
+</div>
+
+<script type="module" src="/js/customerjs/allstoreapi.js"></script>

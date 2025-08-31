@@ -1,7 +1,15 @@
 <link rel="stylesheet" href="css/store/seller-login.css">
 <div class="loginformcontainer">
     <div class="heading_login"><h1>Login</h1></div>
-    <form id="sellerloginform" action="">
+    <% if(error.length>0){ %>
+      <div class="errorContainer">
+        <% error.forEach(element => { %>
+          <p><%= element.msg %></p>
+        <% }); %>
+        <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+      </div>
+    <% } %>
+    <form id="sellerloginform" action="/login" method="post">
         <div class="input_email">
             <label for="loginuseremail">Email Address</label>
             <input type="email" name="loginuseremail" id="loginuseremail" placeholder="user@mail.com" required>
@@ -12,8 +20,8 @@
             <i class="fa-solid fa-eye eyespass"></i> 
         </div>
         <div class="forgetpass">
-           <p>Don't have Account? <a href="#">Create Profile</a>.</p> 
-           <p>Forget Password? <a href="#">Click here</a></p>
+           <p>Don't have Account? <a href="/registration">Create Profile</a>.</p> 
+           <p>Forget Password? <a href="/forgetpassword">Click here</a></p>
         </div>
         <button type="submit">Login</button>
     </form>

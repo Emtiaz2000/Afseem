@@ -1,26 +1,29 @@
 <link rel="stylesheet" href="/css/customercss/customer-profile.css">
 <div class="customerprofilecontainer">
-    <div class="profile-left-side">
+   
+        <div class="profile-left-side">
         <div class="imageandname">
-            <img src="/images/profilephoto.jpg" alt="">
-            <h2>Customer Name</h2>
+            <img src="/uploads/customers/<%= user.customerprofilephoto %>" alt="">
+            <h2><%= user.customerusername %></h2>
         </div>
         <div class="customeraddress">
-            <div><b>Email:</b> emon20002@gmail.com</div>
-            <div><b>WhatsApp Number :</b> +8801630981451</div>
-            <div><b><u>Address</u></b></div>
-            <div><b>City:</b>  </div>
-            <div><b>Country:</b>  </div>
-            <div><b>Unit No.:</b>  </div>
-            <div><b>Building No.:</b> </div>
-            <div><b>Street No.:</b>  </div>
-            <div><b>Zone No.:</b>  </div>
+            <div><b>Email:</b> <%= user.customeremail %></div>
+            <div><b>WhatsApp Number :</b> <%= user.customerwhatsapp %></div>
+            <div><b><u>Address</u></b> </div>
+            <div><b>City:</b>  <%= user.customercity %></div>
+            <div><b>Country:</b>  <%= user.customercountry %></div>
+            <div><b>Unit No.:</b>  <%= user.customerunitno %></div>
+            <div><b>Building No.:</b> <%= user.customerbuildingno %></div>
+            <div><b>Street No.:</b>  <%= user.customerstreetno %></div>
+            <div><b>Zone No.:</b>  <%= user.customerzoneno %></div>
             <div class="editdelete">
-                <a href="#"><i class="fa-solid fa-pencil"></i> Edit Profile</a>
-                <form> <button type="submit">Delete Profile</button></form>
+                <a href="/edit-profile/<%= user._id %>"><i class="fa-solid fa-pencil"></i> Edit Profile</a>
+                <form action="/delete-profile?_method=DELETE" method="POST"> <button type="submit">Delete Profile</button></form>
             </div>
         </div>
     </div>
+    
+    
     <div class="profile-right-side">
         <h4><b><u>Order Details</u></b></h4>
         <div class="orderdetails">
