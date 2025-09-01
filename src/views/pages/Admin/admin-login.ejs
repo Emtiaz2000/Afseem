@@ -6,6 +6,12 @@
       <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
     </div>
     <% } %>
+    <% if (success_msg!='') { %>
+    <div style="background-color: green !important;" class="errorContainer">
+        <p><%= success_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
     <div class="heading_login"><h1>Admin Login</h1></div>
     <form id="sellerloginform" action="/auth/afseem/admin-login" method="post">
         <div class="input_email">

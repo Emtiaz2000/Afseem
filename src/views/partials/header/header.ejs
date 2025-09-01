@@ -9,9 +9,9 @@
         <div class="header_menu_item">
             <% if (user && user.role === 'Seller') { %>
                 <a href="/store-dashboard">Dashboard</a>
-                <a href="/store-profile">Profile</a>
                 <a href="/add-product">Add Product</a>
                 <a href="/product-upload">Upload Product</a>
+                <a href="/store-profile">Profile</a>
                 <a href="/store-logout">Logout</a>
             <% } else if(user && user.role === 'User') { %>
                 <a href="/store-category">Store</a>
@@ -21,14 +21,21 @@
                 <a href="/registration">Register</a>
                 <a href="/login">Login</a>
                 <a href="/store-category">Store</a>
-                <div class="cartIc"><i class="fa-solid fa-cart-shopping"></i></div>
-            <% } %> %>
+            <% } %> 
         </div>
         
         <div class="Icon_container">
-            <% if (user && user.role === 'User') { %>
-                <div class="cartIc"><i class="fa-solid fa-cart-shopping"></i></div>
-            <% } %>
+            <% if (user && user.role === 'Seller') { %>
+                
+            <% } else { %>
+                <div class="cartIc">
+                    <a href="/cart">
+                        <span class="cartCount">0</span>
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                    
+                </div>
+            <% }%>
              <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
         </div>
     </div>
@@ -47,8 +54,8 @@
                 <a href="/registration">Register</a>
                 <a href="/login">Login</a>
                 <a href="/store-category">Store</a>
-                <div class="cartIc"><i class="fa-solid fa-cart-shopping"></i></div>
-            <% } %> %>
+                
+            <% } %> 
         <div class="menuCross"><i class="fa-solid fa-xmark"></i></div>
     </div>
     

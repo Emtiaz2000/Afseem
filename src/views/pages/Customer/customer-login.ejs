@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/store/seller-login.css">
+<link rel="stylesheet" href="/css/store/seller-login.css">
 <div class="loginformcontainer">
     <div class="heading_login"><h1>Login</h1></div>
     <% if(error.length>0){ %>
@@ -9,6 +9,12 @@
         <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
       </div>
     <% } %>
+    <% if (success_msg!='') { %>
+    <div style="background-color: green !important;" class="errorContainer">
+        <p><%= success_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
     <form id="sellerloginform" action="/login" method="post">
         <div class="input_email">
             <label for="loginuseremail">Email Address</label>

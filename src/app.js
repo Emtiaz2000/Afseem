@@ -92,6 +92,6 @@ app.use((err, req, res, next) => {
   res.render('pages/500',{msg:err.message})
 });
 
-app.listen(5000,()=>{
+app.listen(process.env.PORT,()=>{
   console.log('app is listening')
 })

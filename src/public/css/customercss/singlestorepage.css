@@ -50,7 +50,7 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     width:174px;
     border-radius: 10px;
-    height:340px;
+    height:390px;
     background-color: #fff;
 }
 .storeproducts{
@@ -121,14 +121,9 @@
 }
 .dec_icon,.inc_icon{
     cursor: pointer;
-    width:30px;
-    height:30px;
     margin:0px 20px;
     outline: none;
     background:#fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 5px;
     border:1px solid #f15a24;
 
@@ -137,8 +132,7 @@
     text-decoration: underline;
 }
 .dec_icon>span,.inc_icon>span{
-    font-size: 30px;
-    margin-bottom:5px;
+    font-size: 16px;
     color:#f15a24;
 }
 .addtocart{

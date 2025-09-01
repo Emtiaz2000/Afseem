@@ -638,6 +638,7 @@ router.post(
           user.resetPasswordOTPExpiry = null;
           user.trackpassword = newpassword;
           await user.save();
+          req.flash('success_msg',"Passward change successfully!")
           res.redirect('/login');
         });
       });
@@ -774,5 +775,15 @@ router.delete(
     }
   }
 );
+
+//cart section 
+router.get('/cart',(req,res)=>{
+  res.render('pages/Customer/cart')
+})
+
+router.get('/cart/:storeid',verifyUser,
+  verifyUserRole('User'),(req,res)=>{
+    console.log('final work')
+})
 
 export default router;

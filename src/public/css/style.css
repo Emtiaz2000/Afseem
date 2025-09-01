@@ -121,6 +121,17 @@ li{
 .Icon_container>div{
     cursor: pointer;
 }
+.cartIc{
+    position: relative;
+}
+.cartCount{
+    position: absolute;
+    font-weight: bold;
+    color:#F15A24;
+    right:0px;
+    top:-12px;
+    font-size: .85rem;
+}
 .mobile_menu{
     position:absolute;
     display: none;

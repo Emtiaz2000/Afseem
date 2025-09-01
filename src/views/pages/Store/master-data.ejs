@@ -36,6 +36,7 @@
               <h2><%= product.productname %></h2>
               <span class="store-id">Store Id: <%= product.store %></span>
               <span class="subcategory">Sub-cat:: <%= product.subcategory %></span>
+              <span class="subcategory">SKU:: <%= product.sku %></span>
               <% if(product.productofferprice){%>
                         <p class="productPrice">Regular:  <span class="regularPrice"><%= product.productprice %> <%= product.currency %></span> </p>
                         <p class="productPrice">Offer Price: <%= product.productofferprice %> <%= product.currency %></p>

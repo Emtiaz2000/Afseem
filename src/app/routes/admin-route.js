@@ -285,6 +285,7 @@ router.post('/admin-changepassword-verify-otp',otpValidationFormAdmin,adminOtpVa
             Admin.resetPasswordOTPExpiry = null;
             Admin.trackpassword= newpassword;
             await Admin.save();
+            req.flash('success_msg',"Passward change successfully!")
             res.redirect('/admin-dashboard');
           });
         });

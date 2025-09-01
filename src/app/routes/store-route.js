@@ -562,6 +562,7 @@ router.post('/store-changepassword-verify-otp',storeforgetpassForm,storeforgetPa
           store.resetPasswordOTPExpiry = null;
           store.trackpassword= newpassword;
           await store.save();
+          req.flash('success_msg',"Passward change successfully!")
           res.redirect('/store-login');
         });
       });
