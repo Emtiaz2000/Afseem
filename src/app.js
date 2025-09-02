@@ -24,7 +24,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const connectDB = async()=>{
-  await mongoose.connect(`mongodb://127.0.0.1:27017/afseem`).then(()=>{
+  await mongoose.connect(process.env.DATABASE_URL,{ useNewUrlParser: true,
+      useUnifiedTopology: true,tls: true,}).then(()=>{
     console.log('Database is Connected!')
   })
 }
@@ -37,7 +38,7 @@ app.use('/uploads',express.static(join(__dirname, 'uploads')));
 app.use(cors());
 app.use(cookieParser());
 app.use(attachUser);//getting user and user role for all 
-app.use(methodOverride('_method'))//method override for put and delete
+app.use(methodOverride('_method'))//method override for put and delete 
 // Session middleware
 app.use(
   session({

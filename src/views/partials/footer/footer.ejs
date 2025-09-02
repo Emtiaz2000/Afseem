@@ -5,8 +5,15 @@
             <a href="#">Support </a>
             <a href="#">Privacy Policy </a>
             <a href="#"> Terms & Conditions</a>
-            <a href="/registration-store"> Seller Registration</a>
-            <a href="/store-login"> Seller Login</a>
+            <% if (user && user.role === 'Seller') { %>
+                
+            <% } else if(user && user.role === 'User') { %>
+                
+            <% }else{ %> 
+                <a href="/registration-store"> Seller Registration</a>
+                <a href="/store-login"> Seller Login</a>
+            <% } %>
+            
         </div>
         <div class="footerSocialIcon">
             <a href="#"><i class="fa-brands fa-facebook"></i></a>

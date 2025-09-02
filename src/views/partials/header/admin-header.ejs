@@ -6,25 +6,29 @@
         </a>
     </div>
     <div class="header_menu">
-        <div class="header_menu_item">
+        <% if(user && user.role==="ADMIN"){ %>
+            <div class="header_menu_item">
+                    <a href="/admin-sellersubscription">Subscription</a>
+                    <a href="/admin-customerinfo">Buyer</a>
+                    <a href="/admin-storeinfo">Seller</a>
+                    <a href="/admin-logout">Logout</a>
+                
+            </div>
             
-            <a href="/admin-sellersubscription">Subscription</a>
-            <a href="/admin-customerinfo">Buyer</a>
-            <a href="/admin-storeinfo">Seller</a>
-            <a href="/admin-logout">Logout</a>
-        </div>
-        
-        <div class="Icon_container">
-            <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
-        </div>
+            <div class="Icon_container">
+                <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        <% } %>
     </div>
-    <div class="mobile_menu">
-            <a href="/admin-sellersubscription">Subscription</a>
-            <a href="/admin-customerinfo">Buyer</a>
-            <a href="/admin-storeinfo">Seller</a>
-            <a href="/admin-logout">Logout</a>
-        <div class="menuCross"><i class="fa-solid fa-xmark"></i></div>
-    </div>
+    
+        <div class="mobile_menu">
+                <a href="/admin-sellersubscription">Subscription</a>
+                <a href="/admin-customerinfo">Buyer</a>
+                <a href="/admin-storeinfo">Seller</a>
+                <a href="/admin-logout">Logout</a>
+            <div class="menuCross"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+   
     
 </div>
 

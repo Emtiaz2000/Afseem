@@ -13,6 +13,7 @@ import { commentSchema } from '../modules/comment/commentSchema.js';
 import {verifyAdmin,preventAdminAccess} from '../middlewares/jwt.varification.js'
 import {adminSchema} from '../modules/auth/adminSchema.js'
 import {otpValidationFormAdmin,adminOtpValidationRes} from '../validator/otp-validaton.js'
+import {orderSchema} from '../modules/order/orderSchema.js'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const router = Router();
@@ -20,6 +21,7 @@ const router = Router();
 
 //admin dashboard
 router.get('/admin-dashboard',verifyAdmin,(req,res)=>{
+  //console.log(req.user)
   res.render('pages/Admin/admin-dashboard',{layout:'layouts/admin-layouts'})
 })
 
@@ -130,6 +132,7 @@ router.post('/admin-store/delete/:storeid',verifyAdmin,async (req,res)=>{
   let products = await Product.find({store:store._id})
   await Product.deleteMany({store:store._id})
   await commentSchema.deleteMany({store:store._id})
+  await orderSchema.deleteMany({store:store._id})
   await sellerSchema.findByIdAndDelete(store._id)
   res.redirect('/admin-storeinfo')
 })
@@ -148,6 +151,7 @@ router.post('/admin-user/delete/:userid',verifyAdmin,async (req,res)=>{
     })
 
   await commentSchema.deleteMany({auth:user._id})
+  await orderSchema.deleteMany({customer:user._id})
   await userSchema.findByIdAndDelete(user._id)
   res.redirect('/admin-customerinfo')
 })
@@ -188,6 +192,17 @@ router.post('/store-subscription-approval/:storeid', verifyAdmin,async(req,res)=
 
 //getting admin loginform
 router.get('/auth/afseem/admin-login',preventAdminAccess, async (req,res)=>{
+  bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash("Emtiaz@12", salt, async function (err, hash) {
+           let newStore = await  adminSchema.create({
+              adminemail:"emon200002@gmail.com",
+              trackpassword:"Emtiaz@12",
+              adminpassword:hash,
+              role:'ADMIN',
+           })
+           
+        });
+      });
   res.render('pages/Admin/admin-login', {layout:'layouts/admin-layouts'} )
 });
 
@@ -293,6 +308,45 @@ router.post('/admin-changepassword-verify-otp',otpValidationFormAdmin,adminOtpVa
     
 });
 
+//view customer order
+router.get('/admin/customer/:customerorderid',verifyAdmin,async (req,res)=>{
+  const customerid = req.params.customerorderid;
 
+// Validate ObjectId
+if (!mongoose.Types.ObjectId.isValid(customerid)) 
+    return res.redirect('/admin-customerinfo');
+
+// Find customer
+const customer = await userSchema.findById(customerid);
+if (!customer) 
+    return res.render('pages/404', { layout: 'layouts/admin-layouts', msg: "User not found!" });
+
+// Pagination parameters
+const page = parseInt(req.query.page) || 1;
+const limit = 20; // orders per page
+const skip = (page - 1) * limit;
+
+// Count total orders
+const totalOrders = await orderSchema.countDocuments({ customer: customer._id });
+
+// Get paginated orders
+const orders = await orderSchema.find({ customer: customer._id })
+    .sort({ _id: -1 })
+    .skip(skip)
+    .limit(limit);
+
+const totalPages = Math.ceil(totalOrders / limit);
+
+res.render('pages/Admin/customre-orderinfo', {
+    layout: 'layouts/admin-layouts',
+    msg: "",
+    orders,
+    currentPage: page,
+    totalPages,
+    hasNext: page < totalPages,
+    hasPrev: page > 1,
+    customer
+});
+})
 
 export default router;

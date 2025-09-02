@@ -48,12 +48,15 @@ function deleteCartItems(index,storeid){
 
 //loading ui with localstorage
 function loadUi(){
-    console.log('loaded')
+    const cartCountShow = document.querySelector('.cartCount');
+    cartCountShow.textContent=JSON.parse(localStorage.getItem('Afseem_items')).length || 0
     const cartcontainer = document.querySelector('.cartcontainer')
     cartcontainer.innerHTML=''
     let cartItems=''
+    
     let cartfromLocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))
     if(cartfromLocalstorage.length>0){
+        let currency=cartfromLocalstorage[0].products[0].currency
         cartfromLocalstorage.forEach(store => {
         let price=0
         let storeiddiv = document.createElement('div')
@@ -61,7 +64,7 @@ function loadUi(){
         const div = document.createElement('div')
         div.className='allcartitems'
         store.products.forEach((item,index)=>{
-            
+            currency=item.currency
             price+=(item.productqty*item.productprice)
             cartItems+=`
             <div class="singleproduct">
@@ -94,8 +97,8 @@ function loadUi(){
         let grandtotaldiv = document.createElement('div')
         grandtotaldiv.className='grandtotalsection'
         grandtotaldiv.innerHTML=`
-        <p>Grand Total: <span class="grandtotal">${price} </span></p>
-        <div><a href='/cart/${store.storeid}'>Checkout</a></div>
+        <p>Grand Total: <span class="grandtotal">${price} ${currency}</span></p>
+        <div><a class="checkoutbtn" href='/cart/${store.storeid}'>Checkout</a></div>
         <br/><hr/>
         `
        cartcontainer.appendChild(grandtotaldiv)

@@ -7,6 +7,12 @@
       <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
     </div>
 <% } %>
+<% if (error_msg!='') { %>
+    <div style="background-color: red !important;" class="errorContainer">
+        <p><%= error_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+<% } %>
 <div class="form-container">
   <h2> Update Store Profile</h2>
   <form id="storeForm" action="/edit-store-profile/<%= store._id %>?_method=PUT" method="post" enctype="multipart/form-data">
@@ -71,7 +77,7 @@
     </div>
     <div>
       <label for="storelocationmap">Store Google Map Location <span class="required">*</span></label>
-      <input type="url" value="<%= store.storelocationmap %>" id="storelocationmap" name="storelocationmap" placeholder="google map url" required>
+      <input type="text" value="<%= store.storelocationmap %>" id="storelocationmap" name="storelocationmap" placeholder="google map url" required>
     </div>
 
     <div>

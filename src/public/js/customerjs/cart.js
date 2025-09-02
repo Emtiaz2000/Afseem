@@ -45,6 +45,23 @@ decrimentBtns.forEach((deccrimentbtn)=>{
     })
 })
 
+// adding card popup
+const crosspopup = document.querySelector('.popcross')
+const popup = document.querySelector('.popupaddproduct')
+
+crosspopup.addEventListener('click',()=>{
+    popup.style.display= 'none'
+})
+
+//popup display none function
+function addproductPopup(){
+    setTimeout(()=>{
+        popup.style.display= 'none'
+    },1500)
+}
+
+
+
 cartBtns.forEach((cartbtn)=>{
     cartbtn.addEventListener('click',()=>{
     let local_cart;
@@ -62,6 +79,7 @@ cartBtns.forEach((cartbtn)=>{
     let productqty = Number(cartbtn.dataset.quantity)
     let currency = cartbtn.dataset.currency
     let storewhatsapp = cartbtn.dataset.whatsapp
+    let storecategory = cartbtn.dataset.category
     
     if(local_cart.length>0){ 
     let updatedData = JSON.parse(localStorage.getItem('Afseem_items')) 
@@ -84,18 +102,20 @@ cartBtns.forEach((cartbtn)=>{
         }) 
         localStorage.setItem('Afseem_items',JSON.stringify(updatedData))
     }else{
-        local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}],whatsapp:storewhatsapp})
+        local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}],whatsapp:storewhatsapp,storecategory:storecategory})
         localStorage.setItem('Afseem_items',JSON.stringify(local_cart))
-    }
-   
-      
+    }   
     //local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}]})
     }else{
-     local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}],whatsapp:storewhatsapp})
+     local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}],whatsapp:storewhatsapp,storecategory:storecategory})
      localStorage.setItem('Afseem_items',JSON.stringify(local_cart))
     }
     
-    
+    cartCountShow.innerHTML=JSON.parse(localStorage.getItem('Afseem_items')).length
+    popup.style.display='flex'
+    addproductPopup()
     })
   
 })
+
+

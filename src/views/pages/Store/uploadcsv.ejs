@@ -8,6 +8,12 @@
       <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
     </div>
     <% } %>
+    <% if (success_msg!='') { %>
+    <div style="background-color: rgb(11, 93, 11) !important;" class="errorContainer">
+        <p style="color:#FFF" ><%= success_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+    <% } %>
     <div class="uploadingoption">
         <form class="uploadform" action="/product-upload" method="post" enctype="multipart/form-data">
             <h1>Upload Products</h1>

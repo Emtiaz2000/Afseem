@@ -30,11 +30,12 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import fetch from 'node-fetch';
 import { commentSchema } from '../modules/comment/commentSchema.js';
+import {orderSchema} from '../modules/order/orderSchema.js'
 import { upload } from '../middlewares/multerFileHandle.js'; //multer for image uploading
 import sharp from 'sharp'; //sharp for resizing images
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
+import fs, { read } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const router = Router();
@@ -208,6 +209,7 @@ router.post('/login', preventAuthPagesForLoggedIn, async (req, res) => {
       );
     }
   } catch (error) {
+    console.log(error)
     console.log(error.message);
   }
 });
@@ -220,13 +222,38 @@ router.get('/logout', verifyUser, verifyUserRole('User'), (req, res) => {
 
 //get profile page
 router.get('/profile', verifyUser, verifyUserRole('User'), async (req, res) => {
-  try {
+ try {
     const user = await userSchema.findOne({ _id: res.locals.user.id });
-    //console.log(user)
-    res.render('pages/Customer/customer-profile', { user });
-  } catch (error) {
+
+    // Pagination parameters
+    const page = parseInt(req.query.page) || 1; // current page, default 1
+    const limit = 10; // orders per page
+    const skip = (page - 1) * limit;
+
+    // Get total number of orders
+    const totalOrders = await orderSchema.countDocuments({ customer: req.user.id });
+
+    // Fetch paginated orders
+    const orders = await orderSchema.find({ customer: req.user.id })
+        .sort({ _id: -1 }) // latest orders first
+        .skip(skip)
+        .limit(limit);
+
+    const totalPages = Math.ceil(totalOrders / limit);
+
+     res.render('pages/Customer/customer-profile', {
+        user,
+        orders,
+        currentPage: page,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1
+    });
+} catch (error) {
     console.log(error.message);
-  }
+}
 });
 //get edit profile form
 router.get(
@@ -333,6 +360,8 @@ router.delete(
                       console.log(err)
                     }
               })
+      await orderSchema.deleteMany({customer:user._id})
+      await commentSchema.deleteMany({customer:user._id})
       await userSchema.findByIdAndDelete({ _id: user._id });
       res.cookie('token', '');
       res.redirect('/');
@@ -343,7 +372,7 @@ router.delete(
 );
 
 //store category
-router.get('/store-category', preventStorePagesForLoggedIn, (req, res) => {
+router.get('/store-category',  preventStorePagesForLoggedIn , (req, res) => {
   res.render('pages/Customer/selectcategory');
 });
 
@@ -351,20 +380,25 @@ router.get(
   '/store-category/:category',
   preventStorePagesForLoggedIn,
   async (req, res) => {
-    let category = req.params.category;
-    //console.log(category)
-    const requests = await fetch(process.env.IPINFO_TOKEN_URL);
-    const jsonResponses = await requests.json();
-    res.render('pages/Customer/citygrocery', {
-      category,
-      country: jsonResponses.country,
-      error: [],
-    });
+    try {
+      let category = req.params.category;
+      //console.log(category)
+      const requests = await fetch(process.env.IPINFO_TOKEN_URL);
+      const jsonResponses = await requests.json();
+      res.render('pages/Customer/citygrocery', {
+        category,
+        country: jsonResponses.country,
+        error: [],
+      });
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 );
 
 //getting store nearby
-router.get('/storenearby', preventStorePagesForLoggedIn, async (req, res) => {
+router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
   let pageRegular = parseInt(req.query.pageRegular) || 1;
   let pageSubscribed = parseInt(req.query.pageDiscount) || 1;
   const limit = 16; // items per page
@@ -527,7 +561,7 @@ router.get(
     const totalCommentPage = Math.ceil(totalComments / commentlimit);
 
     res.render('pages/Customer/singlestorepage', {
-      searchitem: req.query.searchproduct,
+      searchitem: req.query.searchproduct || '',
       store,
       discountproducts: discountProduct,
       products: regularProducts,
@@ -705,6 +739,7 @@ router.post(
     const comments = await commentSchema.find({ store: store._id });
     if (starvalue < 1) {
       res.render('pages/Customer/singlestorepage', {
+        searchitem: req.query.searchproduct || '',
         store,
         discountproducts: discountProduct,
         products: regularProducts,
@@ -724,6 +759,7 @@ router.post(
       });
     } else if (review.length < 3) {
       res.render('pages/Customer/singlestorepage', {
+        searchitem: req.query.searchproduct || '',
         store,
         discountproducts: discountProduct,
         products: regularProducts,
@@ -782,8 +818,41 @@ router.get('/cart',(req,res)=>{
 })
 
 router.get('/cart/:storeid',verifyUser,
-  verifyUserRole('User'),(req,res)=>{
-    console.log('final work')
+  verifyUserRole('User'),async(req,res)=>{
+    let storeid = req.params.storeid
+    let store = await sellerSchema.findById(storeid)
+    if(!store) return res.render('pages/404', { msg: 'Invalid Store!' })
+    res.render('pages/Customer/checkoutpage')
+})
+
+router.post('/checkout/:storeid',verifyUser,
+  verifyUserRole('User'),async(req,res)=>{
+    let storeid = req.body.storeid;
+    if(!mongoose.Types.ObjectId.isValid(storeid)) return res.render('pages/404', { msg: 'Invalid Store!' })
+    let store = await sellerSchema.findById(storeid)
+    //console.log(store)
+    if(store){
+     let order= await orderSchema.create({
+      store:store._id,
+      customer:req.user.id,
+      grandtotal:req.body.grandtotal,
+      currency:req.body.currency,
+      productsname:req.body.productsname,
+      productsid:req.body.productids,
+      productsprices:req.body.productprices,
+      productsquantities:req.body.productquantities,
+      storecategory:req.body.storecategory
+    }) 
+    let message ='Hi New Order!.\n'
+    for(let i=0; i< req.body.productsname.length;i++){
+      message+=`(Product-name: ${req.body.productsname[i]} quantity: ${req.body.productquantities[i]} price: ${req.body.productquantities[i]*req.body.productprices[i]})\n`
+    }
+    message+= `Grand Total: ${req.body.grandtotal}`
+    let url = `https://wa.me/${store.whatsapp}?text=${encodeURIComponent(message)}`
+    res.send({url})
+
+    }
+    
 })
 
 export default router;

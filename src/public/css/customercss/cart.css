@@ -85,3 +85,17 @@
     cursor: pointer;
     border-radius: 2px;
 }
+.grandtotalsection>div{
+    margin:10px 0px;
+}
+.checkoutbtn{
+    padding:3px 8px;
+    border:1px solid #F15A24;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    background-color: #fff;
+}
+.checkoutbtn:hover{
+    background-color: #F15A24;
+    color: #fff;
+}

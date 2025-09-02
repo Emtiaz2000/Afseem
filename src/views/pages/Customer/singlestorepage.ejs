@@ -18,10 +18,14 @@
         <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
       </div>
     <% } %>
+    <div class="popupaddproduct">
+        <p>Product Add to Cart!</p>
+         <div class="popcross"><i class="fa-solid fa-xmark"></i></div>
+    </div>
     <h2>Store Items</h2>
     <div class="storesearchsection">
         <form action="/store/<%= store._id %>" method="get">
-        <input type="text" name="searchproduct" id="searchproduct" value="<%= searchitem || '' %>" placeholder="Search products here....">
+        <input type="text" name="searchproduct" id="searchproduct" value="<%= searchitem  %>" placeholder="Search products here....">
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
     </div>
@@ -57,7 +61,7 @@
                                 <span class="item_count" data-quantity="1">1</span>
                                 <button class="inc_icon"><span><i class="fa-solid fa-plus"></i></span></button>
                             </p>
-                            <div data-whatsapp="<%= store.whatsapp %>" data-imageurl="<%= product.productimage %>" data-currency="<%= product.currency %>" data-quantity="1" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-imageurl="<%= product.productimage %>" data-currency="<%= product.currency %>" data-quantity="1" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
                         </div>
                     <% }) %>
                 </div>
@@ -100,7 +104,7 @@
                         <span class="item_count" data-quantity="1">1</span>
                         <button class="inc_icon"><span><i class="fa-solid fa-plus"></i></span></button>
                     </p>
-                    <div data-whatsapp="<%= store.whatsapp %>" data-currency="<%= product.currency %>" data-quantity="1" data-imageurl="<%= product.productimage %>" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-plus"></i></div>
+                    <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-currency="<%= product.currency %>" data-quantity="1" data-imageurl="<%= product.productimage %>" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-plus"></i></div>
                 </div>
             <% }) %>
         </div>
@@ -141,7 +145,9 @@
                     <p><span>Delivery:</span> <%= store.homeDelivery %></p>
                 </div>
             </div>
-            
+            <div class="storelocation">
+                <%- store.storelocationmap %>
+            </div>
         </div>
     <%} %>
     <br>
@@ -187,23 +193,7 @@
                 <a style="text-decoration: underline;" href="?commentpage=<%= commentpagination.currentPage + 1 %>">Next</a>
             <% } %>
         </div>
-        <!-- <div class="pagination">
-        <% if (commentpagination.currentPage > 1) { %>
-            <a href="?commentpage=<%= commentpagination.currentPage - 1 %>">Prev</a>
-        <% } %>
-
-        <% for (let i = 1; i <= commentpagination.totalCommentPage; i++) { %>
-            <% if (i === commentpagination.currentPage) { %>
-            <strong><%= i %></strong>
-            <% } else { %>
-            <a href="?commentpage=<%= i %>"><%= i %></a>
-            <% } %>
-        <% } %>
-
-        <% if (commentpagination.currentPage < commentpagination.totalCommentPage) { %>
-            <a href="?page=<%= commentpagination.currentPage + 1 %>">Next</a>
-        <% } %>
-        </div> -->
+    
     <% } %>
     <% if(user){ %>
         <hr>

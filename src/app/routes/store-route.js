@@ -17,6 +17,8 @@ import { join,dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { commentSchema } from '../modules/comment/commentSchema.js';
 import {uploadToCloudinary} from '../middlewares/cloudnary.js'
+import {orderSchema} from '../modules/order/orderSchema.js'
+import {processGoogleIframe} from '../validator/iframevalidator.js'
 import fs from 'fs';
 import XLSX from 'xlsx';
 const __filename = fileURLToPath(import.meta.url);
@@ -53,6 +55,12 @@ router.post(
       storepassword,
       countryisocode,
     } = req.body;
+    if(!processGoogleIframe(storelocationmap)){
+        req.flash('error_msg',"Need Valid Google Map Location")
+       return res.redirect('/registration-store')
+
+    } 
+    let googlemaplocation = processGoogleIframe(storelocationmap)
     let trackPass= storepassword
     const hasstorephoto = !!req.file;
     let storeimage;
@@ -90,7 +98,7 @@ router.post(
             storezoneno:storezoneno,
             country:country,
             storecity:storecity,
-            storelocationmap:storelocationmap, 
+            storelocationmap:googlemaplocation, 
             homeDelivery:homeDelivery,
             countryisocode:countryisocode,
             trackpassword:trackPass,
@@ -179,6 +187,7 @@ router.get('/store-profile',verifyStore,verifyStoreRole("Seller"), async (req, r
 
 //get edit store profile page
 router.get('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"), async (req, res) => {
+
   let storeid= mongoose.Types.ObjectId.isValid(req.params.storeid)  
   if(!storeid) throw new Error('Store Id is not Valid!')
   let store = await sellerSchema.findOne({_id:res.locals.user.id})
@@ -187,10 +196,16 @@ router.get('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
 });
 //store profile page process
 router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),upload.single('storePhoto'),storeEditForm,storeEditProfileValidationRes,async (req, res) => {
+
   let storeid= mongoose.Types.ObjectId.isValid(req.params.storeid)  
   if(!storeid) throw new Error('Store Id is not Valid!')
   //image processing
   const hasstorephoto = !!req.file;
+  if(!processGoogleIframe(req.body.storelocationmap)){
+        req.flash('error_msg',"Need Valid Google Map Location")
+        return res.redirect(`/edit-store-profile/${req.params.storeid}`)
+
+    } 
   let storeimage;
   let updateData;
   if (hasstorephoto) {
@@ -384,14 +399,78 @@ router.get('/product-upload',verifyStore,verifyStoreRole("Seller"),(req,res)=>{
 })
 
 //upload products from csv process
-router.post('/product-upload',verifyStore,verifyStoreRole("Seller"),uploadcsv.single('csvfile'),(req,res)=>{
-  const filePath = req.file.path;
+router.post('/product-upload',verifyStore,verifyStoreRole("Seller"),uploadcsv.single('csvfile'),async (req,res)=>{
+  try {
+    const filePath = req.file.path;
   // Read XLSX
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
     const rows = XLSX.utils.sheet_to_json(sheet);
-    console.log(rows)
+     if (!rows.length) {
+      fs.unlinkSync(filePath);
+      req.flash('error_msg',"Fill the datasheet with Products")
+      return res.redirect('/product-upload')
+     }
+
+    const validProducts = [];
+      const invalidRows = [];
+
+      rows.forEach((row, index) => {
+        const price = parseFloat(row.productprice);
+        const offerPrice = row.productofferprice ? parseFloat(row.productofferprice) : undefined;
+        const sku = parseInt(row.productsku);
+        //console.log(!row.productofferprice || (offerPrice < price))
+        //console.log(!isNaN(price))
+        //console.log(!isNaN(sku))
+        if (
+          row.Productname &&
+          row.prodcutcategory &&
+          row.productimageurl &&
+          row.productcurrency &&
+          !isNaN(price) &&
+          price >= 0 &&
+          (!row.productofferprice || (offerPrice < price)) &&
+          !isNaN(sku)
+        ) {
+          validProducts.push({
+            productname: row.Productname,
+            store: req.user.id, // Assuming verifyStore sets req.user
+            subcategory: row.prodcutcategory,
+            productimage: row.productimageurl,
+            sku: sku,
+            productprice: price,
+            productofferprice: offerPrice,
+            currency: row.productcurrency,
+            enable: true,
+          });
+        } else {
+          invalidRows.push({ row: index + 2, data: row });
+        }
+      });
+      
+      // Batch insert
+      const batchSize = 100;
+      for (let i = 0; i < validProducts.length; i += batchSize) {
+        const batch = validProducts.slice(i, i + batchSize);
+        await Product.insertMany(batch, { ordered: false });
+      }
+
+      fs.unlinkSync(filePath);
+      
+      // Flash message with uploaded/rejected counts
+      const uploadedCount = validProducts.length;
+      const rejectedCount = invalidRows.length;
+
+      req.flash('success_msg',`${uploadedCount} producte uploaded successfully!`)
+      res.redirect('/product-upload')
+
+  } catch (error) {
+    if (req.file) fs.unlinkSync(req.file.path);
+    console.log(error)
+  }
+  
+
 })
 //delete product from user and database
 router.delete('/product/:productid',verifyStore,verifyStoreRole("Seller"),async (req,res)=>{
@@ -609,6 +688,7 @@ router.post('/store/delete/:storeid',verifyStore,verifyStoreRole("Seller"),async
       })
       await Product.deleteMany({store:store._id})
       await commentSchema.deleteMany({store:store._id})
+      await orderSchema.deleteMany({store:store._id})
       await sellerSchema.findByIdAndDelete(store._id)
       res.redirect('/')
 })

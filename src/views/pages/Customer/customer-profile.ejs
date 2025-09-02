@@ -26,23 +26,31 @@
     
     <div class="profile-right-side">
         <h4><b><u>Order Details</u></b></h4>
+        <% if(orders.length>0){ %>
         <div class="orderdetails">
-            <div class="ordercontainer">
-                <div>
-                    <p>Store Name</p>
-                    <p>Store Id:</p>
+            <% orders.forEach(order=>{ %>
+                <div class="ordercontainer">
+                    <div>
+                        <p>Store Id: <a href="/store/<%= order.store %>"><%= order.store %></a></p>
+                    </div>
+                    <div><%= order.storecategory %></div>
+                    <div>Total Price: <%= order.grandtotal %> <%= order.currency %></div>
                 </div>
-                <div>Grocery Item</div>
-                <div>Total Price: 120 AUD</div>
-            </div>
-            <div class="ordercontainer">
-                <div>
-                    <p>Store Name</p>
-                    <p>Store Id:</p>
-                </div>
-                <div>Grocery Item</div>
-                <div>Total Price: 120 AUD</div>
-            </div>
+            <% }) %>
+
         </div>
+        <div class="pagination">
+            <% if(hasPrevPage) { %>
+                <a style="text-decoration: underline;" href="?page=<%= prevPage %>">Previous</a>
+            <% } %>
+
+            <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+            <% if(hasNextPage) { %>
+                <a style="text-decoration: underline;" href="?page=<%= nextPage %>">Next</a>
+            <% } %>
+            </div>
+        <% } %>
+        
     </div>
 </div>

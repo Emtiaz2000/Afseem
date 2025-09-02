@@ -30,12 +30,17 @@ export const preventStorePagesForLoggedIn = (req, res, next) => {
     if (token) {
         try {
             jwt.verify(token, process.env.JWT_SECRET,(err,decoded)=>{
+                console.log(decoded.role==='User')
                 if(decoded.role==="Seller"){
+                    console.log('role seller')
                     // ✅ User is logged in, redirect to dashboard/home
                     return res.redirect('/store-dashboard'); 
+                }else{
+                    next()
                 }
             });
         } catch (err) {
+            console.log(err)
             // invalid token → clear cookie
             res.clearCookie('token');
         }
@@ -78,13 +83,18 @@ export const preventAuthPagesForLoggedIn = (req, res, next) => {
     if (token) {
         try {
             jwt.verify(token, process.env.JWT_SECRET,(err,decoded)=>{
-                //console.log(decoded)
+                //console.log(err)
+                //console.log(decoded.role==='User')
                 if(decoded.role==="User"){
+                    //console.log('role user')
                     // ✅ User is logged in, redirect to dashboard/home
                     return res.redirect('/'); 
+                }else{
+                    next()
                 }
             }); 
         } catch (err) {
+            console.log(err)
             // invalid token → clear cookie
             res.clearCookie('token');
         }
@@ -106,7 +116,7 @@ export const verifyAdmin = (req, res, next) => {
         if (req.user.role !== "ADMIN") {
             return res.render("pages/Admin/admin-login", {layout:'layouts/admin-layouts'});;
         }
-
+        res.locals.user = req.user;
         next();
     } catch (err) {
         req.flash("error_msg",err.message)

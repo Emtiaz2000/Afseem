@@ -7,6 +7,31 @@
     position:relative;
     min-height: 500px;
 }
+.popupaddproduct{
+    width:300px;
+    height:50px;
+    position: fixed;
+    background-color: #20bb05;
+    border-radius: 10px;
+    margin: auto;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top:1%;
+    left: 50%;              
+    transform: translateX(-50%)
+}
+.popupaddproduct>p{
+    text-align: center;
+    color: #fff;
+}
+.popcross{
+    position: absolute;
+    right:5px;
+    top:3px;
+    color:#fff;
+    cursor: pointer;
+}
 .storeinfosection{
     display: flex;
     justify-content: flex-start;
@@ -373,6 +398,14 @@ form>button{
     color:#fff;
 }
 
+.storelocation{
+    width:300px;
+    height:300px;
+}
+.storelocation>iframe{
+    height:280px;
+    width:280px;
+}
 @media (max-width:1024px) {
     .storeproducts{
         justify-content: center;

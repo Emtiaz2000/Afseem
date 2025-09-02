@@ -747,7 +747,7 @@ const saudiPlaces = [
   }
  if(passwordField){
   passwordField.addEventListener('keyup',()=>{
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     if(passwordRegex.test(passwordField.value)){
       passCondition.style.display="none";
       submitBtn.disabled=false
