@@ -190,19 +190,9 @@ router.post('/store-subscription-approval/:storeid', verifyAdmin,async(req,res)=
 });
 
 
+
 //getting admin loginform
 router.get('/auth/afseem/admin-login',preventAdminAccess, async (req,res)=>{
-  bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash("Emtiaz@12", salt, async function (err, hash) {
-           let newStore = await  adminSchema.create({
-              adminemail:"emon200002@gmail.com",
-              trackpassword:"Emtiaz@12",
-              adminpassword:hash,
-              role:'ADMIN',
-           })
-           
-        });
-      });
   res.render('pages/Admin/admin-login', {layout:'layouts/admin-layouts'} )
 });
 
