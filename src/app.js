@@ -48,6 +48,8 @@ app.use(
   })
 );
 //view engine
+
+app.set("trust proxy", true);// for getting location access
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.set('views', join(__dirname, 'views')); //get views directory
