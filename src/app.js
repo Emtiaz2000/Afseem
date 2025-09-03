@@ -75,7 +75,7 @@ const getAController =  (req, res) => {
   //console.log(pathfind)
   res.render('pages/home');
 };
-
+//home page route
 app.get('/', getAController);
 
 // ✅ Cron job runs every midnight
