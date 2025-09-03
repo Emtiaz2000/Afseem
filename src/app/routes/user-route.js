@@ -386,11 +386,12 @@ router.get(
       const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
        // fallback if localhost (::1)
       const clientIp = ip === "::1" ? "8.8.8.8" : ip;
-      
+      console.log(clientIp)
       let category = req.params.category;
       //console.log(category)
       const requests = await fetch(`https://ipinfo.io/${clientIp}?token=${process.env.IPINFO_TOKEN_URL}`);
       const jsonResponses = await requests.json();
+      console.log(jsonResponses)
       res.render('pages/Customer/citygrocery', {
         category,
         country: jsonResponses.country,
