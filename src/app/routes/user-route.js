@@ -39,7 +39,9 @@ import fs, { read } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const router = Router();
-
+//ipinfoconfig
+import { IPinfoWrapper } from "node-ipinfo"; //ip info
+const ipinfoWrapper = new IPinfoWrapper(process.env.IPINFO_TOKEN_URL);
 //get user registration form
 router.get('/registration', preventAuthPagesForLoggedIn, (req, res) => {
   res.render('pages/Customer/customer-registration', { error: [] });
@@ -381,9 +383,13 @@ router.get(
   preventStorePagesForLoggedIn,
   async (req, res) => {
     try {
+      const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
+       // fallback if localhost (::1)
+      const clientIp = ip === "::1" ? "8.8.8.8" : ip;
+      
       let category = req.params.category;
       //console.log(category)
-      const requests = await fetch(process.env.IPINFO_TOKEN_URL);
+      const requests = await fetch(`https://ipinfo.io/${clientIp}?token=${process.env.IPINFO_TOKEN_URL}`);
       const jsonResponses = await requests.json();
       res.render('pages/Customer/citygrocery', {
         category,
@@ -450,7 +456,7 @@ router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
 
   //console.log(subscribedStore)
   if (stores.length < 1)
-    return res.render('pages/Customer/Allstore', {
+    return res.render('pages/Customer/allstore', {
       subscribedStore,
       stores,
       error: '',
@@ -460,7 +466,7 @@ router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
       }
     });
 
-  res.render('pages/Customer/Allstore', {
+  res.render('pages/Customer/allstore', {
     subscribedStore,
     stores,
     error: 0,
