@@ -124,11 +124,16 @@ router.post('/admin-store/delete/:storeid',verifyAdmin,async (req,res)=>{
   if(!mongoose.Types.ObjectId.isValid(storeId)) return res.redirect('/admin-storeinfo')
   const store = await sellerSchema.findById(storeId)
   if(!store) return res.redirect('/admin-storeinfo')
-  fs.unlink(`${__dirname}../../../uploads/stores/${store.storePhoto}`,(err)=>{
+    fs.unlink(`/root/Afseem/src/uploads/stores/${store.storePhoto}`,(err)=>{
       if(err){
         console.log(err)
       }
     })
+  /* fs.unlink(`${__dirname}../../../uploads/stores/${store.storePhoto}`,(err)=>{
+      if(err){
+        console.log(err)
+      }
+    }) */
   let products = await Product.find({store:store._id})
   await Product.deleteMany({store:store._id})
   await commentSchema.deleteMany({store:store._id})
@@ -144,11 +149,16 @@ router.post('/admin-user/delete/:userid',verifyAdmin,async (req,res)=>{
   if(!mongoose.Types.ObjectId.isValid(userId)) return res.redirect('/admin-customerinfo')
   const user = await userSchema.findById(userId)
   if(!user) return res.redirect('/admin-customerinfo')
-  fs.unlink(`${__dirname}../../../uploads/cumtomers/${user.customerprofilephoto}`,(err)=>{
+  fs.unlink(`/root/Afseem/src/uploads/customers/${user.customerprofilephoto}`,(err)=>{
       if(err){
         console.log(err)
       }
     })
+    /* fs.unlink(`${__dirname}../../../uploads/cumtomers/${user.customerprofilephoto}`,(err)=>{
+      if(err){
+        console.log(err)
+      }
+    }) */
 
   await commentSchema.deleteMany({auth:user._id})
   await orderSchema.deleteMany({customer:user._id})

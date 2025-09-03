@@ -683,7 +683,7 @@ router.post('/store/delete/:storeid',verifyStore,verifyStoreRole("Seller"),async
   if(!mongoose.Types.ObjectId.isValid(storeId)) return res.redirect('/store-dashboard')
     const store = await sellerSchema.findById(storeId)
       if(!store) return res.redirect('/store-dashboard')
-      fs.unlink(`${__dirname}../../../uploads/stores/${store.storePhoto}`,(err)=>{
+      fs.unlink(`/root/Afseem/src/uploads/stores/${store.storePhoto}`,(err)=>{
           if(err){
             console.log(err)
           }

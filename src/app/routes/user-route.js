@@ -326,7 +326,7 @@ router.put(
           countryisd
         };
         let user = await userSchema.findById({_id:res.locals.user.id})
-        fs.unlink(`${__dirname}../../../uploads/customers/${user.customerprofilephoto}`,(err)=>{
+        fs.unlink(`/root/Afseem/src/uploads/customers/${user.customerprofilephoto}`,(err)=>{
                     if(err){
                       console.log(err)
                     }
