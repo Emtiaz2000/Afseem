@@ -1,0 +1,104 @@
+.allproductcontainer{
+    width:95%;
+    min-height:500px;
+    border-radius: 10px;
+    margin:20px auto;
+    padding:20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.searchbarcontainer>form{
+    width:95%;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    flex-direction: row;
+}
+#searchproduct{
+    width:60%;
+    min-width: 300px;
+    height:40px;
+    border:1px solid #F15A24;
+    outline: none;
+    border-radius: 10px;
+    padding:5px 8px;
+    font-size: 15px;
+}
+.searchbarcontainer>form>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+.searchbarcontainer>form>div>button{
+    width:45px;
+    height:45px;
+    outline: none;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #F15A24;
+    cursor: pointer;
+    transition: .3s ease all;
+    color:#F15A24;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.searchbarcontainer>form>div>button:hover{
+    color:#fff;
+    background-color: #F15A24;
+}
+.productContainer{
+    width:180px;
+    padding:10px;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height:290px;
+}
+.allproducts{
+    width:100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap:8px;
+    margin:20px 0px;
+}
+.productImage{
+    width:98%;
+    height:140px;
+}
+.productImage>img{
+    width:100%;
+    height:100%;
+}
+.productname{
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+}
+.store-id,.subcategory{
+    font-size: 9px;
+    color:#F15A24;
+    text-align: center;
+}
+.productPrice{
+    font-size: 12px;
+    text-align: center;
+}
+.addproduct{
+    font-size: 14px;
+    margin:5px auto;
+    display: block;
+    background-color: #fff;
+    border:1px solid #F15A24;
+    border-radius: 3px;
+    outline: none;
+    padding:5px 8px;
+    cursor: pointer;
+
+}
+.addproduct:hover{
+    color:#fff;
+    background-color: #F15A24;
+}

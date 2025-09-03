@@ -697,5 +697,71 @@ router.post('/store/delete/:storeid',verifyStore,verifyStoreRole("Seller"),async
       res.redirect('/')
 })
 
+//add product from master data 
+router.get('/master-products',verifyStore,verifyStoreRole("Seller"),async (req,res)=>{
+  try {
+        const userId = req.user.id; // logged-in user id (from session/JWT/etc.)
+        const search = req.query.searchproducts || ""; // search term from GET query
+        // Build query
+        let query ={
+          store: { $ne: userId }      // exclude this user’s own products
+        };
+
+        if (search) {
+          query.$or = [
+            { productname: { $regex: search, $options: "i" } },
+            { subcategory: { $regex: search, $options: "i" } }
+          ];
+        }
+      let products = await Product.find(query)
+      //console.log(products)
+      res.render('pages/Store/addfrom-masterdata',{products})
+  } catch (error) {
+    console.log(error)
+  }
+  
+})
+
+//add product from masterdata
+router.post('/master-products',verifyStore,verifyStoreRole("Seller"),async (req,res)=>{
+  try {
+        let {
+      productname,
+      productimg,
+      subcategory,
+      sku,
+      productprice,
+      productofferprice,
+      currency,
+      productorigin} = req.body
+
+      let store = await sellerSchema.findOne({_id:req.user.id})
+      if(!store) return res.redirect('/store-dashboard')
+      const existingCopy = await Product.findOne({productorigin: productorigin });
+      if(existingCopy){
+        req.flash('error_msg',"Product Already exist in Store!")
+        return res.redirect('/master-products')
+      }
+        //creating product
+          await Product.create({
+              productname: productname,
+              store: store._id,
+              subcategory:subcategory ,
+              productimage:productimg,
+              productprice: productprice,
+              productofferprice:productofferprice,
+              currency: currency,
+              sku:sku,
+              productorigin:productorigin,
+        })
+      req.flash('success_msg',"Product Added to Store Successfully!")
+      res.redirect('/master-products')
+
+  } catch (error) {
+    console.log(error)
+  }
+  
+
+})
 
 export default router;

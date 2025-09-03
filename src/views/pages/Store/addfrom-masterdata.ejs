@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="/css/store/addfrom-masterdata.css">
+<div class="allproductcontainer">
+     <h1>Master Store</h1>
+     <% if (success_msg!='') { %>
+        <div style="background-color: green !important;" class="errorContainer">
+            <p style="color:#fff"><%= success_msg %></p>
+        <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+    <% } %>
+    <% if (error_msg!='') { %>
+    <div style="background-color: red !important;" class="errorContainer">
+        <p style="color:#fff"><%= error_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+    <div class="searchbarcontainer">
+        <form  action="/master-products" method="get">
+            <div>
+                <input id="searchproduct" type="text" name="searchproducts" id="searchproducts">
+                <button>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+   
+    <div class="allproducts">
+        <% if(products.length>0){ %>
+            <% products.forEach(product=>{ %>
+                <div class="productContainer">
+                <div class="productImage">
+                    <img src="<%= product.productimage %>" alt=""> 
+                </div>
+                <h2 class="productname"><%= product.productname %></h2>
+                <p class="store-id">Store Id: <%= product.store %></p>
+                <p class="subcategory">Sub-cat:: <%= product.subcategory %></p>
+                <p class="subcategory">SKU:: <%= product.sku %></p>
+                <% if(product.productofferprice){ %>
+                    <p class="productPrice">Regular:  <span class="regularPrice"><%= product.productprice %> <%= product.currency %></span> </p>
+                    <p class="productPrice">Offer Price: <%= product.productofferprice %> <%= product.currency %></p>
+                <% }else{ %>
+                    <p class="productPrice">Regular:  <%= product.productprice %> <%= product.currency %></p>
+                <% } %>
+                
+                <div class="btnContainer">
+                    <form action="/master-products" method="POST">
+                        <input type="hidden" name="productname" value="<%= product.productname %>">
+                        <input type="hidden" name="productimg" value="<%= product.productimage %>">
+                        <input type="hidden" name="subcategory" value="<%= product.subcategory %>">
+                        <input type="hidden" name="sku" value="<%= product.sku %>">
+                        <input type="hidden" name="productprice" value="<%= product.productprice %>">
+                        <% if(product.productofferprice){ %>
+                            <input type="hidden" name="productofferprice" value="<%= product.productofferprice %>">   
+                        <% } %>
+                        <input type="hidden" name="currency" value="<%= product.currency %>">
+                        <input type="hidden" name="productorigin" value="<%= product._id %>">
+                        <button type="submit" class="addproduct">Add to Store</button>
+                    </form>
+                </div>
+            </div>
+           <% }) %>
+            
+        <% } else{ %>
+            <p>No Product from Master Data!</p>
+        <% } %>
+            
+        </div>
+</div>
