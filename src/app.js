@@ -35,6 +35,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(join(__dirname, 'public')));
 app.use('/uploads',express.static(join(__dirname, 'uploads')));
+
 app.use(cors());
 app.use(cookieParser());
 app.use(attachUser);//getting user and user role for all 
@@ -70,6 +71,8 @@ app.use('/',AdminRoute)//user route
 
 //homepage
 const getAController =  (req, res) => {
+  let pathfind = join(__dirname, 'uploads')
+  console.log(pathfind)
   res.render('pages/home');
 };
 
