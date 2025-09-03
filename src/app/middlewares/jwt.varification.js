@@ -30,9 +30,9 @@ export const preventStorePagesForLoggedIn = (req, res, next) => {
     if (token) {
         try {
             jwt.verify(token, process.env.JWT_SECRET,(err,decoded)=>{
-                console.log(decoded.role==='User')
+                //console.log(decoded.role==='User')
                 if(decoded.role==="Seller"){
-                    console.log('role seller')
+                    //console.log('role seller')
                     // ✅ User is logged in, redirect to dashboard/home
                     return res.redirect('/store-dashboard'); 
                 }else{

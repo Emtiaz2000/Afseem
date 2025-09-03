@@ -105,7 +105,15 @@
   .passCondition{
     color:#bd1616;
   }
-
+.phonenumber{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap:3px;
+}
+#selectcountryisd{
+  width:100px;
+}
   .dropdown-subcategory {
         position: relative;
         width: 100%;

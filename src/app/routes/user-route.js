@@ -66,12 +66,14 @@ router.post(
         customercountry,
         customercity,
         customerpassword,
+        countryisd,
       } = req.body;
       let trackPass = customerpassword;
       const hasproductuploadimage = !!req.file;
       let customerimage;
       //console.log(req.file)
       //return
+      let propernumber = countryisd+customerwhatsapp
       if (hasproductuploadimage) {
         const filename = Date.now() + '-customer.jpeg';
         const filepath = join(__dirname, '../../uploads/customers', filename);
@@ -96,7 +98,9 @@ router.post(
             customerusername: customerusername,
             customerprofilephoto: customerimage,
             customeremail: customeremail,
-            customerwhatsapp: customerwhatsapp,
+            customerwhatsapp: propernumber,
+            customerwhatsappnumber:customerwhatsapp,
+            countryisd:countryisd,
             customerunitno: customerunitno,
             customerbuildingno: customerbuildingno,
             customerstreetno: customerstreetno,
@@ -292,8 +296,10 @@ router.put(
         customerzoneno,
         customercity,
         customercountry,
+        countryisd,
       } = req.body;
-
+      let propernumber= countryisd + customerwhatsapp
+            
       const hasproductuploadimage = !!req.file;
       let customerimage;
       let updateProfileData;
@@ -309,13 +315,15 @@ router.put(
         updateProfileData = {
           customerusername,
           customerprofilephoto: customerimage,
-          customerwhatsapp,
+          customerwhatsapp:propernumber,
+          customerwhatsappnumber:customerwhatsapp,
           customerunitno,
           customerbuildingno,
           customerstreetno,
           customerzoneno,
           customercity,
           customercountry,
+          countryisd
         };
         let user = await userSchema.findById({_id:res.locals.user.id})
         fs.unlink(`${__dirname}../../../uploads/customers/${user.customerprofilephoto}`,(err)=>{
@@ -327,12 +335,15 @@ router.put(
         updateProfileData = {
           customerusername,
           customerwhatsapp,
+          customerwhatsapp:propernumber,
+          customerwhatsappnumber:customerwhatsapp,
           customerunitno,
           customerbuildingno,
           customerstreetno,
           customerzoneno,
           customercity,
           customercountry,
+          countryisd
         };
       }
       
@@ -383,18 +394,18 @@ router.get(
   preventStorePagesForLoggedIn,
   async (req, res) => {
     try {
-      const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
+      //const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
        // fallback if localhost (::1)
-      const clientIp = ip === "::1" ? "8.8.8.8" : ip;
-      console.log(clientIp)
+      //const clientIp = ip === "::1" ? "8.8.8.8" : ip;
+      //console.log(clientIp)
       let category = req.params.category;
       //console.log(category)
-      const requests = await fetch(`https://ipinfo.io/${clientIp}?token=${process.env.IPINFO_TOKEN_URL}`);
-      const jsonResponses = await requests.json();
-      console.log(jsonResponses)
+      //const requests = await fetch(`https://ipinfo.io/${clientIp}?token=${process.env.IPINFO_TOKEN_URL}`);
+      //const jsonResponses = await requests.json();
+      //console.log(jsonResponses)
       res.render('pages/Customer/citygrocery', {
         category,
-        country: jsonResponses.country,
+        country: "QA",
         error: [],
       });
     } catch (error) {

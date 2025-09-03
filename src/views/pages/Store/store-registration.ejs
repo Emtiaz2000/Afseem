@@ -46,7 +46,12 @@
 
     <div>
       <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
-      <input type="tel" id="whatsapp" name="whatsapp" placeholder="+971 50 123 4567" required>
+      <div class="phonenumber">
+        <select id="selectcountryisd" name="countryisd">
+          <option value="+974" selected>+974</option>
+        </select>
+        <input type="number" id="whatsapp" name="whatsapp" placeholder="501234567" required>
+      </div>
     </div>
 
     <div>
@@ -72,11 +77,6 @@
       <label for="country">Country <span class="required">*</span></label>
       <select id="country" name="country" required>
         <option value="Qatar" selected>Qatar</option>
-        <option value="Bahrain">Bahrain</option>
-        <option value="Kuwait">Kuwait</option>
-        <option value="Oman">Oman</option>
-        <option value="Saudi Arabia">Saudi Arabia</option>
-        <option value="UAE">United Arab Emirates</option>
       </select>
     </div>
     <div class="dropdown-subcategory">

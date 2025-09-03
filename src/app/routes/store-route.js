@@ -42,6 +42,7 @@ router.post(
       storeemail,
       storeCategory,
       whatsapp,
+      countryisd,
       storeunitno,
       storebuildingno,
       storestreetno,
@@ -55,6 +56,7 @@ router.post(
       storepassword,
       countryisocode,
     } = req.body;
+    let propernumber = countryisd + whatsapp
     if(!processGoogleIframe(storelocationmap)){
         req.flash('error_msg',"Need Valid Google Map Location")
        return res.redirect('/registration-store')
@@ -91,7 +93,9 @@ router.post(
             storePhoto:storeimage,
             storeemail:storeemail,
             storeCategory:storeCategory,
-            whatsapp:whatsapp,
+            whatsapp:propernumber,
+            whatsappnumber:whatsapp,
+            countryisd:countryisd,
             storeunitno:storeunitno,
             storebuildingno:storebuildingno,
             storestreetno:storestreetno,
@@ -206,6 +210,7 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
         return res.redirect(`/edit-store-profile/${req.params.storeid}`)
 
     } 
+  let properphonenum = req.body.countryisd+req.body.whatsapp
   let storeimage;
   let updateData;
   if (hasstorephoto) {
@@ -217,10 +222,12 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
             .toFile(filepath);
 
           storeimage = filename;
+          
           updateData = {
             storeName: req.body.storeName,
             ownerName: req.body.ownerName,
-            whatsapp: req.body.whatsapp,
+            whatsappnumber: req.body.whatsapp,
+            whatsapp:properphonenum,
             storePhoto:storeimage,
             storeemail:req.body.storeemail,
             storeunitno: req.body.storeunitno,
@@ -229,6 +236,7 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
             storezoneno: req.body.storezoneno,
             country:req.body.country,
             storecity: req.body.storecity,
+            countryisd:req.body.countryisd,
             storelocationmap: req.body.storelocationmap,
             storeopen:req.body.storeopen,
             storeclose:req.body.storeclose,
@@ -249,7 +257,9 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
            updateData = {
             storeName: req.body.storeName,
             ownerName: req.body.ownerName,
-            whatsapp: req.body.whatsapp,
+            whatsapp:properphonenum,
+            whatsappnumber: req.body.whatsapp,
+            countryisd:req.body.countryisd,
             storeemail:req.body.storeemail,
             storeunitno: req.body.storeunitno,
             storebuildingno: req.body.storebuildingno,

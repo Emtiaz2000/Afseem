@@ -29,6 +29,14 @@ const customerSchema = new mongoose.Schema({
             message: 'Enter a valid Email Address'
         }
     },
+    countryisd:{
+        type: String,
+        required: [true, 'WhatsApp Number is Required']
+    },
+    customerwhatsappnumber:{
+        type: Number,
+        required: [true, 'WhatsApp Number is Required']
+    },
     customerwhatsapp: {
         type: String,
         required: [true, 'WhatsApp Number is Required']

@@ -34,12 +34,15 @@
       <label for="storeemail">Email Address <span class="required">*</span></label>
       <input type="email" value="<%= store.storeemail %>" id="storeemail" name="storeemail" required>
     </div>
-
     <div>
       <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
-      <input type="tel" id="whatsapp" value="<%= store.whatsapp %>" name="whatsapp" placeholder="+971 50 123 4567" required>
+      <div class="phonenumber">
+        <select id="selectcountryisd" name="countryisd">
+          <option value="+974" selected>+974</option>
+        </select>
+        <input type="number" id="whatsapp" value="<%= store.whatsappnumber %>" name="whatsapp" placeholder="501234567" required>
+      </div>
     </div>
-
     <div>
       <label for="storeunitno"> Unit No. <span class="required">*</span></label>
       <input type="number" value="<%= store.storeunitno %>" id="storeunitno" name="storeunitno" required>
@@ -63,11 +66,6 @@
       <label for="country">Country <span class="required">*</span></label>
       <select id="country" name="country" required>
         <option value="Qatar" <% if(store.country=='Qatar'){ %>selected<%} %>>Qatar</option>
-        <option value="Bahrain" <% if(store.country=='Bahrain'){ %>selected<%} %>>Bahrain</option>
-        <option value="Kuwait" <% if(store.country=='Kuwait'){ %>selected<%} %>>Kuwait</option>
-        <option value="Oman" <% if(store.country=='Oman'){ %>selected<%} %>>Oman</option>
-        <option value="Saudi Arabia" <% if(store.country=='Saudi Arabia'){ %>selected<%} %>>Saudi Arabia</option>
-        <option value="UAE" <% if(store.country=='UAE'){ %>selected<%} %>>United Arab Emirates</option>
       </select>
     </div>
     <div class="dropdown-subcategory">

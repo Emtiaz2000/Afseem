@@ -21,8 +21,13 @@
       <input type="file" id="customerprofilephoto" value="<%= user.customerprofilephoto %>" name="customerprofilephoto" accept="image/*" >
     </div>
     <div>
-      <label for="customerwhatsapp">WhatsApp Number <span class="required">*</span></label>
-      <input type="tel" id="customerwhatsapp" value="<%= user.customerwhatsapp %>" name="customerwhatsapp" placeholder="+971 50 123 4567" required>
+      <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
+      <div class="phonenumber">
+        <select id="selectcountryisd" name="countryisd">
+          <option value="+974" selected>+974</option>
+        </select>
+        <input type="number" id="whatsapp" name="customerwhatsapp" value="<%= user.customerwhatsappnumber %>" placeholder="501234567" required>
+      </div>
     </div>
 
     <div>
@@ -47,12 +52,7 @@
     <div>
       <label for="customercountry">Country <span class="required">*</span></label>
       <select id="customercountry" name="customercountry" required>
-        <option value="Bahrain" <% if(user.customercountry=="Bahrain"){ %>selected<% } %>>Bahrain</option>
-        <option value="Kuwait"<% if(user.customercountry=="Kuwait"){ %>selected<% } %>>Kuwait</option>
-        <option value="Oman"<% if(user.customercountry=="Oman"){ %>selected<% } %>>Oman</option>
         <option value="Qatar"<% if(user.customercountry=="Qatar"){ %>selected<% } %>>Qatar</option>
-        <option value="Saudi Arabia"<% if(user.customercountry=="Saudi Arabia"){ %>selected<% } %>>Saudi Arabia</option>
-        <option value="UAE"<% if(user.customercountry=="UAE"){ %>selected<% } %>>United Arab Emirates</option>
       </select>
     </div>
     <div>

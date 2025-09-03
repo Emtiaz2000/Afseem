@@ -54,6 +54,14 @@ const storeSchema = new mongoose.Schema({
         },
         required: true
     },
+    whatsappnumber: {
+        type: Number,
+        required: [true]
+    },
+    countryisd: {
+        type: String,
+        required: [true]
+    },
     whatsapp: {
         type: String,
         required: [true, 'WhatsApp Number is Required']
