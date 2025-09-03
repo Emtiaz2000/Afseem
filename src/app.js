@@ -72,7 +72,7 @@ app.use('/',AdminRoute)//user route
 //homepage
 const getAController =  (req, res) => {
   let pathfind = join(__dirname, 'uploads')
-  console.log(pathfind)
+  //console.log(pathfind)
   res.render('pages/home');
 };
 
