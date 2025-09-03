@@ -368,7 +368,7 @@ router.delete(
     try {
       const user = await userSchema.findOne({ _id: res.locals.user.id });
       if (!user) throw new Error('No User Found!');
-      fs.unlink(`${__dirname}../../../uploads/customers/${user.customerprofilephoto}`,(err)=>{
+      fs.unlink(`/root/Afseem/src/uploads/customers/${user.customerprofilephoto}`,(err)=>{
                     if(err){
                       console.log(err)
                     }

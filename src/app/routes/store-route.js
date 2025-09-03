@@ -198,7 +198,7 @@ router.get('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
   if(!store) throw new Error('Store not Found!')
   res.render('pages/Store/store-edit-profile',{store,error:[]});
 });
-//store profile page process
+//store edit profile page process
 router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),upload.single('storePhoto'),storeEditForm,storeEditProfileValidationRes,async (req, res) => {
 
   let storeid= mongoose.Types.ObjectId.isValid(req.params.storeid)  
@@ -248,7 +248,7 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
           if (!store) {
               return res.status(404).send("Store not found");
             }
-          fs.unlink(`${__dirname}../../../uploads/stores/${store.storePhoto}`,(err)=>{
+          fs.unlink(`/root/Afseem/src/uploads/stores/${store.storePhoto}`,(err)=>{
                       if(err){
                         console.log(err)
                       }
@@ -688,18 +688,12 @@ router.post('/store/delete/:storeid',verifyStore,verifyStoreRole("Seller"),async
             console.log(err)
           }
         })
-      let products = await Product.find({store:store._id})
-      products.forEach((product)=>{
-        fs.unlink(`${__dirname}../../../uploads/products/${product.productimage}`,(err)=>{
-          if(err){
-            console.log(err)
-          }
-        })
-      })
+    
       await Product.deleteMany({store:store._id})
       await commentSchema.deleteMany({store:store._id})
       await orderSchema.deleteMany({store:store._id})
       await sellerSchema.findByIdAndDelete(store._id)
+      res.cookie('token','')
       res.redirect('/')
 })
 
