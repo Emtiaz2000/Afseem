@@ -1,7 +1,15 @@
 <link rel="stylesheet" href="/css/store/uploadcsv.css">
 
 <div class="productuploaderSection">
-    <div class="downloadformate"><a href="#">Download Format</a></div>
+    <div class="downloadformate">
+        <% if(category=='grocery'){ %>
+            <a href="/excelformate/grocery.xlsx">Download Format</a>
+        <% } %>
+        <% if(category=='restaurant'){ %>
+            <a href="/excelformate/restaurent.xlsx">Download Format</a>
+        <% } %>
+        
+    </div>
     <% if (error_msg!='') { %>
     <div style="background-color: red !important;" class="errorContainer">
         <p><%= error_msg %></p>

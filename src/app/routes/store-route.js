@@ -404,8 +404,11 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
 })
 
 //upload products from csv
-router.get('/product-upload',verifyStore,verifyStoreRole("Seller"),(req,res)=>{
-  res.render('pages/Store/uploadcsv')
+router.get('/product-upload',verifyStore,verifyStoreRole("Seller"),async(req,res)=>{
+  let store= await sellerSchema.findById(req.user.id)
+  let category = store.storeCategory
+  //console.log(store)
+  res.render('pages/Store/uploadcsv',{category})
 })
 
 //upload products from csv process
