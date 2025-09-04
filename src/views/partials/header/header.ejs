@@ -12,8 +12,13 @@
                 <a href="/master-products">Master Products</a>
                 <a href="/add-product">Add Product</a>
                 <a href="/product-upload">Upload Product</a>
-                <a href="/store-profile">Profile</a>
-                <a href="/store-logout">Logout</a>
+                <div class="profilecontainer">
+                    <div class="profileicon"><i class="fa-regular fa-user"></i></div>
+                    <div class="submenus">
+                        <a href="/store-profile">Profile</a>
+                        <a href="/store-logout">Logout</a>
+                    </div>
+                </div>
             <% } else if(user && user.role === 'User') { %>
                 <a href="/store-category">Store</a>
                 <a href="/profile">Profile</a>

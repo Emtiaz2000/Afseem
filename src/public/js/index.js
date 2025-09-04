@@ -25,14 +25,33 @@ window.addEventListener('DOMContentLoaded',()=>{
     
   
     const cartCountShow = document.querySelector('.cartCount');
-    let cartlength = JSON.parse(localStorage.getItem('Afseem_items')) //|| 0
-    let count;
-    if(cartlength){
-        count=cartlength.length
-    }else{
-        count=0
+    if(cartCountShow){
+        let cartlength = JSON.parse(localStorage.getItem('Afseem_items')) //|| 0
+        let count;
+        if(cartlength){
+            count=cartlength.length
+        }else{
+            count=0
+        }
+        cartCountShow.textContent= count
     }
-    cartCountShow.textContent= count
+    
 
-
+    //hide and show profile icon of seller
+    const profileicon = document.querySelector('.profileicon')
+    const submenus = document.querySelector('.submenus')
+    if(profileicon){
+        profileicon.addEventListener('click',()=>{
+            submenus.style.display='flex'
+        })
+    }
+    
+    if(submenus){
+        // Hide dropdown when clicking outside
+       document.addEventListener("click", function (e) {
+           if (!e.target.closest(".submenus") && !e.target.closest(".profileicon")) {
+               submenus.style.display = "none";
+           }
+       });
+    }
 })

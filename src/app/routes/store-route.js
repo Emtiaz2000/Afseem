@@ -703,9 +703,13 @@ router.get('/master-products',verifyStore,verifyStoreRole("Seller"),async (req,r
         const userId = req.user.id; // logged-in user id (from session/JWT/etc.)
         const search = req.query.searchproducts || ""; // search term from GET query
         // Build query
-        let query ={
-          store: { $ne: userId }      // exclude this user’s own products
-        };
+        let query = {
+            store: { $ne: userId }, 
+            $or: [
+              { productorigin: { $exists: false } }, // field missing
+              { productorigin: null },               // field is null                 // field is empty string
+            ]
+          };
 
         if (search) {
           query.$or = [
