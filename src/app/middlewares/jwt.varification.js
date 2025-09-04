@@ -57,7 +57,11 @@ export const preventStorePagesForLoggedIn = (req, res, next) => {
 
 export const verifyUser = (req, res, next) => {
     const token = req.cookies.token;
-    if (!token) return res.render('pages/Customer/customer-login',{error:[{msg:"Please login to Perform this Action!"}]});
+    if (!token){
+     res.cookie("checkouturl",req.originalUrl,{ httpOnly: false,})
+     return res.render('pages/Customer/customer-login',{error:[{msg:"Please login to Perform this Action!"}]});
+    }
+        
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -71,6 +75,8 @@ export const verifyUser = (req, res, next) => {
 export const verifyUserRole = (role) => {
     return (req, res, next) => {
         if (req.user.role !== role) {
+            console.log(window.location)
+            return
             return res.render('pages/Customer/customer-login',{error:[{msg:"Please login to Perform this Action!"}]});;
         }
         next();

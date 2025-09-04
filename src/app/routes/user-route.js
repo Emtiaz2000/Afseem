@@ -205,7 +205,12 @@ router.post('/login', preventAuthPagesForLoggedIn, async (req, res) => {
               { expiresIn: '7d' }
             );
             res.cookie('token', token);
-            res.redirect('/profile');
+            if(req.cookies.checkouturl){
+              res.cookie("checkouturl",'')
+              res.redirect(req.cookies.checkouturl)
+            }else{
+              res.redirect('/profile');
+            }
           } else {
             res.render('pages/Customer/customer-login', {
               error: [{ msg: 'Invalid login!' }],

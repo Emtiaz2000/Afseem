@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     const allitemscontainer = document.querySelector('.allitemscontainer') 
     const checkoutBtn = document.querySelector('.checkoutbtn')
     const grandtotaldiv = document.querySelector('.grandtotal')
+    const cartCountShow = document.querySelector('.cartCount');
     UiRender()
     const confirmorderbtn = document.querySelector('#confirmorder')
     confirmorderbtn.addEventListener('click',async ()=>{
@@ -52,6 +53,7 @@ window.addEventListener('DOMContentLoaded',()=>{
             updatelocastorageafterorder(storeid)
             const res = await datapost.json()
             if(res){
+                cartCountShow.innerHTML=JSON.parse(localStorage.getItem('Afseem_items')).length
                 window.open(res.url, '_blank')
             }
         } catch (error) {
