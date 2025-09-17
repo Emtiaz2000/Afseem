@@ -277,7 +277,7 @@ li{
     width:95%;
     margin:auto;
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), /* semi-transparent overlay */
-        url('https://res.cloudinary.com/dsladqhqo/image/upload/v1758134163/banner_image_zaz1oi.jpg') center/cover no-repeat,
+        url("/images/banner_image.jpg") center/cover no-repeat,
         #f5f5f5;
     height:380px;
     border-radius: 15px;
@@ -401,7 +401,7 @@ li{
     height:300px;
     padding:20px 10px;
     border-radius: 15px;
-    background-image: url('https://res.cloudinary.com/dsladqhqo/image/upload/v1758134337/homevisitshopbg_nelqvq.jpg');
+    background-image: url('/images/homevisitshopbg.jpg');
     background-position: center center;
     background-size: cover;
 }
