@@ -16,7 +16,6 @@
     padding:30px 20px;
 }
 .store-left-layout{
-  min-width:340px;
   width:34%;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   border-radius: 10px;
@@ -38,6 +37,7 @@
     height:130px;
     border-radius: 50%;
     object-fit: cover;
+    border: 1px solid #F26922;
     
 }
 
@@ -112,6 +112,10 @@
     display: block;
   }
   .store-right-layout,.store-left-layout{
-    width:100%;
+    width:325px;
+    margin-bottom: 10px;
+  }
+  .moreInformation>div{
+    width:95%;
   }
 }

@@ -143,7 +143,7 @@ router.post('/verify-otp-seller',preventStorePagesForLoggedIn,otpValidationFormS
       user.otp = null;
       user.otpExpiry = null;
       await user.save();
-
+      req.flash('success_msg','Email has been verified!')
       res.redirect('/store-login');
     }
     
@@ -229,7 +229,6 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
             whatsappnumber: req.body.whatsapp,
             whatsapp:properphonenum,
             storePhoto:storeimage,
-            storeemail:req.body.storeemail,
             storeunitno: req.body.storeunitno,
             storebuildingno: req.body.storebuildingno,
             storestreetno: req.body.storestreetno,
@@ -260,7 +259,6 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
             whatsapp:properphonenum,
             whatsappnumber: req.body.whatsapp,
             countryisd:req.body.countryisd,
-            storeemail:req.body.storeemail,
             storeunitno: req.body.storeunitno,
             storebuildingno: req.body.storebuildingno,
             storestreetno: req.body.storestreetno,

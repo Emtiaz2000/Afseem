@@ -160,7 +160,7 @@ router.post(
       user.otp = null;
       user.otpExpiry = null;
       await user.save();
-
+      req.flash('success_msg','Email has been verified!')
       res.redirect('/login');
     }
   }

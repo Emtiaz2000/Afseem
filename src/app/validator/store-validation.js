@@ -87,11 +87,6 @@ export const storeEditForm = [
         .escape()
         .trim()
         ,
-    body('storeemail')
-        .notEmpty().withMessage('Email is Required')
-        .isEmail()
-        .withMessage("Enter Valid Email Address")
-        ,
     body('whatsapp')
         .notEmpty().withMessage('WhatsApp Number is Required')
         .isNumeric().withMessage('Only Numaric value is acceptable!')

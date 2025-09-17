@@ -196,3 +196,14 @@
     }
 }
 
+@media (max-width:370px) {
+    
+    .productContainer{
+        width:170px;
+    }
+    .filterresult {
+        gap: 5px;
+    }
+
+}
+

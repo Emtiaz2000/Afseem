@@ -9,10 +9,13 @@ export const storeRegistrationValidationRes=async (req,res,next)=>{
         if(error.isEmpty()){
         next()
         }else{
+            //console.log(error)
             //console.log(error.errors)
             res.render('pages/Store/store-registration',{error:error.errors})
         }
     }else{
+        //console.log(error)
+        //console.log(req.body)
          res.render('pages/Store/store-registration',{error:[{msg:"User Already Exist with this Mail!"}]})
     }
     

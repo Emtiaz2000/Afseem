@@ -17,7 +17,6 @@ const productSchema = new mongoose.Schema(
     productorigin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product", // must match the model name of your Store schema
-      required: true,
     },
     enable:{
       type:Boolean,
