@@ -27,7 +27,7 @@ const __dirname = dirname(__filename);
 const router = Router();
 //getting registration form
 router.get('/registration-store',preventStorePagesForLoggedIn, (req, res) => {
-  res.render('pages/Store/store-registration', { error: 0 });
+  res.render('pages/Store/store-registration', { error: 0});
 });
 //register user in database
 router.post(
@@ -59,7 +59,8 @@ router.post(
     let propernumber = countryisd + whatsapp
     if(!processGoogleIframe(storelocationmap)){
         req.flash('error_msg',"Need Valid Google Map Location")
-       return res.redirect('/registration-store')
+        req.flash('oldData',req.body)
+        return res.redirect('/registration-store')
 
     } 
     let googlemaplocation = processGoogleIframe(storelocationmap)
@@ -77,6 +78,7 @@ router.post(
           storeimage = filename;
         }else{
           req.flash("error_msg", "Please Upload Store Photo!");
+          req.flash('oldData',req.body)
           return res.redirect("/registration-store");
         }
 
@@ -346,7 +348,8 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
       return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
   if(Number(req.body.productprice) < Number(req.body.productofferprice)){
-     return res.render('pages/Store/add-product',{error:[{msg:"Offer Price Must be Smaller than Regular Price!"}],category:store.storeCategory,isMobileDevice:isMobileDevice || " "});
+     let oldData=req.body
+     return res.render('pages/Store/add-product',{oldData,error:[{msg:"Offer Price Must be Smaller than Regular Price!"}],category:store.storeCategory,isMobileDevice:isMobileDevice || " "});
   }
   const {productname,subcategory,productprice,productofferprice='',currency,sku}=req.body
   //sharp configration
@@ -355,6 +358,7 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
     
     if ((hasproductuploadimage && hastakephotoimage) || (!hasproductuploadimage && !hastakephotoimage)) {
       req.flash("error_msg", "Please Upload or Click Photo, not both!");
+      req.flash('oldData',req.body)
       return res.redirect("/add-product");
     }else{
       let productimageurl;

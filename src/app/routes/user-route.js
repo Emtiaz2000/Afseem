@@ -44,7 +44,7 @@ import { IPinfoWrapper } from "node-ipinfo"; //ip info
 const ipinfoWrapper = new IPinfoWrapper(process.env.IPINFO_TOKEN_URL);
 //get user registration form
 router.get('/registration', preventAuthPagesForLoggedIn, (req, res) => {
-  res.render('pages/Customer/customer-registration', { error: [] });
+  res.render('pages/Customer/customer-registration', { error: [],oldData:'' });
 });
 
 //get user registration form
@@ -85,6 +85,7 @@ router.post(
         customerimage = filename;
       } else {
         req.flash('error_msg', 'Please Upload Store Photo!');
+        req.flash('oldData',req.body)
         return res.redirect('/registration');
       }
       bcrypt.genSalt(10, function (err, salt) {

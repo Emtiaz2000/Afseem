@@ -4,15 +4,16 @@ import {userSchema} from '../modules/user/userSchema.js'
 export const userRegistrationValidationRes=async (req,res,next)=>{
     const error= validationResult(req)
     const user = await userSchema.findOne({customeremail:req.body.customeremail})
+    let oldData = req.body
     if(!user){
         if(error.isEmpty()){
             next()
         }else{
             //console.log(error.errors)
-            res.render('pages/Customer/customer-registration',{error:error.errors})
+            res.render('pages/Customer/customer-registration',{error:error.errors,oldData})
         }
     }else{
-        res.render('pages/Customer/customer-registration',{error:[{msg:"User Already Exist with this mail!"}]})
+        res.render('pages/Customer/customer-registration',{oldData,error:[{msg:"User Already Exist with this mail!"}]})
     }
     
 }

@@ -774,8 +774,8 @@ const saudiPlaces = [
         inputs.forEach((input)=>{
         input.addEventListener('input',(e)=>{
             let value = parseInt(e.target.value)
-            if(value<=0){
-                alert('Price must be greater than 0!')
+            if(value<0){
+                alert('Please Enter Valid Number!')
                 e.target.value=''
             }
         })

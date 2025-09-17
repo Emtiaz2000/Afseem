@@ -19,11 +19,11 @@
   <form id="storeForm" action="/registration-store" method="post" enctype="multipart/form-data">
     <div>
       <label for="storeName">Store Name <span class="required">*</span></label>
-      <input type="text" id="storeName" name="storeName" required>
+      <input type="text" id="storeName" <% if(oldData){ %> value="<%= oldData.storeName %>" <% } %> name="storeName" required>
     </div>
     <div>
       <label for="ownerName">Owner Name <span class="required">*</span></label>
-      <input type="text" id="ownerName" name="ownerName" required>
+      <input type="text" id="ownerName" <% if(oldData){ %> value="<%= oldData.ownerName %>" <% } %> name="ownerName" required>
     </div>
 
      <div>
@@ -33,7 +33,7 @@
 
     <div>
       <label for="storeemail">Email Address <span class="required">*</span></label>
-      <input type="email" id="storeemail" name="storeemail" required>
+      <input type="email" id="storeemail" <% if(oldData){ %> value="<%= oldData.storeemail %>" <% } %> name="storeemail" required>
     </div>
     <input type="hidden" id="countryisocode" name="countryisocode">
     <div>
@@ -50,25 +50,25 @@
         <select id="selectcountryisd" name="countryisd">
           <option value="+974" selected>+974</option>
         </select>
-        <input type="number" id="whatsapp" name="whatsapp" placeholder="501234567" required>
+        <input type="number" id="whatsapp" name="whatsapp" <% if(oldData){ %> value="<%= oldData.whatsapp %>" <% } %> placeholder="501234567" required>
       </div>
     </div>
 
     <div>
       <label for="storeunitno"> Unit No. <span class="required">*</span></label>
-      <input type="number" id="storeunitno" name="storeunitno" required>
+      <input type="number" id="storeunitno" <% if(oldData){ %> value="<%= oldData.storeunitno %>" <% } %> name="storeunitno" required>
     </div>
     <div>
       <label for="storebuildingno"> Building No. <span class="required">*</span></label>
-      <input type="number" id="storebuildingno" name="storebuildingno" required>
+      <input type="number" id="storebuildingno" <% if(oldData){ %> value="<%= oldData.storebuildingno %>" <% } %> name="storebuildingno" required>
     </div>
     <div>
       <label for="storestreetno"> Street No. <span class="required">*</span></label>
-      <input type="number" id="storestreetno" name="storestreetno" required>
+      <input type="number" id="storestreetno" <% if(oldData){ %> value="<%= oldData.storestreetno %>" <% } %> name="storestreetno" required>
     </div>
     <div>
       <label for="storezoneno"> Zone No. <span class="required">*</span></label>
-      <input type="number" id="storezoneno" name="storezoneno" required>
+      <input type="number" id="storezoneno" <% if(oldData){ %> value="<%= oldData.storezoneno %>" <% } %> name="storezoneno" required>
     </div>
 
     
@@ -81,21 +81,21 @@
     </div>
     <div class="dropdown-subcategory">
       <label for="storecity">City <span class="required">*</span></label>
-      <input id="storecity" type="text" name="storecity" required>
+      <input id="storecity" type="text" <% if(oldData){ %> value="<%= oldData.storecity %>" <% } %> name="storecity" required>
       <div class="dropdown-list" id="dropdown"></div>
     </div>
     <div>
       <label for="storelocationmap">Store Google Map Location <span class="required">*</span></label>
-      <input type="text" id="storelocationmap" name="storelocationmap" placeholder="Embed google map iframe" required>
+      <input type="text" id="storelocationmap" name="storelocationmap" <% if(oldData){ %> value="<%= oldData.storelocationmap %>" <% } %> placeholder="Embed google map iframe" required>
     </div>
 
     <div>
       <label for="storeopen">Store Working Hours <span class="required">*</span></label>
-      <input type="time" id="storeopen" name="storeopen" placeholder="e.g. 9 AM - 10 PM" required>
+      <input type="time" id="storeopen" name="storeopen" <% if(oldData){ %> value="<%= oldData.storeopen %>" <% } %> placeholder="e.g. 9 AM - 10 PM" required>
     </div>
     <div>
       <label for="storeclose">Store Working Hours <span class="required">*</span></label>
-      <input type="time" id="storeclose" name="storeclose" placeholder="e.g. 9 AM - 10 PM" required>
+      <input type="time" id="storeclose" name="storeclose" <% if(oldData){ %> value="<%= oldData.storeclose %>" <% } %> placeholder="e.g. 9 AM - 10 PM" required>
     </div>
     <div>
       <label for="homeDelivery">Home Delivery <span class="required">*</span></label>
