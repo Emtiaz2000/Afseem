@@ -161,18 +161,18 @@
     color:#f15a24;
 }
 .addtocart{
-    width:40px;
+    width:75px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    font-size: 18px;
     margin:10px auto;
     cursor: pointer;
     background-color: #fff ;
     border:1px solid #f15a24;
     color:#f15a24;
-    padding:10px;
-    border-radius: 10px;
+    padding:5px 10px;
+    border-radius:5px 10px;
     transition: .3s ease all;
 }
 .addtocart:hover{

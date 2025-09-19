@@ -102,3 +102,33 @@
     color:#fff;
     background-color: #F15A24;
 }
+.active{
+    font-weight: bold;
+}
+.showmastercatoegory{
+    position: relative;
+    width:300px;
+    margin:10px 0px;
+    padding:3px 5px;
+    background-color: #fff;
+}
+.subcategories{
+    position: absolute;
+    width:280px;
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:3px 5px;
+    border-radius: 5px;
+    display: none;
+}
+.subcategories>div{
+    margin:10px 3px;
+    padding:3px 10px;
+}
+
+
+@media (max-width:550px) {
+    #searchproduct{
+        min-width: 270px;
+    }
+}

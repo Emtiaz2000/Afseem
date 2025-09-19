@@ -1,21 +1,18 @@
 window.addEventListener('DOMContentLoaded',()=>{
  
     //showing filter option on master data page
-        let filterIcon = document.querySelector('.filterIcon')
-        let closefilter = document.querySelector('.closefilter')
+        let filterIcon = document.querySelector('.showsubcategoryoption')
         filterIcon.addEventListener('click',()=>{
-            closefilter.style.display='block';
-            document.querySelector('#CategorySearch').style.display="block";
-            filterIcon.style.display='none';
+            document.querySelector('.subcategories').style.display="block";
+            
         })
-    //hiding filter in small device
-        closefilter.addEventListener('click',()=>{
-            filterIcon.style.display='block';
-            document.querySelector('#CategorySearch').style.display="none";
-            closefilter.style.display='none'
-        })
-   
-
+   // Hide dropdown when clicking outside
+       document.addEventListener("click", function (e) {
+           if (!e.target.closest(".showsubcategoryoption") && !e.target.closest(".subcategories")) {
+                document.querySelector('.subcategories').style.display = "none";
+           }
+       });
+ 
 
     //showing active menu
     function filterActiveToggle(){

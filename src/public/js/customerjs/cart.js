@@ -86,32 +86,33 @@ cartBtns.forEach((cartbtn)=>{
     let findStore = updatedData.find(stores=>{
         return stores.storeid==storeid
     })
-    if(findStore){
-        updatedData.forEach((items)=>{
-            if(items.storeid == storeid ){
-                let existingitem = items.products.find((product)=>{
-                    return product.productid== productid
-                })
-                if(existingitem){
-                    existingitem.productqty=Number(existingitem.productqty)+productqty;
-                }else{
-                    items.products.push({productimageurl,productname,productsku,productprice,productid,productqty,currency})
+        if(findStore){
+            updatedData.forEach((items)=>{
+                if(items.storeid == storeid ){
+                    let existingitem = items.products.find((product)=>{
+                        return product.productid== productid
+                    })
+                    if(existingitem){
+                        existingitem.productqty=Number(existingitem.productqty)+productqty;
+                    }else{
+                        items.products.push({productimageurl,productname,productsku,productprice,productid,productqty,currency})
+                    }
                 }
-            }
-            
-        }) 
-        localStorage.setItem('Afseem_items',JSON.stringify(updatedData))
-    }else{
+                
+            }) 
+            localStorage.setItem('Afseem_items',JSON.stringify(updatedData))
+        }else{
+        local_cart=[]  
         local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}],whatsapp:storewhatsapp,storecategory:storecategory})
         localStorage.setItem('Afseem_items',JSON.stringify(local_cart))
-    }   
-    //local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}]})
+        }
     }else{
+     local_cart=[]  
      local_cart.push({'storeid':storeid, "products":[{productimageurl,productname,productsku,productprice,productid,productqty,currency}],whatsapp:storewhatsapp,storecategory:storecategory})
      localStorage.setItem('Afseem_items',JSON.stringify(local_cart))
     }
     
-    cartCountShow.innerHTML=JSON.parse(localStorage.getItem('Afseem_items')).length
+    cartCountShow.innerHTML=JSON.parse(localStorage.getItem('Afseem_items'))[0].products.length
     popup.style.display='flex'
     addproductPopup()
     })

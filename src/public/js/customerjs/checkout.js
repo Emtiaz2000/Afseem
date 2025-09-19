@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded',()=>{
             updatelocastorageafterorder(storeid)
             const res = await datapost.json()
             if(res){
-                cartCountShow.innerHTML=JSON.parse(localStorage.getItem('Afseem_items')).length
+                cartCountShow.innerHTML= JSON.parse(localStorage.getItem('Afseem_items')).length|| 0
                 window.open(res.url, '_blank')
             }
         } catch (error) {

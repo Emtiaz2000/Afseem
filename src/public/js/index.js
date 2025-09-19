@@ -26,14 +26,15 @@ window.addEventListener('DOMContentLoaded',()=>{
   
     const cartCountShow = document.querySelector('.cartCount');
     if(cartCountShow){
-        let cartlength = JSON.parse(localStorage.getItem('Afseem_items')) //|| 0
-        let count;
-        if(cartlength){
-            count=cartlength.length
-        }else{
-            count=0
-        }
-        cartCountShow.textContent= count
+        //counting cart
+        let cartlength;
+        if(JSON.parse(localStorage.getItem('Afseem_items')).length>0){
+        cartlength=JSON.parse(localStorage.getItem('Afseem_items'))[0].products.length
+        }  else{
+            cartlength=0
+        } 
+        
+        cartCountShow.textContent= cartlength
     }
     
 

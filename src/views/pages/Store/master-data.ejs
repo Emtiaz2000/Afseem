@@ -2,7 +2,7 @@
 
 <div class="masterDashboardContainer">
   <div class="headingcotainer">
-    <h1>Dashboard</h1>
+    <h1>My Products</h1>
   </div>
   <div class="masterdatacategorycontainer">
     <div class="filtertext"><span>Filter</span> <span class="filterIcon"><i class="fa-solid fa-list"></i></span> <span class="closefilter"><i class="fa-solid fa-ban"></i></span></div>
@@ -62,7 +62,7 @@
           <h1>No Product Found!</h1>
         <% } %>
     </div>
-          
+    <br>
     <div class="pagination">
           <% if (currentPage > 1) { %>
             <a href="?page=<%= currentPage - 1 %>&limit=9<% if (activeUrl) { %>&subcategory=<%= encodeURIComponent(activeUrl) %><% } %>">Prev</a>
@@ -75,6 +75,7 @@
           <% } %>
     </div>   
   </div>
+  <br>
 </div>
 
 <script src="/js/storejs/master-data.js"></script>

@@ -301,7 +301,10 @@ router.get('/store-dashboard',verifyStore,verifyStoreRole("Seller"), async(req, 
     const totalPages = Math.ceil(totalProducts / limit);
     const result = await Product.aggregate([
       {
-        $match: { store: new mongoose.Types.ObjectId(store._id) } // filter by store
+        $match: { 
+          store: new mongoose.Types.ObjectId(store._id) ,
+          category:store.storeCategory,
+        } // filter by store
       },
       {
         $group: {
@@ -385,6 +388,7 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
       let product = await Product.create({
           productname: productname,
           store: store._id,
+          category:store.storeCategory,
           subcategory:subcategory ,
           productimage:productimageurl,
           productprice: productprice,
@@ -707,24 +711,100 @@ router.get('/master-products',verifyStore,verifyStoreRole("Seller"),async (req,r
   try {
         const userId = req.user.id; // logged-in user id (from session/JWT/etc.)
         const search = req.query.searchproducts || ""; // search term from GET query
+        const linkSearch = req.query.subcategory || ""; // search term from GET query
+        const page = parseInt(req.query.page) || 1; // current page, default 1
+        const limit = 20; // items per page, you can change
+
+
+        //get store 
+        const userStore = await sellerSchema.findById(userId)
+        //find all user products
+        const userProducts = await Product.find({ store: userId }, "productorigin");
+        //find products that has origin id match to users products
+        const originsToHide = userProducts.map(p => p.productorigin).filter(Boolean).map(id => new mongoose.Types.ObjectId(id)); 
+
         // Build query
         let query = {
-            store: { $ne: userId }, 
-            $or: [
-              { productorigin: { $exists: false } }, // field missing
-              { productorigin: null },               // field is null                 // field is empty string
-            ]
+            store: { $ne: new mongoose.Types.ObjectId(userId) }, 
+            _id: { $nin: originsToHide }
           };
 
-        if (search) {
-          query.$or = [
-            { productname: { $regex: search, $options: "i" } },
-            { subcategory: { $regex: search, $options: "i" } }
+        // Always include productorigin null/missing
+        const productOriginFilter = [
+          { productorigin: { $exists: false } },
+          { productorigin: null }
           ];
+
+          // Search filter (from search input)
+          const searchFilter = [];
+          if (search) {
+            searchFilter.push(
+              { productname: { $regex: search, $options: "i" } },
+              { subcategory: { $regex: search, $options: "i" } }
+            );
+          }
+
+          // Link filter (from subcategory link)
+          const linkFilter = [];
+          if (linkSearch) {
+            linkFilter.push({ subcategory: { $regex: linkSearch, $options: "i" } });
+          }
+        
+          // Combine filters
+          if (searchFilter.length || linkFilter.length) {
+            query.$and = [
+              { $or: productOriginFilter },
+              ...(searchFilter.length ? [{ $or: searchFilter }] : []),
+              ...(linkFilter.length ? [{ $or: linkFilter }] : [])
+            ];
+          } else {
+            query.$or = productOriginFilter;
+          }
+      
+      
+      // Get total count for pagination
+        const totalProducts = await Product.countDocuments(query);
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        // Get paginated products
+        const products = await Product.find(query)
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+
+      //find which category has how many products
+      const categoryCounts = await Product.aggregate([
+        {
+          $match: {
+            store: { $ne:  new mongoose.Types.ObjectId(userId) },
+            category:userStore.storeCategory,
+            _id:  {$nin: originsToHide},
+            $or: [
+              { productorigin: { $exists: false } },
+              { productorigin: null },
+            ]
+          }
+        },
+        {
+          $group: {
+            _id: "$subcategory",  // group by category field
+            count: { $sum: 1 } // count number of products in each category
+          }
+        },
+        {
+          $sort: { count: -1 } // optional: sort by count descending
         }
-      let products = await Product.find(query)
-      //console.log(products)
-      res.render('pages/Store/addfrom-masterdata',{products})
+      ]);
+      //console.log(req.query.subcategory)
+      let activeUrl =req.query.subcategory
+      res.render('pages/Store/addfrom-masterdata',
+        {
+          products,
+          categoryCounts,
+          activeUrl, 
+          currentPage: page,
+          totalPages
+        })
   } catch (error) {
     console.log(error)
   }
@@ -756,6 +836,7 @@ router.post('/master-products',verifyStore,verifyStoreRole("Seller"),async (req,
               productname: productname,
               store: store._id,
               subcategory:subcategory ,
+              category:store.storeCategory,
               productimage:productimg,
               productprice: productprice,
               productofferprice:productofferprice,

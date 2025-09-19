@@ -849,12 +849,15 @@ router.get('/cart/:storeid',verifyUser,
     res.render('pages/Customer/checkoutpage')
 })
 
+//place order
 router.post('/checkout/:storeid',verifyUser,
   verifyUserRole('User'),async(req,res)=>{
     let storeid = req.body.storeid;
     if(!mongoose.Types.ObjectId.isValid(storeid)) return res.render('pages/404', { msg: 'Invalid Store!' })
     let store = await sellerSchema.findById(storeid)
     //console.log(store)
+    let user = await userSchema.findById(req.user.id)
+    //console.log(user)
     if(store){
      let order= await orderSchema.create({
       store:store._id,
@@ -865,15 +868,39 @@ router.post('/checkout/:storeid',verifyUser,
       productsid:req.body.productids,
       productsprices:req.body.productprices,
       productsquantities:req.body.productquantities,
-      storecategory:req.body.storecategory
+      storecategory:req.body.storecategory,
+      
     }) 
     let message ='Hi New Order!.\n'
     for(let i=0; i< req.body.productsname.length;i++){
       message+=`(Product-name: ${req.body.productsname[i]} quantity: ${req.body.productquantities[i]} price: ${req.body.productquantities[i]*req.body.productprices[i]})\n`
     }
-    message+= `Grand Total: ${req.body.grandtotal}`
-    let url = `https://wa.me/${store.whatsapp}?text=${encodeURIComponent(message)}`
-    res.send({url})
+    //final message
+    message+= `
+    Grand Total: ${req.body.grandtotal}.\n
+    Location: \n
+    phone: ${user.customerwhatsapp}.\n
+    city: ${user.customercity}.\n
+    Building No: ${user.customerbuildingno}.\n
+    Street No: ${user.customerstreetno}.\n
+    Unit No: ${user.customerunitno}.\n
+    Zone No: ${user.customerzoneno}.\n
+    `
+    //checking mobile 
+    let ua = req.headers['user-agent'];
+    let isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    //assign url for whatsapp
+    let url;
+
+    if (isMobile) {
+      // Works on both iOS + Android (WhatsApp app must be installed)
+      url = `whatsapp://send?phone=${store.whatsapp}&text=${encodeURIComponent(message)}`;
+    } else {
+      // Works on desktop browsers (WhatsApp Web)
+      url = `https://wa.me/${store.whatsapp}?text=${encodeURIComponent(message)}`;
+    }
+    //sending order to whatsapp
+    res.send({ url });
 
     }
     

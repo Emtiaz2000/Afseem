@@ -8,18 +8,9 @@ window.addEventListener('DOMContentLoaded',()=>{
         }
     });
 
-    deleteEmptyStorecart()
 })
 
-function deleteEmptyStorecart(){
-    let cartfromLocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))
-    cartfromLocalstorage.forEach((stores,index)=>{
-        if(stores.products.length<1){
-            cartfromLocalstorage.splice(index,1)
-        }
-    })
-    localStorage.setItem('Afseem_items',JSON.stringify(cartfromLocalstorage))
-}
+
 
 
 //delete product from locastorage
@@ -29,6 +20,8 @@ function deleteCartItems(index,storeid){
        return store.storeid ==storeid ;
          
     })
+    //console.log(findstore)
+    //console.log(stores)
     if(findstore){
         stores.forEach(store=>{
             if(store.storeid==storeid){
@@ -39,23 +32,35 @@ function deleteCartItems(index,storeid){
             }
         })
     }
-    localStorage.setItem('Afseem_items',JSON.stringify(stores))
+    if(stores[0].products.length>0){
+        localStorage.setItem('Afseem_items',JSON.stringify(stores))
+    }else{
+        stores=[]
+        localStorage.setItem('Afseem_items',JSON.stringify(stores))
+    }
+    
     /* const cartcontainer = document.querySelector('.cartcontainer')
     cartcontainer.innerHTML='' */
-    deleteEmptyStorecart()
     loadUi()
 }
 
 //loading ui with localstorage
 function loadUi(){
     const cartCountShow = document.querySelector('.cartCount');
-    cartCountShow.textContent=JSON.parse(localStorage.getItem('Afseem_items')).length || 0
+    let cartCount;
+    if(JSON.parse(localStorage.getItem('Afseem_items')).length>0){
+        cartCount=JSON.parse(localStorage.getItem('Afseem_items'))[0].products.length
+    }  else{
+        cartCount=0
+    } 
+    cartCountShow.textContent=cartCount
     const cartcontainer = document.querySelector('.cartcontainer')
     cartcontainer.innerHTML=''
     let cartItems=''
     
     let cartfromLocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))
-    if(cartfromLocalstorage.length>0){
+    if(cartfromLocalstorage != null){
+        if(cartfromLocalstorage.length>0){
         let currency=cartfromLocalstorage[0].products[0].currency
         cartfromLocalstorage.forEach(store => {
         let price=0
@@ -145,9 +150,14 @@ function loadUi(){
             })
         })
     });
+        
     }else{
         cartcontainer.innerHTML='Nothing in Cart'
     }
+    }else{
+        cartcontainer.innerHTML='Nothing in Cart'
+    }
+    
 
 }
 

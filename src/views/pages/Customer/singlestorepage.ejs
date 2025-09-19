@@ -19,7 +19,7 @@
       </div>
     <% } %>
     <div class="popupaddproduct">
-        <p>Product Add to Cart!</p>
+        <p>Product has been added!</p>
          <div class="popcross"><i class="fa-solid fa-xmark"></i></div>
     </div>
     <h2>Store Items</h2>
@@ -61,7 +61,7 @@
                                 <span class="item_count" data-quantity="1">1</span>
                                 <button class="inc_icon"><span><i class="fa-solid fa-plus"></i></span></button>
                             </p>
-                            <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-imageurl="<%= product.productimage %>" data-currency="<%= product.currency %>" data-quantity="1" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-imageurl="<%= product.productimage %>" data-currency="<%= product.currency %>" data-quantity="1" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart">Add</div>
                         </div>
                     <% }) %>
                 </div>
@@ -104,7 +104,7 @@
                         <span class="item_count" data-quantity="1">1</span>
                         <button class="inc_icon"><span><i class="fa-solid fa-plus"></i></span></button>
                     </p>
-                    <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-currency="<%= product.currency %>" data-quantity="1" data-imageurl="<%= product.productimage %>" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart"><i class="fa-solid fa-cart-plus"></i></div>
+                    <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-currency="<%= product.currency %>" data-quantity="1" data-imageurl="<%= product.productimage %>" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart">add</div>
                 </div>
             <% }) %>
         </div>

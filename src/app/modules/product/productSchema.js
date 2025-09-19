@@ -25,6 +25,10 @@ const productSchema = new mongoose.Schema(
     disable:{
       type:Boolean,
     },
+    category:{
+      type: String,
+      required:true,
+    },
 
     subcategory: {
       type: String,

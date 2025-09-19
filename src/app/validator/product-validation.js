@@ -69,7 +69,7 @@ export const productValidationForm = [
     ,
   body("sku")
     .notEmpty().withMessage("Product Price is required")
-    .isLength({ min: 10,max:10 }).withMessage("SKU must be at least 10 characters long")
+    .isLength({ min: 1 }).withMessage("SKU must be at least 1 characters long")
     .isInt({ gt: 0 }).withMessage("SKU must be an Integer!"),
   body("productprice")
     .notEmpty().withMessage("Product Price is required")
