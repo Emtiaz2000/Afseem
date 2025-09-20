@@ -900,7 +900,7 @@ router.post('/checkout/:storeid',verifyUser,
       url = `https://wa.me/${store.whatsapp}?text=${encodeURIComponent(message)}`;
     }
     //sending order to whatsapp
-    res.send({ url });
+    res.redirect({ url });
 
     }
     
