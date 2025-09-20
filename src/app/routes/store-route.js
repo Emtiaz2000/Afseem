@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { storeValidationForm,storeEditForm,storeforgetpassField, storeforgetpassForm } from '../validator/store-validation.js';
 import { storeRegistrationValidationRes,storeEditProfileValidationRes,storeforgetEmailValidationRes,storeforgetPassValidationRes } from '../validator/store-validation-result.js';
 import {productValidationForm} from '../validator/product-validation.js'
-import {addProductValidationRes} from '../validator/product-validation-result.js'
+import {addProductValidationRes,editProductValidationRes} from '../validator/product-validation-result.js'
 import { sellerSchema } from '../modules/shop/shopSchema.js';
 import {verifyStore,verifyStoreRole,preventStorePagesForLoggedIn} from '../middlewares/jwt.varification.js'
 import {Product} from '../modules/product/productSchema.js'
@@ -16,10 +16,9 @@ import sharp from "sharp";//sharp for resizing images
 import { resolve, relative,join,dirname,extname } from 'path';
 import { fileURLToPath } from 'url';
 import { commentSchema } from '../modules/comment/commentSchema.js';
-import {uploadToCloudinary} from '../middlewares/cloudnary.js'
 import {orderSchema} from '../modules/order/orderSchema.js'
 import {processGoogleIframe} from '../validator/iframevalidator.js'
-import { spawn } from 'child_process';
+import { Category } from '../modules/product/categorySchema.js';
 import {runPython} from '../controlers/removebgFunction.js'
 import fs from 'fs';
 import XLSX from 'xlsx';
@@ -336,10 +335,19 @@ router.get('/store-dashboard',verifyStore,verifyStoreRole("Seller"), async(req, 
 //get add product page
 router.get('/add-product',verifyStore,verifyStoreRole("Seller"),async (req, res) => {
   let store = await sellerSchema.findOne({_id:res.locals.user.id})
+  let storecategory = store.storeCategory
+  let categories = await Category.find()
+  let subcategories;
+  if(storecategory == 'grocery'){
+    subcategories = categories[0].grocery
+  }else if(storecategory == 'restaurent'){
+    subcategories=categories[0].restaurent
+  }
+  
   function isMobileDevice() {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   }
-  res.render('pages/Store/add-product',{error:[],category:store.storeCategory,isMobileDevice:isMobileDevice ||''});
+  res.render('pages/Store/add-product',{subcategories,error:[],category:store.storeCategory,isMobileDevice:isMobileDevice ||''});
 });
 
 
@@ -349,14 +357,22 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
    
   try {
     const store = await sellerSchema.findOne({ _id: res.locals.user.id });
-
+    let storecategory = store.storeCategory
     function isMobileDevice() {
       return /Mobi|Android|iPhone|iPad|iPod/i.test(req.headers["user-agent"]);
     }
 
     if (Number(req.body.productprice) < Number(req.body.productofferprice)) {
       const oldData = req.body;
+      let categories = await Category.find()
+      let subcategories;
+      if(storecategory == 'grocery'){
+        subcategories = categories[0].grocery
+      }else if(storecategory == 'restaurent'){
+        subcategories=categories[0].restaurent
+      }
       return res.render('pages/Store/add-product', {
+        subcategories,
         oldData,
         error: [{ msg: "Offer Price Must be Smaller than Regular Price!" }],
         category: store.storeCategory,
@@ -539,8 +555,17 @@ router.get('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"), asy
     let product = await Product.findOne({_id:productId})
     if(!product) throw new Error('Product not found!');
     let store = await sellerSchema.findOne({_id:res.locals.user.id})
+     //geting store category type
+    let storecategory = store.storeCategory
+    let categories = await Category.find()
+      let subcategories;
+      if(storecategory == 'grocery'){
+        subcategories = categories[0].grocery
+      }else if(storecategory == 'restaurent'){
+        subcategories=categories[0].restaurent
+      }
     //console.log(store)
-    res.render('pages/Store/edit-product',{error:[],product,category:store.storeCategory});
+    res.render('pages/Store/edit-product',{subcategories,error:[],product,category:store.storeCategory});
   } catch (error) {
     console.log(error.message)
   }
@@ -548,7 +573,7 @@ router.get('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"), asy
 });
 
 //edit product process
-router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),upload.fields([{ name: "editproductimage", maxCount: 1 },{ name: "edittakephoto", maxCount: 1 } ]),productValidationForm,addProductValidationRes, async (req, res) => {
+router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),upload.fields([{ name: "editproductimage", maxCount: 1 },{ name: "edittakephoto", maxCount: 1 } ]),productValidationForm,editProductValidationRes, async (req, res) => {
   try {
      const productId = req.params.productid;
 
@@ -558,6 +583,8 @@ router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),uplo
     if (!product) throw new Error("Product not found!");
 
     const store = await sellerSchema.findOne({ _id: res.locals.user.id });
+    //geting store category type
+    let storecategory = store.storeCategory
     if (!product.store.equals(store._id)) throw new Error("Unauthorized");
 
     // Validate offer price
@@ -565,7 +592,16 @@ router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),uplo
       function isMobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod/i.test(req.headers["user-agent"]);
       }
+
+      let categories = await Category.find()
+      let subcategories;
+      if(storecategory == 'grocery'){
+        subcategories = categories[0].grocery
+      }else if(storecategory == 'restaurent'){
+        subcategories=categories[0].restaurent
+      }
       return res.render('pages/Store/edit-product', {
+        subcategories,
         error: [{ msg: "Offer Price Must be Smaller than Regular Price!" }],
         category: store.storeCategory,
         product,

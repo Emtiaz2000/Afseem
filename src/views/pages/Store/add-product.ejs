@@ -32,7 +32,14 @@
     <div class="dropdown-subcategory">
       <label for="subcategory">Selete Category <span class="required">*</span></label>
       <input type="text" <% if(oldData){ %> value="<%= oldData.subcategory %>"<% } %> name="subcategory" id="subcategory" placeholder="Type to search..." required/>
-      <div class="dropdown-list" id="dropdown"></div>
+      <div class="dropdown-list" id="dropdown">
+        <% if(subcategories.length>0){ %>
+          <% subcategories.forEach(subcategory =>{ %> 
+            <div class="h_subcategory"> <%= subcategory %></div>
+          <% }) %>
+        <% } %>
+        <div class="nomatch">No Product Found!</div>
+      </div>
     </div>
     <div>
       <label for="sku"

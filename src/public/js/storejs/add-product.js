@@ -1,67 +1,11 @@
 window.addEventListener('DOMContentLoaded',()=>{
-    const grocery = ["Fruits & Vegetables",
-            "Dairy & Eggs",
-            "Meat & Poultry",
-           "Fish & Seafood",
-            "Grains & Breads",
-            "Caned & Jarred Goods",
-            "Frozen Foods",
-            "Herbs & Spices",
-            "Snacks & Chips",
-            "Cookies and Biscuits",
-            "Chocolates & Candies",
-            "Nuts & Seeds",
-            "Water & Beverages",
-            "Bread & Baking Ingredients",
-            "Noodles & Pasta",
-            "Hygiene & Personal Care",
-            "Organic Foods",
-            "Household Supplies",
-            "Health & Wellness",
-            "Detergents & Cleaning Products",
-            "Baby Care",
-            "Pet Foods & Accessories",
-            "Pulse, Rice & Cooking Oil",
-            "Coffee & Tea",
-            "Stationary",
-            "Prepaid Cards",
-            "International Specialty"];
-    const restaurent = [
-                "Soups",
-                "Salads",
-                "Bread",
-                "Main Courses",
-                "Grilled/BBQ",
-                "Pasta & Noodles",
-                "Rice Dishes",
-                "Burgers & Sandwiches",
-                "Broasted",
-                "Pizza & Flatbreads",
-                "Seafood",
-                "Meat & Poultry",
-                "Vegetarian & Vegan",
-                "Indian Dishes",
-                "Middle Eastern Dishes",
-                "Breakfast / Brunch",
-                "Desserts",
-                "Beverages",
-                "Milkshakes & Specialty Drinks"
-                ];
-    let options;
     //checkCategory
     const checkcategory = document.querySelector('#checkcategory')
     const input = document.querySelector("#subcategory");
     const dropdown = document.getElementById("dropdown");
     const submitbtnaddmore = document.querySelector('#submitbtnaddmore')
-    if(checkcategory.value=="grocery"){
-            options=[...grocery]
-        }else if(checkcategory.value=="restaurant"){
-            options=[...restaurent]
-        }else{
-            options=[]
-        }
-
-        //console.log(options)
+    const options = document.querySelectorAll('.h_subcategory')
+    const nomatch = document.querySelector('.nomatch')
 
     //getting value of add another product to true
     if(submitbtnaddmore){
@@ -73,7 +17,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 
 
-        //dropdown showing code here
+    //dropdown showing code here
    input.addEventListener("focus", function () {
         showDropdown()
         
@@ -81,42 +25,45 @@ window.addEventListener('DOMContentLoaded',()=>{
 
     input.addEventListener("keyup", function () {
         const value = this.value.toLowerCase();
-        dropdown.innerHTML = "";
-        if (value) {
-            const filtered = options.filter(option => option.toLowerCase().includes(value));
-            if (filtered.length) {
-                dropdown.style.display = "block";
-                filtered.forEach(option => {
-                    const div = document.createElement("div");
-                    div.textContent = option;
-                    div.addEventListener("click", function () {
-                        input.value = option;
-                        dropdown.style.display = "none";
-                    });
-                    dropdown.appendChild(div);
-                });
+        let matchCount = 0
+        if(value.trim().length<1){
+            nomatch.style.display="none";
+        }
+        if (value) {  // true if not empty
+        options.forEach(option => {
+            if (option.textContent.toLowerCase().includes(value)) {
+                option.style.display = "block";
+                matchCount++
             } else {
-                dropdown.innerHTML = "No Category Found with this name";
+                option.style.display = "none";
+                
             }
+        });
+    } else {
+        // if input is empty, show all options
+        options.forEach(option => {
+            option.style.display = "block";
+            nomatch.style.display="none";
+        });
+    }
+    //showing no category found
+        if(matchCount===0){
+             nomatch.style.display="block";
         } else{
-            showDropdown()
+             nomatch.style.display="none";
         }
     });
 
 
     //showing dropdown
     function showDropdown(){
-        dropdown.innerHTML = "";
+        nomatch.style.display="none";
         dropdown.style.display = "block";
-        
         options.forEach(option => {
-            const div = document.createElement("div");
-            div.textContent = option;
-            div.addEventListener("click", function () {
-                input.value = option;
+            option.addEventListener("click", function () {
+                input.value = option.textContent;
                 dropdown.style.display = "none";
             });
-            dropdown.appendChild(div);
         });
     }
 
@@ -180,3 +127,19 @@ window.addEventListener('DOMContentLoaded',()=>{
     
 })
 
+
+/* const filtered = options.filter(option => option.toLowerCase().includes(value));
+            if (filtered.length) {
+                dropdown.style.display = "block";
+                filtered.forEach(option => {
+                    const div = document.createElement("div");
+                    div.textContent = option;
+                    div.addEventListener("click", function () {
+                        input.value = option;
+                        dropdown.style.display = "none";
+                    });
+                    dropdown.appendChild(div);
+                });
+            } else {
+                dropdown.innerHTML = "No Category Found with this name";
+            } */

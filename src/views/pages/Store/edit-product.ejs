@@ -8,6 +8,12 @@
       <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
     </div>
   <% } %>
+  <% if (error_msg!='') { %>
+  <div style="background-color: red !important" class="errorContainer">
+    <p style="color: #fff"><%= error_msg %></p>
+    <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+  </div>
+  <% } %>
   <a class="backtodashboard" href="/store-dashboard">
     <i class="fa-solid fa-arrow-left"></i> Go Back</a
   >
@@ -30,7 +36,14 @@
         value="<%= product.subcategory %>"
         required
       />
-      <div class="dropdown-list" id="dropdown"></div>
+      <div class="dropdown-list" id="dropdown">
+        <% if(subcategories.length>0){ %>
+          <% subcategories.forEach(subcategory =>{ %> 
+            <div class="h_subcategory"> <%= subcategory %></div>
+          <% }) %>
+        <% } %>
+        <div class="nomatch">No Product Found!</div>
+      </div>
     </div>
     <div>
       <label for="sku"
