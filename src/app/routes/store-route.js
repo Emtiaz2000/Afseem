@@ -13,12 +13,14 @@ import mongoose from 'mongoose';
 import {otpValidationFormSeller,otpValidationResSeller} from '../validator/otp-validaton.js';
 import {upload,uploadcsv} from '../middlewares/multerFileHandle.js';//multer for image uploading
 import sharp from "sharp";//sharp for resizing images
-import { join,dirname } from 'path';
+import { resolve, relative,join,dirname,extname } from 'path';
 import { fileURLToPath } from 'url';
 import { commentSchema } from '../modules/comment/commentSchema.js';
 import {uploadToCloudinary} from '../middlewares/cloudnary.js'
 import {orderSchema} from '../modules/order/orderSchema.js'
 import {processGoogleIframe} from '../validator/iframevalidator.js'
+import { spawn } from 'child_process';
+import {runPython} from '../controlers/removebgFunction.js'
 import fs from 'fs';
 import XLSX from 'xlsx';
 const __filename = fileURLToPath(import.meta.url);
@@ -346,65 +348,80 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
  async (req,res)=>{
    
   try {
-    let store = await sellerSchema.findOne({_id:res.locals.user.id})
+    const store = await sellerSchema.findOne({ _id: res.locals.user.id });
+
     function isMobileDevice() {
-      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(req.headers["user-agent"]);
     }
-  if(Number(req.body.productprice) < Number(req.body.productofferprice)){
-     let oldData=req.body
-     return res.render('pages/Store/add-product',{oldData,error:[{msg:"Offer Price Must be Smaller than Regular Price!"}],category:store.storeCategory,isMobileDevice:isMobileDevice || " "});
-  }
-  const {productname,subcategory,productprice,productofferprice='',currency,sku}=req.body
-  //sharp configration
-    const hasproductuploadimage = !!req.files.productimage;
-    const hastakephotoimage = !!req.files.takephoto;
-    
-    if ((hasproductuploadimage && hastakephotoimage) || (!hasproductuploadimage && !hastakephotoimage)) {
-      req.flash("error_msg", "Please Upload or Click Photo, not both!");
-      req.flash('oldData',req.body)
+
+    if (Number(req.body.productprice) < Number(req.body.productofferprice)) {
+      const oldData = req.body;
+      return res.render('pages/Store/add-product', {
+        oldData,
+        error: [{ msg: "Offer Price Must be Smaller than Regular Price!" }],
+        category: store.storeCategory,
+        isMobileDevice: isMobileDevice() || " "
+      });
+    }
+
+    const { productname, subcategory, productprice, productofferprice = '', currency, sku } = req.body;
+
+    const hasUploadImage = !!req.files.productimage;
+    const hasTakePhoto = !!req.files.takephoto;
+
+    // Only one image allowed
+    if ((hasUploadImage && hasTakePhoto) || (!hasUploadImage && !hasTakePhoto)) {
+      req.flash("error_msg", "Please Upload or Take Photo, not both!");
+      req.flash('oldData', req.body);
       return res.redirect("/add-product");
-    }else{
-      let productimageurl;
-      //productuploadingimage
-      if (hasproductuploadimage) {
-          const processedImage = await sharp(req.files.productimage[0].buffer)
-              .resize(300, 340, { fit: "cover" })
-              .jpeg({ quality: 70 })
-              .toBuffer();
-
-            productimageurl = await uploadToCloudinary(processedImage);
-          }
-      if (hastakephotoimage) {
-            const processedImage =  await sharp(req.files.takephoto[0].buffer)
-              .resize(300, 340, { fit: "cover" })
-              .jpeg({ quality: 70 })
-              .toBuffer();
-
-            productimageurl = await uploadToCloudinary(processedImage);
-          }
-
-    
-        //creating product
-      let product = await Product.create({
-          productname: productname,
-          store: store._id,
-          category:store.storeCategory,
-          subcategory:subcategory ,
-          productimage:productimageurl,
-          productprice: productprice,
-          productofferprice:productofferprice,
-          currency: currency,
-          sku:sku,
-    })
-      req.flash("success_msg", "Product added successfully!");
-      res.redirect('/add-product')
     }
-  
-  
+
+    let imageFile = hasUploadImage ? req.files.productimage[0] : req.files.takephoto[0];
+    let productimageurl;
+
+    if (imageFile) {
+      // Optimize with Sharp
+      const processedBuffer = await sharp(imageFile.buffer)
+        .resize(300, 340, { fit: "cover" })
+        .png({ quality: 80 })
+        .toBuffer();
+
+      const tempInput = join(__dirname, "../../uploads/uploadrawimage", Date.now() + extname(imageFile.originalname));
+      fs.writeFileSync(tempInput, processedBuffer);
+
+      const outputPath = join(__dirname, "../../uploads/products", Date.now() + ".png");
+
+      // Wait for Python to finish
+      const pythonResultPath = await runPython(tempInput, outputPath);
+
+      // Convert to relative path from project root
+      const projectRoot = resolve(__dirname, "../../"); // adjust to your project root
+      productimageurl = relative(projectRoot, pythonResultPath);
+
+      // Delete temp input
+      fs.unlink(tempInput, (err) => { if (err) console.log(err) });
+    }
+
+    // Create product
+    await Product.create({
+      productname,
+      store: store._id,
+      category: store.storeCategory,
+      subcategory,
+      productimage: productimageurl,
+      productprice,
+      productofferprice,
+      currency,
+      sku
+    });
+
+    req.flash("success_msg", "Product added successfully!");
+    res.redirect('/add-product');
+
   } catch (error) {
     req.flash("error_msg", error.message);
-    console.log(error.message)
-    
+    console.error(error.message);
+    res.redirect("/add-product");
   }
   
 })
@@ -528,79 +545,77 @@ router.get('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"), asy
   }
   
 });
+
 //edit product process
 router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),upload.fields([{ name: "editproductimage", maxCount: 1 },{ name: "edittakephoto", maxCount: 1 } ]),productValidationForm,addProductValidationRes, async (req, res) => {
   try {
-    let productId= req.params.productid;
-    //sharp configration
-    
-    if(!mongoose.Types.ObjectId.isValid(productId)) throw new Error('Invalid Product Id!');
-    let product = await Product.findOne({_id:productId})
-    if(!product) throw new Error('Product not found!');
-    let store = await sellerSchema.findOne({_id:res.locals.user.id})
-    if(product.store.equals(store._id)){
-      if(Number(req.body.productprice) < Number(req.body.productofferprice)){
-        function isMobileDevice() {
-          return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        }
-        res.render('pages/Store/edit-product',{error:[{msg:"Offer Price Must be Smaller than Regular Price!"}],category:store.storeCategory,product,isMobileDevice:isMobileDevice || ""});
-      }else{
-        const hasproductuploadimage = !!req.files.editproductimage;
-        const hastakephotoimage = !!req.files.edittakephoto;
-        let updateProduct;
-        if((hasproductuploadimage && hastakephotoimage) || (!hasproductuploadimage && !hastakephotoimage)){
-          //update product if image not change 
-          updateProduct ={
-            productname: req.body.productname,
-            subcategory: req.body.subcategory,
-            productprice: req.body.productprice,
-            productofferprice: req.body.productofferprice,
-            currency: req.body.currency,
-            sku:req.body.sku,
-          }
-      
-        }else{
-          let productimageurl;
-      //productuploadingimage
-      if (hasproductuploadimage) {
-          const processedImage = await sharp(req.files.productimage[0].buffer)
-              .resize(300, 340, { fit: "cover" })
-              .jpeg({ quality: 70 })
-              .toBuffer();
+     const productId = req.params.productid;
 
-            productimageurl = await uploadToCloudinary(processedImage);
-          }
-      if (hastakephotoimage) {
-            const processedImage =  await sharp(req.files.takephoto[0].buffer)
-              .resize(300, 340, { fit: "cover" })
-              .jpeg({ quality: 70 })
-              .toBuffer();
+    if (!mongoose.Types.ObjectId.isValid(productId)) throw new Error("Invalid Product Id!");
 
-            productimageurl = await uploadToCloudinary(processedImage);
-          }
-          //update product if image change
-          updateProduct ={
-            productname: req.body.productname,
-            subcategory: req.body.subcategory,
-            productprice: req.body.productprice,
-            productofferprice: req.body.productofferprice,
-            currency: req.body.currency,
-            productimage:productimageurl,
-            sku:req.body.sku,
-          }
-        
-          fs.unlink(`${__dirname}../../../uploads/products/${product.productimage}`,(err)=>{
-            if(err){
-              console.log(err)
-            }
-          })
-        }
-        await Product.findByIdAndUpdate({_id:productId},updateProduct)
-          res.redirect('/store-dashboard')
+    const product = await Product.findOne({ _id: productId });
+    if (!product) throw new Error("Product not found!");
+
+    const store = await sellerSchema.findOne({ _id: res.locals.user.id });
+    if (!product.store.equals(store._id)) throw new Error("Unauthorized");
+
+    // Validate offer price
+    if (Number(req.body.productprice) < Number(req.body.productofferprice)) {
+      function isMobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(req.headers["user-agent"]);
       }
+      return res.render('pages/Store/edit-product', {
+        error: [{ msg: "Offer Price Must be Smaller than Regular Price!" }],
+        category: store.storeCategory,
+        product,
+        isMobileDevice: isMobileDevice() || ""
+      });
+    }
+
+    // Prepare update object
+    const updateProduct = {
+      productname: req.body.productname,
+      subcategory: req.body.subcategory,
+      productprice: req.body.productprice,
+      productofferprice: req.body.productofferprice,
+      currency: req.body.currency,
+      sku: req.body.sku
+    };
+
+    // Only one image is allowed: check which one exists
+    let imageFile = req.files.editproductimage?.[0] || req.files.edittakephoto?.[0];
+
+    if (imageFile) {
+      // Optimize with Sharp
+      const processedBuffer = await sharp(imageFile.buffer)
+        .resize(300, 340, { fit: "cover" })
+        .png({ quality: 80 })
+        .toBuffer();
+
+      const tempInput = join(__dirname, "../../uploads/uploadrawimage", Date.now() + extname(imageFile.originalname));
+      fs.writeFileSync(tempInput, processedBuffer);
+
+      const outputPath = join(__dirname, "../../uploads/products", Date.now() + ".png");
+
+      // Run Python and wait for completion
+      // Wait for Python to finish
+      const pythonResultPath = await runPython(tempInput, outputPath);
+
+      // Convert to relative path from project root
+      const projectRoot = resolve(__dirname, "../../"); // adjust to your project root
+      updateProduct.productimage = relative(projectRoot, pythonResultPath);
+
+      // Remove temp file
+      fs.unlink(tempInput, (err) => { if (err) console.log(err) });
 
     }
-  } catch (error) {
+
+    // Update DB
+    await Product.findByIdAndUpdate(productId, updateProduct);
+
+    res.redirect("/store-dashboard");
+
+  }catch (error) {
     console.log(error)
     console.log(error.message)
   }
