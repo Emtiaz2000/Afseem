@@ -396,8 +396,9 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
 
       // Convert to relative path from project root
       const projectRoot = resolve(__dirname, "../../"); // adjust to your project root
+      // add leading backslash if not already present
       productimageurl = relative(projectRoot, pythonResultPath);
-
+      productimageurl =`\\` + productimageurl;
       // Delete temp input
       fs.unlink(tempInput, (err) => { if (err) console.log(err) });
     }
@@ -603,8 +604,8 @@ router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),uplo
 
       // Convert to relative path from project root
       const projectRoot = resolve(__dirname, "../../"); // adjust to your project root
-      updateProduct.productimage = relative(projectRoot, pythonResultPath);
-
+      let productimageurl = relative(projectRoot, pythonResultPath);
+      updateProduct.productimage =`\\` + productimageurl;
       // Remove temp file
       fs.unlink(tempInput, (err) => { if (err) console.log(err) });
 
