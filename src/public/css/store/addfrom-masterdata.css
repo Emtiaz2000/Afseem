@@ -91,11 +91,13 @@
     margin:5px auto;
     display: block;
     background-color: #fff;
+    color:#000;
     border:1px solid #F15A24;
     border-radius: 3px;
     outline: none;
     padding:5px 8px;
     cursor: pointer;
+    font-family: "Libertinus Sans",sans-serif;
 
 }
 .addproduct:hover{

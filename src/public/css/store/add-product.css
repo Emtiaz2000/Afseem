@@ -74,6 +74,8 @@
     font-weight: bold;
     font-size: 15px;
     transition: .3s ease all;
+    font-family: "Libertinus Sans",sans-serif;
+    color:#000;
   }
   .submitbtn:hover{
     color:#fff;
