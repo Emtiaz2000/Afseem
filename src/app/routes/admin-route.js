@@ -14,6 +14,7 @@ import {verifyAdmin,preventAdminAccess} from '../middlewares/jwt.varification.js
 import {adminSchema} from '../modules/auth/adminSchema.js'
 import {otpValidationFormAdmin,adminOtpValidationRes} from '../validator/otp-validaton.js'
 import {orderSchema} from '../modules/order/orderSchema.js'
+import { Category } from '../modules/product/categorySchema.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const router = Router();
@@ -347,6 +348,75 @@ res.render('pages/Admin/customre-orderinfo', {
     hasPrev: page > 1,
     customer
 });
+})
+
+
+//add category
+router.get('/adimn/add-category',verifyAdmin,async(req,res)=>{
+  let qcategory = req.query.category || 'grocery'
+  const categories = await Category.find()
+  let subcategories;
+  let mothercategory ;
+  if(qcategory==='grocery'){
+    mothercategory='grocery'
+    subcategories=categories[0].grocery
+  }else if(qcategory==='restaurent'){
+    mothercategory='restaurent'
+    subcategories=categories[0].restaurent
+  }
+  
+  res.render('pages/Admin/add-category',{layout: 'layouts/admin-layouts',subcategories,mothercategory})
+})
+router.post('/adimn/add-category',verifyAdmin,async (req,res)=>{
+  let id = '68ae039459550c7c05d63ce4'
+  const categories = await Category.findById(id)
+  //console.log(categories)
+  let subcategory = req.body.subcategory.trim()
+  //check grocery or restaurent
+  if(req.body.category=='grocery'){
+    //if subcategory exist
+    if(categories.grocery.includes(subcategory)){
+      req.flash('error_msg',"Subcategory Already Exist!")
+      return res.redirect('/adimn/add-category')
+    }else{
+      //new sub category
+      categories.grocery.push(subcategory)
+    }
+  }else if(req.body.category=='restaurent'){
+    //if subcategory exist
+    if(categories.restaurent.includes(subcategory)){
+      req.flash('error_msg',"Subcategory Already Exist!")
+      return res.redirect('/adimn/add-category')
+    }else{
+      //new sub category
+      categories.restaurent.push(subcategory)
+    }
+  }
+  await categories.save()
+  req.flash('success_msg',"Subcategory Added!")
+  res.redirect('/adimn/add-category')
+})
+
+//delete single category
+router.post('/adimn/add-category/:itemname',verifyAdmin,async (req,res)=>{
+  let id = '68ae039459550c7c05d63ce4';
+  let itemname = decodeURIComponent(req.params.itemname)
+  const categories = await Category.findById(id)
+  let category = req.body.category
+  if(category=='grocery'){
+    if(categories.grocery.includes(itemname)){
+      categories.grocery = categories.grocery.filter(subcategory => subcategory !== itemname);
+    }
+  }else if(category=='restaurent'){
+    if(categories.restaurent.includes(itemname)){
+      categories.grocery = categories.restaurent.filter(subcategory => subcategory !== itemname);
+    }
+  }
+
+  await categories.save()
+  req.flash('success_msg',"Subcategory Deleted!")
+  res.redirect('/adimn/add-category')
+
 })
 
 export default router;

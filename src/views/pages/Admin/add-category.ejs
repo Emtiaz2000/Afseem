@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="/css/admincss/add-category.css">
+<div class="addcategoryconatiner">
+    <!-- error message -->
+    <% if (error_msg!='') { %>
+    <div style="background-color: red !important;" class="errorContainer">
+        <p style="color:#fff;font-weight: bold;"><%= error_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+  <!-- success message -->
+  <% if (success_msg!='') { %>
+    <div style="background-color: green !important;" class="errorContainer">
+        <p style="color:#fff;font-weight: bold;"><%= success_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+
+  <!-- form and other content -->
+   <div class="categoryui">
+        <h1>Categories</h1>
+        <br>
+        <div>
+            <p>See Subcategories</p>
+            <br>
+            <a class="catebtn" href="?category=grocery">Grocery</a>
+            <a class="catebtn" href="?category=restaurent">Restaurent</a>
+        </div>
+        <form class="addcategoryform" action="/adimn/add-category" method="post">
+            <div>
+                <label for="category">Category <span class="required">*</span></label>
+                <select name="category" id="category" required>
+                    <option value="grocery" selected>Grocery</option>
+                    <option value="restaurent">Restaurent</option>
+                </select>
+            </div>
+            <div>
+                <label for="subcategory">Subcategory <span class="required">*</span></label>
+                <input type="text" id="subcategory" name="subcategory" required>
+            </div>
+            <div class="buttoncontainer">
+                <button id="submitbtn" type="submit">Add</button>
+            </div>
+        </form>
+
+        <div class="subcategories">
+            <% if(subcategories.length>0){ %>
+                <% subcategories.forEach(element => { %>
+                    <div>
+                        <div><%= element %></div> 
+                        <br>
+                        <form action="/adimn/add-category/<%= element %>" method="post">
+                            <input type="hidden" name="category" value="<%= mothercategory %>">
+                            <button class="deletebtn" type="submit">Delete</button>
+                        </form>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+   </div>
+</div>

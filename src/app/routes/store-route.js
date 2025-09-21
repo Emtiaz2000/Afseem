@@ -358,19 +358,23 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
   try {
     const store = await sellerSchema.findOne({ _id: res.locals.user.id });
     let storecategory = store.storeCategory
+
+    //calling category schema
+    let categories = await Category.find()
+    //getting data according to user category
+    let subcategories;
+      if(storecategory == 'grocery'){
+        subcategories = categories[0].grocery
+      }else if(storecategory == 'restaurent'){
+        subcategories=categories[0].restaurent
+      }
+
     function isMobileDevice() {
       return /Mobi|Android|iPhone|iPad|iPod/i.test(req.headers["user-agent"]);
     }
 
     if (Number(req.body.productprice) < Number(req.body.productofferprice)) {
       const oldData = req.body;
-      let categories = await Category.find()
-      let subcategories;
-      if(storecategory == 'grocery'){
-        subcategories = categories[0].grocery
-      }else if(storecategory == 'restaurent'){
-        subcategories=categories[0].restaurent
-      }
       return res.render('pages/Store/add-product', {
         subcategories,
         oldData,
@@ -378,6 +382,12 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
         category: store.storeCategory,
         isMobileDevice: isMobileDevice() || " "
       });
+    }
+
+    if(!subcategories.includes(req.body.subcategory)){
+      req.flash("error_msg","Select Category from Options!")
+      req.flash('oldData',req.body)
+      return res.redirect('/add-product')
     }
 
     const { productname, subcategory, productprice, productofferprice = '', currency, sku } = req.body;
@@ -585,20 +595,23 @@ router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),uplo
     const store = await sellerSchema.findOne({ _id: res.locals.user.id });
     //geting store category type
     let storecategory = store.storeCategory
+
     if (!product.store.equals(store._id)) throw new Error("Unauthorized");
+
+    //getting category 
+    let categories = await Category.find()
+    //setting category according to user category
+    let subcategories;
+    if(storecategory == 'grocery'){
+      subcategories = categories[0].grocery
+    }else if(storecategory == 'restaurent'){
+      subcategories=categories[0].restaurent
+    }
 
     // Validate offer price
     if (Number(req.body.productprice) < Number(req.body.productofferprice)) {
       function isMobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod/i.test(req.headers["user-agent"]);
-      }
-
-      let categories = await Category.find()
-      let subcategories;
-      if(storecategory == 'grocery'){
-        subcategories = categories[0].grocery
-      }else if(storecategory == 'restaurent'){
-        subcategories=categories[0].restaurent
       }
       return res.render('pages/Store/edit-product', {
         subcategories,
@@ -608,6 +621,13 @@ router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),uplo
         isMobileDevice: isMobileDevice() || ""
       });
     }
+
+    //if category not match to database category then this
+    if(!subcategories.includes(req.body.subcategory)){
+      req.flash("error_msg","Select Category from Options!")
+      return res.redirect(`/edit-product/${req.params.productid}`)
+    }
+
 
     // Prepare update object
     const updateProduct = {
