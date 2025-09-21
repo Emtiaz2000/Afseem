@@ -54,7 +54,8 @@ window.addEventListener('DOMContentLoaded',()=>{
             const res = await datapost.json()
             if(res){
                 cartCountShow.innerHTML= JSON.parse(localStorage.getItem('Afseem_items')).length|| 0
-                window.open(res.url, '_blank')
+                //window.open(res.url, '_blank')
+                window.location.href = res.url
             }
         } catch (error) {
             
