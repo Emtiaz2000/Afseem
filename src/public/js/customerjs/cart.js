@@ -64,6 +64,7 @@ function addproductPopup(){
 
 cartBtns.forEach((cartbtn)=>{
     cartbtn.addEventListener('click',()=>{
+    cartbtn.textContent='Added'
     let local_cart;
     if(localStorage.getItem('Afseem_items')===null){
         local_cart=[]
