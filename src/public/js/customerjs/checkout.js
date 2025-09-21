@@ -48,13 +48,19 @@ window.addEventListener('DOMContentLoaded',()=>{
                 },
                 body: JSON.stringify(data)   // convert JS object to JSON
             })
-            allitemscontainer.innerHTML=`<h1>Checkout</h1><p>No Product in Checkout!</p>`
+            allitemscontainer.innerHTML=`
+                                        <h1>Checkout</h1>
+                                        <p>No Product in Checkout!</p>
+                                        <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>
+                                        `
             checkoutBtn.style.display='none'
             grandtotaldiv.style.display='none'
             updatelocastorageafterorder(storeid)
             const res = await datapost.json()
             if(res){
                 cartCountShow.innerHTML= JSON.parse(localStorage.getItem('Afseem_items')).length|| 0
+                //hiding the loader
+                document.querySelector('.loader').style.display='none'
                 //window.open(res.url, '_blank')
                 window.location.href = res.url
             }
@@ -119,7 +125,7 @@ function UiRender(){
         grandtotaldiv.innerHTML=`<span>Grand Total : ${grandtotal} ${currency}</span>`
         }
     }else{
-        htmlcontent+='<p>No Product in Checkout!</p>';
+        htmlcontent+='<p>No Product in Checkout!</p> <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>';
         checkoutBtn.style.display="none"
     }
     

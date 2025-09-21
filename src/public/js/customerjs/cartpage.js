@@ -152,10 +152,16 @@ function loadUi(){
     });
         
     }else{
-        cartcontainer.innerHTML='Nothing in Cart'
+        cartcontainer.innerHTML=`
+        <div>Nothing in Cart!</div>
+        <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>
+        `
     }
     }else{
-        cartcontainer.innerHTML='Nothing in Cart'
+        cartcontainer.innerHTML=`
+        <div>Nothing in Cart!</div>
+        <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>
+        `
     }
     
 
