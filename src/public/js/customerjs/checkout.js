@@ -58,9 +58,7 @@ window.addEventListener('DOMContentLoaded',()=>{
                 window.location.href = res.url
             }
         } catch (error) {
-            
-        }finally{
-            document.querySelector('.loader').style.display='none'
+           console.log(error) 
         }
         
         //const jsondata = await datapost.json()
