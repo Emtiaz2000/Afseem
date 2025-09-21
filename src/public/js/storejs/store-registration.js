@@ -647,7 +647,6 @@ const saudiPlaces = [
 
   document.getElementById("storeForm").addEventListener("submit", function (e) {
     if (!this.reportValidity()) {
-      console.log('yo')
       // form is invalid → message shows
       // but you must prevent submit, otherwise it continues
       e.preventDefault();

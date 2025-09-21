@@ -15,6 +15,13 @@ window.addEventListener('DOMContentLoaded',()=>{
 
     }
 
+    document.getElementById("addproductform").addEventListener("submit", function (e) {
+        if (!this.reportValidity()) {
+        // form is invalid → message shows
+        // but you must prevent submit, otherwise it continues
+        e.preventDefault();
+        }
+    });
 
 
     //dropdown showing code here
@@ -24,11 +31,13 @@ window.addEventListener('DOMContentLoaded',()=>{
     }); 
 
     input.addEventListener("keyup", function () {
-        const value = this.value.toLowerCase();
+        const value = this.value.trim().toLowerCase();
         let matchCount = 0
-        if(value.trim().length<1){
-            nomatch.style.display="none";
+        //console.log(value.trim().length)
+        if(!value.length){
+            showDropdown()
         }
+
         if (value) {  // true if not empty
         options.forEach(option => {
             if (option.textContent.toLowerCase().includes(value)) {
@@ -39,19 +48,18 @@ window.addEventListener('DOMContentLoaded',()=>{
                 
             }
         });
-    } else {
-        // if input is empty, show all options
-        options.forEach(option => {
-            option.style.display = "block";
-            nomatch.style.display="none";
-        });
-    }
-    //showing no category found
+
+        //showing no category found
         if(matchCount===0){
              nomatch.style.display="block";
         } else{
              nomatch.style.display="none";
         }
+    } else {
+        // if input is empty, show all options
+        showDropdown()
+    }
+    
     });
 
 
@@ -60,6 +68,7 @@ window.addEventListener('DOMContentLoaded',()=>{
         nomatch.style.display="none";
         dropdown.style.display = "block";
         options.forEach(option => {
+            option.style.display='block'
             option.addEventListener("click", function () {
                 input.value = option.textContent;
                 dropdown.style.display = "none";

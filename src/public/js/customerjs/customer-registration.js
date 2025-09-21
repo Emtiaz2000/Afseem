@@ -644,6 +644,15 @@ const saudiPlaces = [
       e.preventDefault();
     }
   });
+
+  document.getElementById("userForm").addEventListener("submit", function (e) {
+        if (!this.reportValidity()) {
+          // form is invalid → message shows
+          // but you must prevent submit, otherwise it continues
+          e.preventDefault();
+        }
+    });
+
   //selecting country 
   let country = document.querySelector('#customercountry')
   const storecity= document.querySelector('#customercity')

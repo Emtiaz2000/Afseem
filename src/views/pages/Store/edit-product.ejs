@@ -18,7 +18,7 @@
     <i class="fa-solid fa-arrow-left"></i> Go Back</a
   >
   <h1>Update Product</h1>
-  <form action="/edit-product/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+  <form id="addproductform" action="/edit-product/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <div>
       <label for="productname">Product Name <span class="required">*</span></label>
       <input type="text" value="<%= product.productname %>" name="productname" id="productname" required />

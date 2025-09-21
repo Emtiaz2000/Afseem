@@ -23,7 +23,7 @@
   <a class="backtodashboard" href="/store-dashboard"
     ><i class="fa-solid fa-arrow-left"></i> Go Back</a>
   <h1>Add Product</h1>
-  <form action="/add-product" method="post" enctype="multipart/form-data">
+  <form id="addproductform" action="/add-product" method="post" enctype="multipart/form-data">
     <div>
       <label for="productname">Product Name <span class="required">*</span></label>
       <input type="text" name="productname" <% if(oldData){ %> value="<%= oldData.productname %>"<% } %> id="productname" required />
