@@ -7,6 +7,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     UiRender()
     const confirmorderbtn = document.querySelector('#confirmorder')
     confirmorderbtn.addEventListener('click',async ()=>{
+        document.querySelector('.loader').style.display='none'
         const urlpath =window.location.pathname.split("/"); 
         const id = urlpath[urlpath.length - 1];
         let datafromlocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))||0
