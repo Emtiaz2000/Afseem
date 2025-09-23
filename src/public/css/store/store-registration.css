@@ -173,6 +173,10 @@
   height:45px;
   color:#000;
 }
+#storeCategory,#country,#homeDelivery{
+  height:45px;
+  color:#000;
+}
   .dropdown-subcategory {
         position: relative;
         width: 100%;
