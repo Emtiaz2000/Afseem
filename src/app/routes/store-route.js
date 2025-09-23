@@ -412,6 +412,7 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
       const projectRoot = resolve(__dirname, "../../"); // adjust to your project root
       // add leading backslash if not already present
       productimageurl = relative(projectRoot, pythonResultPath);
+      console.log(productimageurl)
       productimageurl =`\\` + productimageurl;
       // Delete temp input
       fs.unlink(tempInput, (err) => { if (err) console.log(err) });
