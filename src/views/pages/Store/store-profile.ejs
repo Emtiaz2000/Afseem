@@ -75,7 +75,7 @@
     <div class="store_map_location">
           <p><b>Store Google Map Location</b></p>
           <br>
-          <%- store.storelocationmap %>
+          <iframe src="https://www.google.com/maps?q=<%= encodeURIComponent(store.storelocationmap) %>&output=embed" frameborder="0"></iframe>
       </div>
       <div class="edit_delete">
           <a href="/edit-store-profile/<%= store._id %>"><i class="fa-solid fa-pencil"></i>Edit Profile</a>

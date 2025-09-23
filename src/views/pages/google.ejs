@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps Location Picker</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
+    <script>
+      let map;
+      let marker;
+      let selectedLatLng;
+      let geocoder;
+      
+      function initMap() {
+        geocoder = new google.maps.Geocoder();
+
+        // Initialize map with temporary center
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 16,
+          center: { lat: 0, lng: 0 },
+        });
+
+        // Try to get user's current location
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              };
+              map.setCenter(userLocation);
+              placeMarker(userLocation);
+            },
+            () => {
+              alert("Geolocation failed or permission denied.");
+            }
+          );
+        } else {
+          alert("Your browser does not support geolocation.");
+        }
+
+        // Map click to move marker
+        map.addListener("click", (event) => {
+          placeMarker(event.latLng);
+        });
+
+        // Search box
+        const input = document.getElementById("searchBox");
+        const searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        searchBox.addListener("places_changed", () => {
+          const places = searchBox.getPlaces();
+          if (places.length === 0) return;
+
+          const place = places[0];
+          if (!place.geometry || !place.geometry.location) return;
+
+          map.setCenter(place.geometry.location);
+          placeMarker(place.geometry.location);
+        });
+
+        document.querySelector('.picklocation').addEventListener('click',()=>{
+        console.log('ko')
+        document.querySelector('.mapcontainer').style.display='block'
+      })
+        
+      }
+
+      function placeMarker(location) {
+        selectedLatLng = location;
+
+        if (!marker) {
+          marker = new google.maps.Marker({
+            position: location,
+            map: map,
+          });
+        } else {
+          marker.setPosition(location);
+        }
+      }
+
+      function confirmSelection() {
+        if (!selectedLatLng) {
+          alert("Please select a location first!");
+          return;
+        }
+
+        geocoder.geocode({ location: selectedLatLng }, (results, status) => {
+          if (status === "OK" && results[0]) {
+            alert(
+              "Latitude: " +
+                selectedLatLng.lat() +
+                "\nLongitude: " +
+                selectedLatLng.lng() +
+                "\nAddress: " +
+                results[0].formatted_address
+            );
+          } else {
+            alert(
+              "Latitude: " +
+                selectedLatLng.lat() +
+                "\nLongitude: " +
+                selectedLatLng.lng() +
+                "\n(No address found)"
+            );
+            
+          }
+          console.log(results[0].formatted_address)
+        });
+      }
+
+      
+    </script>
+    <style>
+         .mapcontainer{
+            display: none;
+            width:300px;
+            height:300px;
+        } 
+        #map{
+            width:300px;
+            height:300px;
+        }
+    </style>
+  </head>
+  <body onload="initMap()">
+    <div>
+        <div class="mapcontainer">
+            <h3>Pick a Location</h3>
+            <input
+            id="searchBox"
+            type="text"
+            placeholder="Search location..."
+            style="width: 200px; padding: 5px; margin-bottom: 10px;"
+            />
+            <div id="map" style="height: 200px; width: 300px;"></div>
+            <button onclick="confirmSelection()">Confirm Selection</button>
+        </div>
+        <span class="picklocation">Pick location</span>
+    </div>
+   
+  </body>
+</html>

@@ -58,13 +58,6 @@ router.post(
       countryisocode,
     } = req.body;
     let propernumber = countryisd + whatsapp
-    if(!processGoogleIframe(storelocationmap)){
-        req.flash('error_msg',"Need Valid Google Map Location")
-        req.flash('oldData',req.body)
-        return res.redirect('/registration-store')
-
-    } 
-    let googlemaplocation = processGoogleIframe(storelocationmap)
     let trackPass= storepassword
     const hasstorephoto = !!req.file;
     let storeimage;
@@ -105,7 +98,7 @@ router.post(
             storezoneno:storezoneno,
             country:country,
             storecity:storecity,
-            storelocationmap:googlemaplocation, 
+            storelocationmap:storelocationmap, 
             homeDelivery:homeDelivery,
             countryisocode:countryisocode,
             trackpassword:trackPass,
@@ -207,12 +200,7 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
   let storeid= mongoose.Types.ObjectId.isValid(req.params.storeid)  
   if(!storeid) throw new Error('Store Id is not Valid!')
   //image processing
-  const hasstorephoto = !!req.file;
-  if(!processGoogleIframe(req.body.storelocationmap)){
-        req.flash('error_msg',"Need Valid Google Map Location")
-        return res.redirect(`/edit-store-profile/${req.params.storeid}`)
-
-    } 
+  const hasstorephoto = !!req.file; 
   let properphonenum = req.body.countryisd+req.body.whatsapp
   let storeimage;
   let updateData;
@@ -925,5 +913,7 @@ router.post('/master-products',verifyStore,verifyStoreRole("Seller"),async (req,
   
 
 })
+
+
 
 export default router;

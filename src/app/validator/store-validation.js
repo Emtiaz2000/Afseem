@@ -52,6 +52,8 @@ export const storeValidationForm = [
         .trim()
         .escape(),
     body('storelocationmap')
+        .trim()
+        .escape()
         .notEmpty().withMessage('Store Location is Required'),
     body('storeopen')
         .notEmpty().withMessage('Store Working Hour is Required')
@@ -115,6 +117,8 @@ export const storeEditForm = [
         .trim()
         .escape(),
     body('storelocationmap')
+        .trim()
+        .escape()
         .notEmpty().withMessage('Store Location is Required'),
     body('storeopen')
         .notEmpty().withMessage('Store Opening Hour is Required')

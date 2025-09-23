@@ -86,7 +86,12 @@
     </div>
     <div>
       <label for="storelocationmap">Store Google Map Location <span class="required">*</span></label>
-      <input type="text" id="storelocationmap" name="storelocationmap" <% if(oldData){ %> value="<%= oldData.storelocationmap %>" <% } %> placeholder="Embed google map iframe" required>
+      <span class="showlocationdisplay"></span>
+      <input type="hidden" id="storelocationmap" name="storelocationmap" <% if(oldData){ %> value="<%= oldData.storelocationmap %>" <% } %> required>
+      <div class="picklocation">
+          <span >Select  location from Map</span>
+      </div>
+    
     </div>
 
     <div>
@@ -122,8 +127,19 @@
 
     <button class="submitBTN" type="submit">Register</button>
   </form>
+
+  <div class="mapcontainer">
+            <h3>Pick a Location</h3>
+            <input
+            id="searchBox"
+            type="text"
+            placeholder="Search location..."
+            />
+            <div id="map" ></div>
+            <div class="confiremmaplocation">Confirm Selection</div>
+  </div>
 </div>
 
-
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
+ <!-- Load Maps JS API (browser key, restricted by domain) -->
 <script src="/js/storejs/store-registration.js"> </script>

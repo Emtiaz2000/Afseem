@@ -78,6 +78,9 @@ const getAController =  (req, res) => {
 };
 //home page route
 app.get('/', getAController);
+/* app.get('/google', (req,res)=>{
+  res.render('pages/google')
+}); */
 
 // ✅ Cron job runs every midnight
 cron.schedule("0 0 * * *", async () => {

@@ -91,7 +91,64 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(94,53,177,0.3);
   }
+
+  .picklocation{
+    width:100%;
+    border:1px solid #F47B20;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 18px;
+  }
   
+  .mapcontainer{
+    display: none;
+    width: 100%;
+    height:100%;
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    background-color: #fcfaf9;
+  }
+  .mapcontainer>h3{
+    margin: 20px 0px;
+    text-align: center;
+  }
+  #searchBox{
+    left:0px !important;
+    height: 50px;
+    border: 1px solid #F47B20;
+  }
+ #map{
+  min-width: 300px;
+  min-height: 300px;
+  width:80%;
+  height:400px;
+  margin: auto;
+  border-radius: 10px;
+ }
+ .confiremmaplocation{
+  width:200px;
+  margin:20px auto;
+  height:45px;
+  border: 1px solid #F47B20;
+  background: #fff;
+  color: #F47B20;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+ }
+
+ .confiremmaplocation:hover{
+  background: #F47B20;
+  color: #fff;
+ }
   .passContainer{
     position: relative;
   }
