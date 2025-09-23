@@ -53,7 +53,7 @@ def remove_bg(input_path, output_path):
 
         # Save output as PNG
         output.save(output_path, format="PNG")
-        print(f"Background removed: {output_path}")
+        print(f"{output_path}")
 
     except Exception as e:
         print(f"ERROR: {str(e)}")
