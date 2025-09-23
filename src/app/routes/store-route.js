@@ -398,6 +398,7 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
       const processedBuffer = await sharp(imageFile.buffer)
         .resize(300, 340, { fit: "cover" })
         .png({ quality: 80 })
+        .rotate()
         .toBuffer();
 
       const tempInput = join(__dirname, "../../uploads/uploadrawimage", Date.now() + extname(imageFile.originalname));
@@ -636,6 +637,7 @@ router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),uplo
       const processedBuffer = await sharp(imageFile.buffer)
         .resize(300, 340, { fit: "cover" })
         .png({ quality: 80 })
+        .rotate()
         .toBuffer();
 
       const tempInput = join(__dirname, "../../uploads/uploadrawimage", Date.now() + extname(imageFile.originalname));
