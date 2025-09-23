@@ -4,8 +4,8 @@ import { spawn } from 'child_process';
 // Helper: run Python background removal
 export const runPython = (inputPath, outputPath)=>{
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
-    //const pythonProcess = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+    //const pythonProcess = spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+    const pythonProcess = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
 
     pythonProcess.stdout.on("data", (data) => {
       resolve(data.toString().trim());
