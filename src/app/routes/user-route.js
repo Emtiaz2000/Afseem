@@ -78,6 +78,7 @@ router.post(
         const filename = Date.now() + '-customer.jpeg';
         const filepath = join(__dirname, '../../uploads/customers', filename);
         await sharp(req.file.buffer)
+          .rotate()
           .resize(300, 300, { fit: 'cover' })
           .jpeg({ quality: 70 })
           .toFile(filepath);
@@ -313,6 +314,7 @@ router.put(
         const filename = Date.now() + '-customer.jpeg';
         const filepath = join(__dirname, '../../uploads/customers', filename);
         await sharp(req.file.buffer)
+          .rotate()
           .resize(300, 300, { fit: 'cover' })
           .jpeg({ quality: 70 })
           .toFile(filepath);

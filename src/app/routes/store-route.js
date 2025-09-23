@@ -67,6 +67,7 @@ router.post(
           await sharp(req.file.buffer)
             .resize(300, 300, { fit: "cover" })
             .jpeg({ quality: 70 })
+            .rotate()
             .toFile(filepath);
 
           storeimage = filename;
@@ -210,6 +211,7 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
       await sharp(req.file.buffer)
             .resize(300, 300, { fit: "cover" })
             .jpeg({ quality: 70 })
+            .rotate()
             .toFile(filepath);
 
           storeimage = filename;
