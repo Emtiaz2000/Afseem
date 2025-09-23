@@ -171,6 +171,7 @@
 #selectcountryisd{
   width:100px;
   height:45px;
+  color:#000;
 }
   .dropdown-subcategory {
         position: relative;
