@@ -36,6 +36,35 @@ footer>p {
 iframe#\:2\.container {
     display: none;
 }
+.goog-logo-link {
+  display: none !important;
+}
+.goog-te-gadget {
+  color: transparent !important;
+}
+img.goog-te-gadget-icon {
+    display: none;
+}
+/* Hide Google Translate tooltip */
+.goog-tooltip {
+  display: none !important;
+}
+.goog-tooltip:hover {
+  display: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  display: none;
+}
+#goog-gt-tt{
+    display: none !important;
+}
+.VIpgJd-yAWNEb-VIpgJd-fmcmS-sn54Q{
+    background: transparent !important;
+    box-shadow: none !important;
+}
+/* google services finish */
 h1,
 h2,
 h3,
