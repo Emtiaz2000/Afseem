@@ -27,9 +27,9 @@ export const runPython = (inputPath, outputPath)=>{
 //bulk background remove
 export  function  removeBackground(inputPath, outputPath){
   return new Promise((resolve, reject) => {
-    //const py = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
-    const py= spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
-    
+    const py = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+    //const py= spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+
     py.stderr.on("data", (data) => {
       console.error("Python error:", data.toString());
     });
