@@ -17,6 +17,7 @@
                     <div class="submenus">
                         <a href="/store-profile">Profile</a>
                         <a href="/store-logout">Logout</a>
+                        
                     </div>
                 </div>
             <% } else if(user && user.role === 'User') { %>
@@ -28,18 +29,19 @@
                 <a href="/login">Login</a>
                 <a href="/store-category">Store</a>
             <% } %> 
+            
         </div>
         
         <div class="Icon_container">
             <% if (user && user.role === 'Seller') { %>
                 
             <% } else { %>
+                <div id="google_translate_element"></div>
                 <div class="cartIc">
                     <a href="/cart">
                         <span class="cartCount">0</span>
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
-                    
                 </div>
             <% }%>
              <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
@@ -61,7 +63,6 @@
                 <a href="/registration">Register</a>
                 <a href="/login">Login</a>
                 <a href="/store-category">Store</a>
-                
             <% } %> 
         <div class="menuCross"><i class="fa-solid fa-xmark"></i></div>
     </div>

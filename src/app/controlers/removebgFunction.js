@@ -64,7 +64,9 @@ export async function downloadImage(url, outputPath) {
       //console.log("Converted Drive URL:", url);
     }
 
-    const response = await axios({ url, method: "GET", responseType: "stream" });
+    const response = await axios({ url, method: "GET", responseType: "stream",headers: {
+        "User-Agent": "Mozilla/5.0", // <-- helps avoid 403 on some hosts
+      } });
     const writer = fs.createWriteStream(outputPath);
     response.data.pipe(writer);
     return new Promise((resolve, reject) => {
