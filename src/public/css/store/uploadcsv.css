@@ -59,3 +59,13 @@
     color:#FFF;
     background: #F26922;
 }
+
+#progress-container{
+    width: 100%; 
+    background: #eee;
+}
+#progress-bar{
+    width: 0%; 
+    height: 10px; 
+    background: green;
+}

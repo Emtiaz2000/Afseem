@@ -17,9 +17,10 @@ import { resolve, relative,join,dirname,extname } from 'path';
 import { fileURLToPath } from 'url';
 import { commentSchema } from '../modules/comment/commentSchema.js';
 import {orderSchema} from '../modules/order/orderSchema.js'
-import {processGoogleIframe} from '../validator/iframevalidator.js'
 import { Category } from '../modules/product/categorySchema.js';
-import {runPython} from '../controlers/removebgFunction.js'
+import {runPython,removeBackground,downloadImage} from '../controlers/removebgFunction.js'
+import pLimit from "p-limit";
+import ExcelJS  from 'exceljs'
 import fs from 'fs';
 import XLSX from 'xlsx';
 const __filename = fileURLToPath(import.meta.url);
@@ -453,79 +454,169 @@ router.get('/product-upload',verifyStore,verifyStoreRole("Seller"),async(req,res
   res.render('pages/Store/uploadcsv',{category})
 })
 
+// -------------------------
+// SSE clients for tracking uploading data
+// -------------------------
+
+
+let clients = [];
+router.get("/product-upload-progress", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  const clientId = Date.now();
+  clients.push({ id: clientId, res });
+
+  req.on("close", () => {
+    clients = clients.filter((c) => c.id !== clientId);
+  });
+});
+
+//getting progress 
+const sendProgress =  (completed, total)=>{
+   if (total === 0) return;
+  const percentage = Math.round((completed / total) * 100);
+  const data = `data: ${JSON.stringify({ completed, total, percentage })}\n\n`;
+
+  clients.forEach((client) => {
+    client.res.write(data);
+  });
+}
+
+
 //upload products from csv process
 router.post('/product-upload',verifyStore,verifyStoreRole("Seller"),uploadcsv.single('csvfile'),async (req,res)=>{
-  try {
-    const filePath = req.file.path;
-  // Read XLSX
-    const workbook = XLSX.readFile(filePath);
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const rows = XLSX.utils.sheet_to_json(sheet);
-     if (!rows.length) {
-      fs.unlinkSync(filePath);
-      req.flash('error_msg',"Fill the datasheet with Products")
-      return res.redirect('/product-upload')
-     }
+try {
+  const filePath = req.file.path;
 
-    const validProducts = [];
-      const invalidRows = [];
+  // Get user store info
+  const userStore = await sellerSchema.findById(req.user.id);
 
-      rows.forEach((row, index) => {
-        const price = parseFloat(row.productprice);
-        const offerPrice = row.productofferprice ? parseFloat(row.productofferprice) : undefined;
-        const sku = parseInt(row.productsku);
-        //console.log(!row.productofferprice || (offerPrice < price))
-        //console.log(!isNaN(price))
-        //console.log(!isNaN(sku))
-        if (
-          row.Productname &&
-          row.prodcutcategory &&
-          row.productimageurl &&
-          row.productcurrency &&
-          !isNaN(price) &&
-          price >= 0 &&
-          (!row.productofferprice || (offerPrice < price)) &&
-          !isNaN(sku)
-        ) {
-          validProducts.push({
-            productname: row.Productname,
-            store: req.user.id, // Assuming verifyStore sets req.user
-            subcategory: row.prodcutcategory,
-            productimage: row.productimageurl,
-            sku: sku,
-            productprice: price,
-            productofferprice: offerPrice,
-            currency: row.productcurrency,
-            enable: true,
-          });
-        } else {
-          invalidRows.push({ row: index + 2, data: row });
-        }
-      });
-      
-      // Batch insert
-      const batchSize = 100;
-      for (let i = 0; i < validProducts.length; i += batchSize) {
-        const batch = validProducts.slice(i, i + batchSize);
-        await Product.insertMany(batch, { ordered: false });
-      }
-
-      fs.unlinkSync(filePath);
-      
-      // Flash message with uploaded/rejected counts
-      const uploadedCount = validProducts.length;
-      const rejectedCount = invalidRows.length;
-
-      req.flash('success_msg',`${uploadedCount} producte uploaded successfully!`)
-      res.redirect('/product-upload')
-
-  } catch (error) {
-    if (req.file) fs.unlinkSync(req.file.path);
-    console.log(error)
+  // Validate file size ≤ 40 MB
+  const stats = fs.statSync(filePath);
+  if (stats.size / (1024 * 1024) > 40) {
+    fs.unlinkSync(filePath);
+    req.flash("error_msg", "File must be less than 40 MB");
+    return res.redirect("/product-upload");
   }
-  
 
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.readFile(filePath);
+  const worksheet = workbook.worksheets[0];
+
+  const limit = pLimit(5); // process 5 images concurrently
+  let completed = 0;
+  const validProducts = [];
+  const promises = [];
+
+  // Calculate total valid rows to process
+  let totalRows = 0;
+  for (let rowNumber = 2; rowNumber <= worksheet.rowCount; rowNumber++) {
+    const row = worksheet.getRow(rowNumber);
+    const productname = row.getCell(1).value;
+    const sku = row.getCell(2).value;
+    const category = row.getCell(3).value;
+    const price = parseFloat(row.getCell(4).value);
+    const imageUrlCell = row.getCell(7).value;
+    const imageUrl = imageUrlCell
+      ? typeof imageUrlCell === "object" && imageUrlCell.hyperlink
+        ? imageUrlCell.hyperlink
+        : imageUrlCell.toString()
+      : null;
+
+    if (productname && sku && category && !isNaN(price) && imageUrl) {
+      totalRows++;
+    }
+  }
+
+  // Process each valid row
+  for (let rowNumber = 2; rowNumber <= worksheet.rowCount; rowNumber++) {
+    const row = worksheet.getRow(rowNumber);
+
+    const task = limit(async () => {
+      try {
+        const productname = row.getCell(1).value;
+        const sku = row.getCell(2).value;
+        const category = row.getCell(3).value;
+        const price = parseFloat(row.getCell(4).value);
+        const offerPrice = row.getCell(5).value ? parseFloat(row.getCell(5).value) : undefined;
+        const currency = row.getCell(6).value || "QR";
+
+        const imageUrlCell = row.getCell(7).value;
+        const imageUrl = imageUrlCell
+          ? typeof imageUrlCell === "object" && imageUrlCell.hyperlink
+            ? imageUrlCell.hyperlink
+            : imageUrlCell.toString()
+          : null;
+
+        // Skip empty or incomplete rows
+        if (!productname && !sku && !category && isNaN(price) && !imageUrl) return;
+        if (!productname || !category || !price || !sku || !imageUrl) {
+          console.log(`Skipping incomplete row ${rowNumber}`, { productname, sku, category, price, imageUrl });
+          return;
+        }
+
+        const tempInput = `uploads/tmp_${Date.now()}_${rowNumber}.jpg`;
+        const tempOutput = join(__dirname, "../../uploads/products", `processed_${Date.now()}_${rowNumber}.png`);
+
+        await downloadImage(imageUrl, tempInput);
+        await removeBackground(tempInput, tempOutput);
+        fs.unlinkSync(tempInput);
+
+        completed++;
+        sendProgress(completed, totalRows); // <-- Update progress percentage
+        // Convert to relative path from project root
+        const projectRoot = resolve(__dirname, "../../"); // adjust to your project root
+        // add leading backslash if not already present
+        let productimageurl = relative(projectRoot, tempOutput);
+        //console.log(productimageurl)
+        productimageurl =`\\` + productimageurl;
+        validProducts.push({
+          productname,
+          subcategory: category,
+          productprice: price,
+          productofferprice: offerPrice,
+          sku,
+          productimage: productimageurl,
+          currency,
+          enable: true,
+          store: req.user.id,
+          category: userStore.storeCategory, // store category from user
+        });
+
+      } catch (err) {
+        console.error(`❌ Failed row ${rowNumber}: ${err.message}`);
+      }
+    });
+
+    promises.push(task);
+  }
+
+  // Wait for all image/background removal tasks to finish
+  await Promise.all(promises);
+
+  // Batch insert into MongoDB
+  const batchSize = 50;
+  for (let i = 0; i < validProducts.length; i += batchSize) {
+    const batch = validProducts.slice(i, i + batchSize);
+    try {
+      await Product.insertMany(batch, { ordered: false });
+    } catch (err) {
+      console.error("Batch insert failed:", err);
+    }
+  }
+
+  fs.unlinkSync(filePath);
+  req.flash("success_msg", `${validProducts.length} products uploaded successfully!`);
+  res.redirect("/product-upload");
+
+} catch (err) {
+  if (req.file) fs.unlinkSync(req.file.path);
+  console.error(err);
+  req.flash("error_msg", "Failed to upload products");
+  res.redirect("/product-upload");
+}
 })
 //delete product from user and database
 router.delete('/product/:productid',verifyStore,verifyStoreRole("Seller"),async (req,res)=>{
