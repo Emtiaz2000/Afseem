@@ -26,21 +26,67 @@
      <script src="/js/index.js"></script>
      <script>
         //google translator
-     function googleTranslateElementInit() {
-        new google.translate.TranslateElement(
-            {
-                pageLanguage: 'en', // your website’s default language
-                includedLanguages: 'en,ar', // allowed languages (comma-separated)
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            },
-            'google_translate_element'
-            );
+        window.addEventListener('DOMContentLoaded',()=>{
+            if(getCurrentLanguage()=='en'){
+                document.querySelector('.lanen').style.display='none'
+            }else if(getCurrentLanguage()=='ar'){
+                document.querySelector('.lanar').style.display='none'
+            }
+        })
+        //window load 
+        function getCurrentLanguage() {
+            const match = document.cookie.match(/googtrans=\/[^\/]+\/([^;]+)/);
+            if (match && match[1]) {
+                return match[1]; // e.g., "en" or "ar"
+            }
+            return "en"; // default if cookie not set
+        }
+        // Google Translate init (still required for the engine to run)
+        function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,ar',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
         }
 
-     </script>
+        // Hidden container (Google needs it)
+        var gtDiv = document.createElement('div');
+        gtDiv.id = 'google_translate_element';
+        gtDiv.style.display = 'none';
+        document.body.appendChild(gtDiv);
+
+        // Load Google Translate script
+        var gtScript = document.createElement('script');
+        gtScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&hl=en';
+        document.head.appendChild(gtScript);
+
+        // Switch language via cookie
+        function setLanguage(lang) {
+            
+        if (lang === 'ar') {
+            forceTranslate("en", "ar");
+
+        } else {
+            forceTranslate("ar", "en");
+        }
+        }
+
+
+        
+
+        function forceTranslate(from, to) {
+        // Set cookie both ways (with and without domain)
+        document.cookie = "googtrans=/" + from + "/" + to + ";path=/";
+        document.cookie = "googtrans=/" + from + "/" + to + ";path=/;domain=" + window.location.hostname;
+        // Reload to apply
+        location.reload();
+        }
+    
+    </script>
      
 
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&hl=en">
-</script>
+    
+    
 </body>
 </html>

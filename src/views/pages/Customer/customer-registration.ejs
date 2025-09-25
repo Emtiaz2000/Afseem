@@ -63,6 +63,15 @@
       <div class="dropdown-list" id="dropdown"></div>
     </div>
     <div>
+      <label for="customerlocation">Customer Map Location <span class="required">*</span></label>
+      <span class="showlocationdisplay"></span>
+      <input type="hidden" id="customerlocation" name="customerlocation" <% if(oldData){ %> value="<%= oldData.customerlocation %>" <% } %> required>
+      <div class="picklocation">
+          <span >Select  location from Map</span>
+      </div>
+    
+    </div>
+    <div>
       <div class="passContainer">
       <label for="customerpassword">Login Password <span class="required">*</span></label>
       <input type="password" id="customerpassword" name="customerpassword" required>
@@ -80,8 +89,18 @@
 
     <button class="submitBTN" type="submit">Register</button>
   </form>
+  <div class="mapcontainer">
+            <h3>Pick a Location</h3>
+            <input
+            id="searchBox"
+            type="text"
+            placeholder="Search location..."
+            />
+            <div id="map" ></div>
+            <div class="confiremmaplocation">Confirm Selection</div>
+  </div>
 </div>
 
 
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
 <script src="/js/customerjs/customer-registration.js"> </script>

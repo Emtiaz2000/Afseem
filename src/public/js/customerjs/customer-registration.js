@@ -780,6 +780,117 @@ const saudiPlaces = [
         })
     })
 
+
+    //================google map config================
+      let map;
+      let marker;
+      let selectedLatLng;
+      let geocoder;
+      const maplocationselection = document.querySelector('#customerlocation')
+
+      function initMap() {
+        geocoder = new google.maps.Geocoder();
+
+        // Initialize map with temporary center
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 16,
+          center: { lat: 0, lng: 0 },
+        });
+
+        // Try to get user's current location
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              };
+              map.setCenter(userLocation);
+              placeMarker(userLocation);
+            },
+            () => {
+              alert("Geolocation failed or permission denied.");
+            }
+          );
+        } else {
+          alert("Your browser does not support geolocation.");
+        }
+
+        // Map click to move marker
+        map.addListener("click", (event) => {
+          placeMarker(event.latLng);
+        });
+
+        // Search box
+        const input = document.getElementById("searchBox");
+        const searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        searchBox.addListener("places_changed", () => {
+          const places = searchBox.getPlaces();
+          if (places.length === 0) return;
+
+          const place = places[0];
+          if (!place.geometry || !place.geometry.location) return;
+
+          map.setCenter(place.geometry.location);
+          placeMarker(place.geometry.location);
+        });
+
+        document.querySelector('.picklocation').addEventListener('click',()=>{
+        //console.log('ko')
+        document.querySelector('.mapcontainer').style.display='block'
+      })
+      //display none
+      }
+      //calling map
+      initMap()
+
+      //place marker
+      function placeMarker(location) {
+        selectedLatLng = location;
+
+        if (!marker) {
+          marker = new google.maps.Marker({
+            position: location,
+            map: map,
+          });
+        } else {
+          marker.setPosition(location);
+        }
+      }
+
+      //confirm location btn 
+      const confirmlocation = document.querySelector('.confiremmaplocation')
+      confirmlocation.addEventListener('click',confirmSelection)
+      
+      //confirming location function
+      function confirmSelection() {
+        if (!selectedLatLng) {
+          alert("Please select a location first!");
+          return;
+        }
+
+        geocoder.geocode({ location: selectedLatLng }, (results, status) => {
+          //console.log(selectedLatLng.lat)
+          //console.log(selectedLatLng.lng)
+          if (status === "OK" && results[0]) {
+            maplocationselection.value =results[0].formatted_address;
+            document.querySelector('.showlocationdisplay').textContent=results[0].formatted_address;
+          } else {
+            alert("(No address found)");
+            maplocationselection.value='';
+            document.querySelector('.showlocationdisplay').textContent=''
+          }
+          
+        });
+
+        //display none map 
+        document.querySelector('.mapcontainer').style.display='none'
+      }
+
+
+
 })
 
 

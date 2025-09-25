@@ -16,6 +16,7 @@
             <div><b>Building No.:</b> <%= user.customerbuildingno %></div>
             <div><b>Street No.:</b>  <%= user.customerstreetno %></div>
             <div><b>Zone No.:</b>  <%= user.customerzoneno %></div>
+            <div><b>Map Location:</b>  <%= user.customerlocation %></div>
             <div class="editdelete">
                 <a href="/edit-profile/<%= user._id %>"><i class="fa-solid fa-pencil"></i> Edit Profile</a>
                 <form action="/delete-profile?_method=DELETE" method="POST"> <button type="submit">Delete Profile</button></form>

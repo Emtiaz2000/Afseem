@@ -41,6 +41,11 @@ export const userValidationForm = [
     body('customercity')
         .notEmpty().withMessage('Store City is Required')
         .trim(),
+    body('customerlocation')
+        .notEmpty().withMessage('Please Select Location!')
+        .trim()
+        .escape()
+    ,
     body('customerpassword')
         .notEmpty().withMessage('Password is Required')
         .isLength({min:8}).withMessage('Password must contain mininum 8 chars, at least one uppercase, at least one special character and one Number!')
@@ -83,6 +88,11 @@ export const userEditValidationForm = [
         .notEmpty().withMessage('Store City is Required')
         .trim()
         ,
+    body('customerlocation')
+        .notEmpty().withMessage('Please Select Location!')
+        .trim()
+        .escape()
+    ,
 ]
 
 

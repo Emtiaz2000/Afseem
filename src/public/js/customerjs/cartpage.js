@@ -1,12 +1,8 @@
 window.addEventListener('DOMContentLoaded',()=>{
     loadUi()
-    document.querySelector('.cartcontainer').addEventListener('click', (e) => {
-        if (e.target.classList.contains('removeitem')) {
-            let indx = e.target.dataset.index
-            let storeid = e.target.dataset.storeid
-            deleteCartItems(indx, storeid)
-        }
-    });
+    
+
+    
 
 })
 
@@ -23,22 +19,19 @@ window.addEventListener("pageshow", function(event) {
 //delete product from locastorage
 function deleteCartItems(index,storeid){
     let stores = JSON.parse(localStorage.getItem('Afseem_items'))
-    let findstore = stores.find((store)=>{
-       return store.storeid ==storeid ;
-         
-    })
+    
     //console.log(findstore)
     //console.log(stores)
-    if(findstore){
+    
         stores.forEach(store=>{
-            if(store.storeid==storeid){
-                store.products.forEach((item)=>{
-                    //console.log(item)
-                    store.products.splice(index,1)
-                })
-            }
+            store.products.forEach((item,ind)=>{
+                //console.log(item)
+                if(index==ind){
+                    store.products.splice(ind,1)
+                }
+            })
         })
-    }
+    
     if(stores[0].products.length>0){
         localStorage.setItem('Afseem_items',JSON.stringify(stores))
     }else{
@@ -169,6 +162,19 @@ function loadUi(){
         <div>Nothing in Cart!</div>
         <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>
         `
+    }
+
+    //delete function 
+    let deletebtns = document.querySelectorAll('.removeitem')
+    if(deletebtns){
+        deletebtns.forEach((deletebtn)=>{
+            deletebtn.addEventListener('click', (e) => {
+                //console.log(e.target)
+                let indx = deletebtn.dataset.index
+                let storeid = deletebtn.dataset.storeid
+                deleteCartItems(indx, storeid)
+            });
+        })
     }
     
 

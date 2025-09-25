@@ -10,7 +10,7 @@
         <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
       </div>
     <% } %>
-  <form id="storeForm" action="/edit-profile/<%= user._id %>?_method=PUT" method="post" enctype="multipart/form-data">
+  <form id="userForm" action="/edit-profile/<%= user._id %>?_method=PUT" method="post" enctype="multipart/form-data">
     <div>
       <label for="customerusername">User Name <span class="required">*</span></label>
       <input type="text" id="customerusername" value="<%= user.customerusername %>" name="customerusername" required>
@@ -18,7 +18,12 @@
 
      <div>
       <label for="customerprofilephoto">Profile Photo <span class="required">*</span></label>
-      <input type="file" id="customerprofilephoto" value="<%= user.customerprofilephoto %>" name="customerprofilephoto" accept="image/*" >
+      <input type="file" id="customerprofilephoto" name="customerprofilephoto" accept="image/*" >
+    </div>
+
+    <div>
+      <label for="customeremail">Email Address <span class="required">*</span></label>
+      <input type="email" id="customeremail" value="<%= user.customeremail %>" name="customeremail" required>
     </div>
     <div>
       <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
@@ -32,38 +37,56 @@
 
     <div>
       <label for="customeraddressunitno"> Unit No. <span class="required">*</span></label>
-      <input type="text" id="customeraddressunitno" value="<%= user.customerunitno %>" name="customerunitno" required>
+      <input type="number" id="customeraddressunitno" value="<%= user.customerunitno %>" name="customerunitno" required>
     </div>
     <div>
       <label for="customeraddressbuildingno"> Building No. <span class="required">*</span></label>
-      <input type="text" id="customeraddressbuildingno" value="<%= user.customerbuildingno %>" name="customerbuildingno" required>
+      <input type="number" id="customeraddressbuildingno" value="<%= user.customerbuildingno %>" name="customerbuildingno" required>
     </div>
     <div>
       <label for="customeraddressstreetno"> Street No. <span class="required">*</span></label>
-      <input type="text" id="customeraddressstreetno" value="<%= user.customerstreetno %>" name="customerstreetno" required>
+      <input type="number" id="customeraddressstreetno" value="<%= user.customerstreetno %>" name="customerstreetno" required>
     </div>
     <div>
       <label for="customeraddresszoneno"> Zone No. <span class="required">*</span></label>
-      <input type="text" id="customeraddresszoneno" value="<%= user.customerzoneno %>" name="customerzoneno" required>
+      <input type="number" id="customeraddresszoneno" value="<%= user.customerzoneno %>" name="customerzoneno" required>
     </div>
-
-    
-
     <div>
       <label for="customercountry">Country <span class="required">*</span></label>
       <select id="customercountry" name="customercountry" required>
-        <option value="Qatar"<% if(user.customercountry=="Qatar"){ %>selected<% } %>>Qatar</option>
+        <option value="Qatar" selected>Qatar</option>
       </select>
     </div>
-    <div>
+    <div class="dropdown-subcategory">
       <label for="customercity">City <span class="required">*</span></label>
-      <input id="customercity" value="<%= user.customercity %>" type="text" name="customercity" required>
+      <input id="customercity" type="text" value="<%= user.customercity %>" name="customercity" required>
+      <div class="dropdown-list" id="dropdown"></div>
     </div>
+    <div>
+      <label for="customerlocation">Customer Map Location <span class="required">*</span></label>
+      <span class="showlocationdisplay"><%= user.customerlocation %></span>
+      <input type="hidden" id="customerlocation" value="<%= user.customerlocation %>" name="customerlocation" required>
+      <div class="picklocation">
+          <span >Select  location from Map</span>
+      </div>
+    
+    </div>
+    
 
     <button class="submitBTN" type="submit">Update Profile</button>
   </form>
+  <div class="mapcontainer">
+            <h3>Pick a Location</h3>
+            <input
+            id="searchBox"
+            type="text"
+            placeholder="Search location..."
+            />
+            <div id="map" ></div>
+            <div class="confiremmaplocation">Confirm Selection</div>
+  </div>
 </div>
 
 
-
-<script src="/js/storejs/store-registration.js"> </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
+<script src="/js/customerjs/customer-registration.js"> </script>

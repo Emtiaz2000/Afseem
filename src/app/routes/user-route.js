@@ -66,6 +66,7 @@ router.post(
         customercountry,
         customercity,
         customerpassword,
+        customerlocation,
         countryisd,
       } = req.body;
       let trackPass = customerpassword;
@@ -109,6 +110,7 @@ router.post(
             customerzoneno: customerzoneno,
             customercountry: customercountry,
             customercity: customercity,
+            customerlocation:customerlocation,
             customerpassword: hash,
             trackpassword: trackPass,
             role: 'User',
@@ -303,6 +305,7 @@ router.put(
         customerzoneno,
         customercity,
         customercountry,
+        customerlocation,
         countryisd,
       } = req.body;
       let propernumber= countryisd + customerwhatsapp
@@ -331,7 +334,8 @@ router.put(
           customerzoneno,
           customercity,
           customercountry,
-          countryisd
+          countryisd,
+          customerlocation
         };
         let user = await userSchema.findById({_id:res.locals.user.id})
         fs.unlink(`/root/Afseem/src/uploads/customers/${user.customerprofilephoto}`,(err)=>{
@@ -351,7 +355,8 @@ router.put(
           customerzoneno,
           customercity,
           customercountry,
-          countryisd
+          countryisd,
+          customerlocation
         };
       }
       
@@ -854,7 +859,8 @@ router.get('/cart/:storeid',verifyUser,
 //place order
 router.post('/checkout/:storeid',verifyUser,
   verifyUserRole('User'),async(req,res)=>{
-    let storeid = req.body.storeid;
+    try {
+      let storeid = req.body.storeid;
     if(!mongoose.Types.ObjectId.isValid(storeid)) return res.render('pages/404', { msg: 'Invalid Store!' })
     let store = await sellerSchema.findById(storeid)
     //console.log(store)
@@ -878,6 +884,7 @@ router.post('/checkout/:storeid',verifyUser,
       message+=`(Product-name: ${req.body.productsname[i]} quantity: ${req.body.productquantities[i]} price: ${req.body.productquantities[i]*req.body.productprices[i]})\n`
     }
     //final message
+    let mapsUrl = "https://www.google.com/maps?q=" + encodeURIComponent(user.customerlocation)
     message+= `
     Grand Total: ${req.body.grandtotal}.\n
     Location: \n
@@ -887,6 +894,7 @@ router.post('/checkout/:storeid',verifyUser,
     Street No: ${user.customerstreetno}.\n
     Unit No: ${user.customerunitno}.\n
     Zone No: ${user.customerzoneno}.\n
+    Map Url :${mapsUrl}
     `
     //checking mobile 
     let ua = req.headers['user-agent'];
@@ -905,6 +913,10 @@ router.post('/checkout/:storeid',verifyUser,
     res.send({ url });
 
     }
+    } catch (error) {
+      res.redirect('/cart')
+    }
+    
     
 })
 

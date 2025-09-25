@@ -64,6 +64,12 @@ img.goog-te-gadget-icon {
     background: transparent !important;
     box-shadow: none !important;
 }
+#google_translate_element{
+    display: none;
+}
+/* iframe.VIpgJd-ZVi9od-xl07Ob-OEVmcd.skiptranslate{
+    display: block !important;
+} */
 /* google services finish */
 h1,
 h2,
@@ -152,6 +158,27 @@ li {
 .submenus>a:hover::before {
     width: 100%
 }
+
+
+/* =============manue flag ===============*/
+.language{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+.language>span{
+    width:20px;
+    height:20px;
+   
+}
+.language>span>img{
+    width:20px;
+    height:20px;
+    
+}
+
+/* ================= */
 
 .profilecontainer {
     position: relative;

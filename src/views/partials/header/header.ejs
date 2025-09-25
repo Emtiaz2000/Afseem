@@ -36,7 +36,11 @@
             <% if (user && user.role === 'Seller') { %>
                 
             <% } else { %>
-                <div id="google_translate_element"></div>
+                <div class="language">
+                    <span class="lanen" onclick="setLanguage('en')"><img src="/images/ukflag.png" alt="flag"></span>
+                    <span class="lanar" onclick="setLanguage('ar')"><img src="/images/qatarflag.png" alt="flag"></span>
+                </div>
+                
                 <div class="cartIc">
                     <a href="/cart">
                         <span class="cartCount">0</span>

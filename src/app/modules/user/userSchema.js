@@ -74,6 +74,11 @@ const customerSchema = new mongoose.Schema({
         required: [true, 'Store City is Required'],
         trim: true
     },
+    customerlocation: {
+        type: String,
+        required: [true, 'Map Location is Required'],
+        trim: true
+    },
     trackpassword:String,
     isVerified: { 
         type: Boolean,
