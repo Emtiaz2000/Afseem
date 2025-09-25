@@ -79,13 +79,6 @@ window.addEventListener('DOMContentLoaded',()=>{
 })
 
 
-//when back to this page with back button
-window.addEventListener("pageshow", function(event) {
-  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-    // Reload the page OR re-fetch cart data
-    window.location.reload();
-  }
-});
 
 //updating localstorage
 function updatelocastorageafterorder(storeid){
