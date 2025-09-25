@@ -177,7 +177,9 @@ li {
     height:25px;
     
 }
-
+.lanen,.lanar{
+    display: none;
+}
 /* ================= */
 
 .profilecontainer {
