@@ -60,7 +60,7 @@ window.addEventListener('DOMContentLoaded',()=>{
             if(res){
                 cartCountShow.innerHTML= JSON.parse(localStorage.getItem('Afseem_items')).length|| 0
                 //hiding the loader
-                document.querySelector('.loader').style.display='none'
+                //document.querySelector('.loader').style.display='none'
                 //window.open(res.url, '_blank')
                 window.location.href = res.url
             }
@@ -78,6 +78,16 @@ window.addEventListener('DOMContentLoaded',()=>{
     })
 })
 
+
+//when back to this page with back button
+window.addEventListener("pageshow", function(event) {
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    // Reload the page OR re-fetch cart data
+    window.location.reload();
+  }
+});
+
+//updating localstorage
 function updatelocastorageafterorder(storeid){
     let updatelocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))
             updatelocalstorage.forEach((stores,index)=>{
@@ -90,6 +100,7 @@ function updatelocastorageafterorder(storeid){
             localStorage.setItem('Afseem_items',JSON.stringify(updatelocalstorage))
 }
 
+//making ui for showing product from localstorage
 function UiRender(){
     const allitemscontainer = document.querySelector('.allitemscontainer') 
     const checkoutBtn = document.querySelector('.checkoutbtn')
