@@ -1,102 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Afseem-Grocery & Grill, Perfectly Paired</title>
     <!-- favicon -->
-     <link rel="shortcut icon" href="https://res.cloudinary.com/dsladqhqo/image/upload/v1758133829/Afseem_Logo_wdfokc.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="https://res.cloudinary.com/dsladqhqo/image/upload/v1758133829/Afseem_Logo_wdfokc.png"
+      type="image/x-icon"
+    />
     <!-- fontawsome cdn -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <!-- google fonts -->
-     <link  rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-     <link  rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Libertinus+Sans:ital,wght@0,400;0,700;1,400&family=Nata+Sans:wght@100..900&display=swap" rel="stylesheet" crossorigin>
-     
-     <!-- style Sheet  -->
-      <link rel="stylesheet" type="text/css" href="/css/style.css">
-</head>
-<body>
-    <%- include('../partials/header/header') %>
-    <%- body  %>
-    <%- include('../partials/footer/footer') %>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Libertinus+Sans:ital,wght@0,400;0,700;1,400&family=Nata+Sans:wght@100..900&display=swap"
+      rel="stylesheet"
+      crossorigin
+    />
 
+    <!-- style Sheet  -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  </head>
+  <body>
+    <%- include('../partials/header/header') %> <%- body %> <%-
+    include('../partials/footer/footer') %>
 
     <!-- my js index.js -->
-     <script src="/js/index.js"></script>
-     <script>
-     // Detect current language from cookie
-        const getCurrentLanguage = () => document.cookie.match(/googtrans=\/[^\/]+\/([^;]+)/)?.[1] || 'en';
+    <script src="/js/index.js"></script>
+    <script>
+       // Detect current language from cookie
+  function getCurrentLanguage() {
+    const match = document.cookie.match(/googtrans=\/[^\/]+\/([^;]+)/);
+    return (match && match[1]) ? match[1] : "en";
+  }
 
-        // Cache buttons
-        const lanEnBtn = document.querySelector('.lanen');
-        const lanArBtn = document.querySelector('.lanar');
+  // Show the correct language button on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const lang = getCurrentLanguage();
+    if (lang === 'en') {
+      document.querySelector('.lanar')?.style.setProperty('display', 'block');
+      document.querySelector('.lanen')?.style.setProperty('display', 'none');
+    } else if (lang === 'ar') {
+      document.querySelector('.lanen')?.style.setProperty('display', 'block');
+      document.querySelector('.lanar')?.style.setProperty('display', 'none');
+    }
+  });
 
-        // Update button visibility
-        const updateButtons = (lang) => {
-            if (!lanEnBtn || !lanArBtn) return;
-            lanEnBtn.style.display = lang === 'en' ? 'none' : 'block';
-            lanArBtn.style.display = lang === 'ar' ? 'none' : 'block';
-        };
+  // Google Translate init (required by Google)
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,ar',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
 
-        // Update on page load
-        updateButtons(getCurrentLanguage());
+  // Create hidden Google container dynamically
+  const gtDiv = document.createElement('div');
+  gtDiv.id = 'google_translate_element';
+  gtDiv.style.display = 'none';
+  document.body.appendChild(gtDiv);
 
-        // Load Google Translate
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,ar',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
+  // Load Google Translate script async
+  const gtScript = document.createElement('script');
+  gtScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&hl=en';
+  gtScript.defer = true;
+  document.head.appendChild(gtScript);
 
-        // Create hidden container
-        const gtDiv = document.createElement('div');
-        gtDiv.id = 'google_translate_element';
-        gtDiv.style.display = 'none';
-        document.body.appendChild(gtDiv);
+  // Switch language function
+  function setLanguage(lang) {
+    const from = lang === 'ar' ? 'en' : 'ar';
+    forceTranslate(from, lang);
 
-        // Load script
-        const gtScript = document.createElement('script');
-        gtScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&hl=en';
-        gtScript.defer = true;
-        document.head.appendChild(gtScript);
+    // Instantly update buttons
+    if (lang === 'en') {
+      document.querySelector('.lanen')?.style.setProperty('display', 'none');
+      document.querySelector('.lanar')?.style.removeProperty('display');
+    } else {
+      document.querySelector('.lanar')?.style.setProperty('display', 'none');
+      document.querySelector('.lanen')?.style.removeProperty('display');
+    }
 
-        // Force translation function (instant)
-        function forceTranslate(from, to) {
-            const cookieValue = `/${from}/${to}`;
-            document.cookie = `googtrans=${cookieValue};path=/`;
-            document.cookie = `googtrans=${cookieValue};path=/;domain=${window.location.hostname}`;
+    // Save choice in localStorage for faster load next time
+    localStorage.setItem('selectedLang', lang);
+  }
 
-            // Google Translate injects an iframe with id "goog-gt-tt" and menu iframe
-            const interval = setInterval(() => {
-                const gtIframe = document.querySelector('iframe.goog-te-menu-frame');
-                if (gtIframe) {
-                    const innerDoc = gtIframe.contentDocument || gtIframe.contentWindow.document;
-                    const langLinks = innerDoc.querySelectorAll('a'); // all language links
-                    langLinks.forEach(link => {
-                        if (link.innerText.toLowerCase().includes(to)) {
-                            link.click(); // simulate click to translate instantly
-                            clearInterval(interval);
-                        }
-                    });
-                }
-            }, 100);
-        }
+  // Apply translation without full page reload
+  function forceTranslate(from, to) {
+    // Update cookies correctly
+    document.cookie = `googtrans=/${from}/${to};path=/`;
+    document.cookie = `googtrans=/${from}/${to};path=/;domain=${window.location.hostname}`;
 
-        // Set language (button click)
-        function setLanguage(lang) {
-            const from = lang === 'ar' ? 'en' : 'ar';
-            updateButtons(lang);
-            forceTranslate(from, lang);
-            // Minimal reload
-             location.reload();
-        }
+    // Reload only Google Translate iframe (faster)
+    const iframe = document.querySelector('iframe.goog-te-menu-frame');
+    if (iframe) {
+      iframe.contentWindow.location.reload();
+    } else {
+      location.reload(); // fallback if iframe not ready
+    }
+  }
+
+  // Auto-apply previously selected language from localStorage
+  const savedLang = localStorage.getItem('selectedLang');
+  if (savedLang && getCurrentLanguage() !== savedLang) {
+    setLanguage(savedLang);
+  }
     </script>
-     
-
-    
-    
-</body>
+  </body>
 </html>
