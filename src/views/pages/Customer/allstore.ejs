@@ -9,6 +9,34 @@
         const ampm = hour < 12 ? "AM" : "PM";
         return `${h}:${minute.toString().padStart(2, '0')} ${ampm}`;
     }
+    function isOpen(opening, closing) {
+        const now = new Date();
+
+        // Convert "HH:mm" strings to Date objects
+        const [oH, oM] = opening.split(":").map(Number);
+        const [cH, cM] = closing.split(":").map(Number);
+
+        const openTime = new Date(now);
+        openTime.setHours(oH, oM, 0, 0);
+
+        const closeTime = new Date(now);
+        closeTime.setHours(cH, cM, 0, 0);
+
+        // Handle case where closing time is past midnight
+        if (closeTime <= openTime) {
+            if (now < openTime) {
+            openTime.setDate(openTime.getDate() - 1);
+            } else {
+            closeTime.setDate(closeTime.getDate() + 1);
+            }
+        }
+        if(now >= openTime && now <= closeTime){
+            return "Online"
+        }else{
+            return "Close"
+        }
+        
+        }
     %>
     <% if(subscribedStore.length>0 || stores.length>0) { %>
         <h1>Stores in Your Area</h1>
@@ -38,6 +66,8 @@
                         </p>
                         <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
                         <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
+                        <br>
+                        <span style="padding:5px 10px; font-weight: bold;border:1px solid #F15A24;border-radius: 8px;background-color: #F15A24;color:#fff;"><%= isOpen(store.storeopen, store.storeclose) %></span>
                         <br>
                         <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>
                     </div>
@@ -81,6 +111,8 @@
                     </p>
                     <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
                     <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
+                    <br>
+                    <span style="padding:5px 10px; font-weight: bold;border:1px solid #F15A24;border-radius: 8px;background-color: #F15A24;color:#fff;"><%= isOpen(store.storeopen, store.storeclose) %></span>
                     <br>
                     <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>
                 </div>
