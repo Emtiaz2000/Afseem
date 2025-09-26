@@ -34,9 +34,10 @@
 }
 .storeinfosection{
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap:20px;
+    flex-wrap: wrap;
 }
 .storeimage{
     width:250px;
