@@ -7,19 +7,25 @@
     position:relative;
     min-height: 400px;
 }
-
+.cartheadeing{
+    width:95%;
+    margin:5px auto;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding:20px;
+    border-radius: 15px;
+}
 .allcartitems {
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     margin:20px 0px;
     flex-wrap: wrap;
 }
 .singleproduct{
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    width: 150px;
+    width: 190px;
     padding:10px 20px;
     border-radius: 10px;
 }
@@ -99,4 +105,27 @@
 .checkoutbtn:hover{
     background-color: #F15A24;
     color: #fff;
+}
+.productimg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+}
+.checkoutbtncontainer{
+    text-align: center;
+}
+.grandtotalcontainer{
+    text-align: center;
+}
+
+@media (max-width:460px) {
+    .singleproduct{
+        width:250px;
+        padding-bottom: 15px;
+    }
+    .allcartitems{
+        justify-content: center;
+    }
 }

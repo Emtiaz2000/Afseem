@@ -418,7 +418,7 @@ form>button{
         flex-wrap: wrap;
     }
     .productcontainer{
-        width:160px;
+        width:300px;
     }
     .singlestorecontainer{
         width: 100%;
@@ -426,6 +426,7 @@ form>button{
     .storeproducts{
         padding:0px;
         width: 100%;
+        gap:12px;
     }
     .call-wp{
         right:5px;

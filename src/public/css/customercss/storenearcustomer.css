@@ -18,7 +18,7 @@
     margin:20px auto;
     gap:20px;
     position:relative;
-    
+    text-align: center;
 }
 
 
@@ -90,5 +90,12 @@
 @media (max-width:768px) {
     .storecontainer,.subscribedStore{
         justify-content: center;
+        
+    }
+}
+
+@media (max-width:550px) {
+    .storesection,.storesectionSubscribed{
+        width:300px;
     }
 }

@@ -1,8 +1,5 @@
 window.addEventListener('DOMContentLoaded',()=>{
     loadUi()
-    
-
-    
 
 })
 
@@ -96,8 +93,8 @@ function loadUi(){
         let grandtotaldiv = document.createElement('div')
         grandtotaldiv.className='grandtotalsection'
         grandtotaldiv.innerHTML=`
-        <p>Grand Total: <span class="grandtotal">${price} ${currency}</span></p>
-        <div><a class="checkoutbtn" href='/cart/${store.storeid}'>Checkout</a></div>
+        <p class="grandtotalcontainer">Grand Total: <span class="grandtotal">${price} ${currency}</span></p>
+        <div class="checkoutbtncontainer"><a class="checkoutbtn" href='/cart/${store.storeid}'>Checkout</a></div>
         <br/><hr/>
         `
        cartcontainer.appendChild(grandtotaldiv)
