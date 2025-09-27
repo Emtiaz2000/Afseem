@@ -880,13 +880,13 @@ const saudiPlaces = [
         }
 
         geocoder.geocode({ location: selectedLatLng }, (results, status) => {
-          console.log(selectedLatLng.lat())
-          console.log(selectedLatLng.lng())
+          const lat = selectedLatLng.lat()
+          const lng =selectedLatLng.lng()
           if (status === "OK" && results[0]) {
             maplocationselection.value =results[0].formatted_address;
             document.querySelector('.showlocationdisplay').textContent=results[0].formatted_address;
-            document.querySelector('#storelocationmaplat').value=selectedLatLng.lat()
-            document.querySelector('#storelocationmaplng').value=selectedLatLng.lng()
+            document.querySelector('#storelocationmaplat').value=lat
+            document.querySelector('#storelocationmaplng').value=lng
           } else {
             alert("(No address found)");
             maplocationselection.value='';
