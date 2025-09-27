@@ -16,6 +16,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     }
 
     document.getElementById("addproductform").addEventListener("submit", function (e) {
+        document.querySelector('.loader').style.display='flex'
         if (!this.reportValidity()) {
         // form is invalid → message shows
         // but you must prevent submit, otherwise it continues

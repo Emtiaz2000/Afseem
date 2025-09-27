@@ -50,17 +50,18 @@
     background-color: #F15A24;
 }
 .productContainer{
-    width:180px;
+    width:200px;
     padding:10px;
     border-radius: 5px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    height:290px;
+    height:280px;
 }
 .allproducts{
     width:100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
     gap:8px;
     margin:20px 0px;
 }
@@ -132,5 +133,11 @@
 @media (max-width:550px) {
     #searchproduct{
         min-width: 270px;
+    }
+    .allproducts{
+        justify-content: center;
+    }
+    .productContainer{
+        width:260px;
     }
 }
