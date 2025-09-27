@@ -454,7 +454,7 @@ li {
     margin: 20px auto
 }
 
-.catergyContainer .category,
+
 .homeStoreSection {
     box-shadow: rgba(0, 0, 0, .2) 0 12px 28px 0, rgba(0, 0, 0, .1) 0 2px 4px 0, rgba(255, 255, 255, .05) 0 0 0 1px inset;
     justify-content: center;
@@ -463,13 +463,17 @@ li {
 }
 
 .catergyContainer .category {
+    box-shadow: rgba(0, 0, 0, .2) 0 12px 28px 0, rgba(0, 0, 0, .1) 0 2px 4px 0, rgba(255, 255, 255, .05) 0 0 0 1px inset;
     width: 300px;
     align-items: center;
+    display: flex;
+    justify-content: center;
     flex-direction: column;
     gap: 10px;
     padding: 30px 20px;
     border-radius: 15px;
-    cursor: pointer
+    cursor: pointer;
+    height: 340px;
 }
 
 .catergyContainer .category>img {
