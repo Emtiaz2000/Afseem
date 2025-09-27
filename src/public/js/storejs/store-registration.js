@@ -880,6 +880,7 @@ const saudiPlaces = [
         }
 
         geocoder.geocode({ location: selectedLatLng }, (results, status) => {
+          //console.log(selectedLatLng)
           const lat = selectedLatLng.lat()
           const lng =selectedLatLng.lng()
           if (status === "OK" && results[0]) {
