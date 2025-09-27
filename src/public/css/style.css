@@ -673,6 +673,13 @@ footer {
 }
 
 @media (max-width:530px) {
+    .hero_right_heroimage,
+    .grocetryVideo_middlehero {
+        display: none
+    }
+    .hero_middle_heroimage{
+        width:90%;
+    }
     .catergyContainer .category {
         width: 350px
     }
