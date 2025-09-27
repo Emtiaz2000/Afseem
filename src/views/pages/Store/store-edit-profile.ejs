@@ -71,7 +71,8 @@
     </div>
     <div>
       <label for="storelocationmap">Store Google Map Location <span class="required">*</span></label>
-      <input type="text" value="<%= store.storelocationmap %>" id="storelocationmap" name="storelocationmap" readonly>
+      <span class="showlocationdisplay"><%= store.storelocationmap %></span>
+      <input type="hidden" id="storelocationmap" name="storelocationmap"  value="<%= store.storelocationmap %>"  required>
       <input type="hidden" id="storelocationmaplat" name="storelocationmaplat"  value="<%= store.storelocationmaplat %>"  required>
       <input type="hidden" id="storelocationmaplng" name="storelocationmaplng"  value="<%= store.storelocationmaplng %>"  required>
       <div class="picklocation">
