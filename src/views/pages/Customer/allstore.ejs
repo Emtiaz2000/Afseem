@@ -12,31 +12,21 @@
     function isOpen(opening, closing) {
         const now = new Date();
 
-        // Convert "HH:mm" strings to Date objects
         const [oH, oM] = opening.split(":").map(Number);
         const [cH, cM] = closing.split(":").map(Number);
 
-        const openTime = new Date(now);
-        openTime.setHours(oH, oM, 0, 0);
+        const nowHM = now.getHours() * 60 + now.getMinutes();
+        const openHM = oH * 60 + oM;
+        const closeHM = cH * 60 + cM;
 
-        const closeTime = new Date(now);
-        closeTime.setHours(cH, cM, 0, 0);
-
-        // Handle case where closing time is past midnight
-        if (closeTime <= openTime) {
-            if (now < openTime) {
-            openTime.setDate(openTime.getDate() - 1);
-            } else {
-            closeTime.setDate(closeTime.getDate() + 1);
-            }
+        if (openHM <= closeHM) {
+            // Normal same-day closing
+            return nowHM >= openHM && nowHM <= closeHM ? "Online" : "Close";
+        } else {
+            // Closing after midnight
+            return nowHM >= openHM || nowHM <= closeHM ? "Online" : "Close";
         }
-        if(now >= openTime && now <= closeTime){
-            return "Online"
-        }else{
-            return "Close"
-        }
-        
-        }
+    }
     %>
     <% if(subscribedStore.length>0 || stores.length>0) { %>
         <h1>Stores in Your Area</h1>
