@@ -885,9 +885,13 @@ const saudiPlaces = [
           if (status === "OK" && results[0]) {
             maplocationselection.value =results[0].formatted_address;
             document.querySelector('.showlocationdisplay').textContent=results[0].formatted_address;
+            document.querySelector('#storelocationmaplat').value=selectedLatLng.lat()
+            document.querySelector('#storelocationmaplng').value=selectedLatLng.lng()
           } else {
             alert("(No address found)");
             maplocationselection.value='';
+            document.querySelector('#storelocationmaplat').value=''
+            document.querySelector('#storelocationmaplng').value=''
             document.querySelector('.showlocationdisplay').textContent=''
           }
           

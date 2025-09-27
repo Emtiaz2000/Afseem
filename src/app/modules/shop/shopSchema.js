@@ -107,6 +107,14 @@ const storeSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Store Location is Required']
     },
+    storelocationmaplat: {
+        type: Number,
+        required: [true, 'Store Location is Required']
+    },
+    storelocationmaplng: {
+        type: Number,
+        required: [true, 'Store Location is Required']
+    },
     storeopen: {
         type: String,
         required: [true, 'Store Working Hour is Required'],

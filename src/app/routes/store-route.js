@@ -56,6 +56,8 @@ router.post(
       storeclose,
       storepassword,
       countryisocode,
+      storelocationmaplat,
+      storelocationmaplng,
     } = req.body;
     let propernumber = countryisd + whatsapp
     let trackPass= storepassword
@@ -105,6 +107,8 @@ router.post(
             trackpassword:trackPass,
             storeopen:storeopen,
             storeclose:storeclose,
+            storelocationmaplat:storelocationmaplat,
+            storelocationmaplng:storelocationmaplng,
             storepassword:hash,
             role:'Seller',
             otp:otp,
@@ -234,6 +238,8 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
             storeclose:req.body.storeclose,
             homeDelivery: req.body.homeDelivery,
             countryisocode:req.body.countryisocode,
+            storelocationmaplat:req.body.storelocationmaplat,
+            storelocationmaplng: req.body.storelocationmaplng,
           };
 
           let store = await sellerSchema.findById({_id:res.locals.user.id})
@@ -263,6 +269,8 @@ router.put('/edit-store-profile/:storeid',verifyStore,verifyStoreRole("Seller"),
             storeclose:req.body.storeclose,
             homeDelivery: req.body.homeDelivery,
             countryisocode:req.body.countryisocode,
+            storelocationmaplat:req.body.storelocationmaplat,
+            storelocationmaplng: req.body.storelocationmaplng,
           };
         }
   

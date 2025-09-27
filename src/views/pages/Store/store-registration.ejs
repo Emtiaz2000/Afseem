@@ -88,6 +88,8 @@
       <label for="storelocationmap">Store Google Map Location <span class="required">*</span></label>
       <span class="showlocationdisplay"></span>
       <input type="hidden" id="storelocationmap" name="storelocationmap" <% if(oldData){ %> value="<%= oldData.storelocationmap %>" <% } %> required>
+      <input type="hidden" id="storelocationmaplat" name="storelocationmaplat" <% if(oldData){ %> value="<%= oldData.storelocationmaplat %>" <% } %> required>
+      <input type="hidden" id="storelocationmaplng" name="storelocationmaplng" <% if(oldData){ %> value="<%= oldData.storelocationmaplng %>" <% } %> required>
       <div class="picklocation">
           <span >Select  location from Map</span>
       </div>
