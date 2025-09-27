@@ -880,8 +880,8 @@ const saudiPlaces = [
         }
 
         geocoder.geocode({ location: selectedLatLng }, (results, status) => {
-          //console.log(selectedLatLng.lat)
-          //console.log(selectedLatLng.lng)
+          //console.log(selectedLatLng.lat())
+          //console.log(selectedLatLng.lng())
           if (status === "OK" && results[0]) {
             maplocationselection.value =results[0].formatted_address;
             document.querySelector('.showlocationdisplay').textContent=results[0].formatted_address;
