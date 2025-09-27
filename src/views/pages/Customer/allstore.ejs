@@ -12,19 +12,19 @@
     function isOpen(opening, closing) {
         const now = new Date();
 
+        // convert current UTC time to GCC minutes
+        const nowHM = (now.getUTCHours() + 3) % 24 * 60 + now.getUTCMinutes();
+
         const [oH, oM] = opening.split(":").map(Number);
         const [cH, cM] = closing.split(":").map(Number);
 
-        const nowHM = now.getHours() * 60 + now.getMinutes();
         const openHM = oH * 60 + oM;
         const closeHM = cH * 60 + cM;
 
         if (openHM <= closeHM) {
-            // Normal same-day closing
-            return nowHM >= openHM && nowHM <= closeHM ? "Online" : "Close";
+            return (nowHM >= openHM && nowHM <= closeHM) ? "Online" : "Close";
         } else {
-            // Closing after midnight
-            return nowHM >= openHM || nowHM <= closeHM ? "Online" : "Close";
+            return (nowHM >= openHM || nowHM <= closeHM) ? "Online" : "Close";
         }
     }
     %>
