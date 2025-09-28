@@ -57,7 +57,11 @@
                         <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
                         <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
                         <br>
-                        <span style="padding:5px 10px; font-weight: bold;border:1px solid #F15A24;border-radius: 8px;background-color: #F15A24;color:#fff;"><%= isOpen(store.storeopen, store.storeclose) %></span>
+                        <% if(isOpen(store.storeopen, store.storeclose)=='Open'){ %>
+                            <span style="padding:5px 15px; font-weight: bold;border:1px solid #079807;border-radius: 8px;color:#079807;">Open</span>
+                        <% }else{ %>
+                            <span style="padding:5px 15px; font-weight: bold;border:1px solid #c61a00;border-radius: 8px;color:#c61a00;">Close</span>
+                        <% } %>
                         <br>
                         <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>
                     </div>
@@ -83,7 +87,7 @@
             <br><br>        
     <% } %>
     <% if(stores.length>0){ %> 
-        <h1>All Stores</h1>
+        <h1>Regular Stores</h1>
         <div class="storecontainer" id="regularstorecontainer" data-regularstorepage="<%= paginationRegular.totalPages %>">
         
             <% stores.forEach((store)=>{ %>
@@ -102,7 +106,11 @@
                     <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
                     <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
                     <br>
-                    <span style="padding:5px 10px; font-weight: bold;border:1px solid #F15A24;border-radius: 8px;background-color: #F15A24;color:#fff;"><%= isOpen(store.storeopen, store.storeclose) %></span>
+                    <% if(isOpen(store.storeopen, store.storeclose)=='Open'){ %>
+                        <span style="padding:5px 15px; font-weight: bold;border:1px solid #079807;border-radius: 8px;color:#079807;">Open</span>
+                    <% }else{ %>
+                        <span style="padding:5px 15px; font-weight: bold;border:1px solid #c61a00;border-radius: 8px;color:#c61a00;">Close</span>
+                    <% } %>
                     <br>
                     <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>
                 </div>
