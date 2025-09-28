@@ -138,6 +138,10 @@ p.imageuploadingtext {
   background-color: #fff;
   display: none;
 }
+.loader>img{
+    width:60px;
+    height:60px;
+}
 
 @media (max-width:500px) {
       .uploadImagelabel {
