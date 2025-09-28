@@ -424,6 +424,7 @@ form>button{
         flex-wrap: wrap;
     }
     .productcontainer{
+        padding:20px 5px;
         width: 100%;
         display: flex;
         justify-content: center;
