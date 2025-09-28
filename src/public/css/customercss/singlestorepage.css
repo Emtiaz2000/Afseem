@@ -102,7 +102,7 @@
     margin: auto;
     display: block;
 }
-.productcontainer>h1{
+.productnameheading{
     font-size: .85rem;
     font-weight: normal;
     text-align: center;
@@ -424,7 +424,9 @@ form>button{
         flex-wrap: wrap;
     }
     .productcontainer{
-        width:250px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
     
     .storeproducts{
