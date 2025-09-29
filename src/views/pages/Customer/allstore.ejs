@@ -35,11 +35,11 @@
         <p><%= error %></p>
     <% } %>
    
-    <br><br>
+    <br>
 <% if((subscribedStore.length>0) || (stores.length>0) ){ %>
 
     <% if(subscribedStore.length>0){ %>
-            <h2>Highlight</h1>    
+            <h4>Highlight</h4>    
             <div class="subscribedStore">
                 <% subscribedStore.forEach((store)=>{ %>
                     <div class="storesectionSubscribed">
@@ -87,7 +87,6 @@
             <br><br>        
     <% } %>
     <% if(stores.length>0){ %> 
-        <h1>Regular Stores</h1>
         <div class="storecontainer" id="regularstorecontainer" data-regularstorepage="<%= paginationRegular.totalPages %>">
         
             <% stores.forEach((store)=>{ %>
@@ -119,11 +118,13 @@
         <div id="endofcontent"></div>
         <div id="loading" style="display:none;">Loading...</div>
         <button id="loadMoreBtn">Load More</button>
-<% }} else { %>
+<% }} %>
+
+<% if(subscribedStore.length < 1 && stores.length < 1) { %>
+    <h1 class="noproduct">No Store Found!</h1>
+    <a href="/store-category">Go Store ➡</a>
+<% } %>
     
-        <h1 class="noproduct">No Store Found!</h1>
-        <a href="/store-category">Go Store ➡</a>
-    <% } %>
 </div>
 
 <script type="module" src="/js/customerjs/allstoreapi.js"></script>
