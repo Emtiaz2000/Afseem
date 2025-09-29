@@ -117,10 +117,11 @@
         <div id="endofcontent"></div>
         <div id="loading" style="display:none;">Loading...</div>
         <button id="loadMoreBtn">Load More</button>
-    <% }else{ %>
-        <div>No Product in this Store!</div>
     <% } %>
-    
+    <% if(discountproducts.length < 1 && products.length < 1) { %>
+        <h1 class="noproduct">No Product Found!</h1>
+        <a href="/store-category">Go Store ➡</a>
+    <% } %>
     <hr>
     <br>
     <% if(store){ %> 
