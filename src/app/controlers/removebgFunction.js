@@ -5,8 +5,8 @@ import { join,dirname,extname } from 'path';
 // Helper: run Python background removal
 export const runPython = (inputPath, outputPath)=>{
   return new Promise((resolve, reject) => {
-    //const pythonProcess = spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
-    const pythonProcess = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+    const pythonProcess = spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+    //const pythonProcess = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
 
     pythonProcess.stdout.on("data", (data) => {
       resolve(data.toString().trim());
@@ -27,8 +27,8 @@ export const runPython = (inputPath, outputPath)=>{
 //bulk background remove
 export  function  removeBackground(inputPath, outputPath){
   return new Promise((resolve, reject) => {
-    const py = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
-    //const py= spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+    //const py = spawn("python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
+    const py= spawn("./venv/bin/python", ["./src/app/pybgremove/bgremove.py", inputPath, outputPath]);
 
     py.stderr.on("data", (data) => {
       console.error("Python error:", data.toString());
