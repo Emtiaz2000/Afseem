@@ -23,7 +23,7 @@
          <div class="popcross"><i class="fa-solid fa-xmark"></i></div>
     </div>
     <div class="storesearchsection">
-        <form action="/store/<%= store._id %>" method="get">
+        <form class="searchForm" action="/store/<%= store._id %>" method="get">
         <input type="text" name="searchproduct" id="searchproduct" value="<%= searchitem  %>" placeholder="Search products here....">
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
@@ -222,5 +222,6 @@
     <a class="call-wp" href="https://wa.me/<%= store.whatsapp %>" target="_blank"> <i class="fa-brands fa-whatsapp "></i></a>
 </div>
 <script src="/js/customerjs/customerreview.js"></script>
+<script src="/js/customerjs/translate.js"></script>
 <script src="/js/customerjs/productapi.js"></script>
 <script src="/js/customerjs/cart.js"></script>

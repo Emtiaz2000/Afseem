@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@kreisler/js-google-translate-free": "^4.0.2",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
@@ -25,6 +26,8 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.2",
     "express-validator": "^7.2.1",
+    "franc": "^6.2.0",
+    "google-translate-api-x": "^10.7.2",
     "ipinfo-express": "^2.0.2",
     "jsdom": "^26.1.0",
     "jsonwebtoken": "^9.0.2",

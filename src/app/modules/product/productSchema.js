@@ -75,5 +75,6 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+// create text index
+productSchema.index({ productname: 'text' });
 export const Product = mongoose.model("Product", productSchema);

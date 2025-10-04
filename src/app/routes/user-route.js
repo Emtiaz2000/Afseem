@@ -35,6 +35,8 @@ import { upload } from '../middlewares/multerFileHandle.js'; //multer for image 
 import sharp from 'sharp'; //sharp for resizing images
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import JsGoogleTranslateFree from "@kreisler/js-google-translate-free";
+import {detectLanguage} from '../middlewares/translate.js'
 import fs, { read } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -506,11 +508,25 @@ router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
   });
 });
 
+
 //get specific store
 router.get(
   '/store/:storeid',
   preventStorePagesForLoggedIn,
   async (req, res) => {
+    const from = "ar";
+    const to = "en";
+    const text = req.query.searchproduct || "";
+    let textType = detectLanguage(text)
+     let searchtext;
+    if(textType!='eng'){
+      searchtext =await JsGoogleTranslateFree.translate({ from, to, text });
+    }else{
+      searchtext=text
+    }
+    
+    //console.log(searchtext)
+   
     const commentpage = parseInt(req.query.commentpage) || 1;
     const commentlimit = 5; // number of comments per page
     const commentskip = (commentpage - 1) * commentlimit;
@@ -520,6 +536,7 @@ router.get(
     const discountLimit = 12; // items per page
     let storeId = req.params.storeid;
     let user = res.locals.user || null;
+    
     if (!mongoose.Types.ObjectId.isValid(storeId))
       return res.render('pages/404', { msg: 'Invalid Store ID!' });
     let store = await sellerSchema.findOne({ _id: storeId });
@@ -531,13 +548,16 @@ router.get(
       productofferprice: null,
       enable: true,
     };
-    if (req.query.subcategory)
+    if (req.query.subcategory){
       regularProductsQuery.subcategory = req.query.subcategory;
-    if (req.query.searchproduct)
-      regularProductsQuery.productname = {
-        $regex: req.query.searchproduct,
-        $options: 'i',
+    }
+    if (req.query.searchproduct){
+      
+      regularProductsQuery.$text  = {
+        $search: searchtext
       };
+    }
+
 
     let totalRegularProducts = await Product.countDocuments(
       regularProductsQuery
@@ -554,11 +574,11 @@ router.get(
     };
     if (req.query.subcategory)
       discountedProductsQuery.subcategory = req.query.subcategory;
-    if (req.query.searchproduct)
-      discountedProductsQuery.productname = {
-        $regex: req.query.searchproduct,
-        $options: 'i',
+    if (req.query.searchproduct){
+      discountedProductsQuery.$text  = {
+        $search: searchtext
       };
+    }
 
     let totalDiscountProducts = await Product.countDocuments(
       discountedProductsQuery

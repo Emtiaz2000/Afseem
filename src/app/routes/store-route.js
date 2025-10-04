@@ -19,6 +19,8 @@ import { commentSchema } from '../modules/comment/commentSchema.js';
 import {orderSchema} from '../modules/order/orderSchema.js'
 import { Category } from '../modules/product/categorySchema.js';
 import {runPython,removeBackground,downloadImage} from '../controlers/removebgFunction.js'
+import JsGoogleTranslateFree from "@kreisler/js-google-translate-free";
+import {detectLanguage} from '../middlewares/translate.js'
 import pLimit from "p-limit";
 import ExcelJS  from 'exceljs'
 import fs from 'fs';
@@ -428,10 +430,22 @@ router.post('/add-product',verifyStore,verifyStoreRole("Seller"),upload.fields([
       // Delete temp input
       fs.unlink(tempInput, (err) => { if (err) console.log(err) });
     }
-
+    //converting arabic to english
+    const from = "ar";
+    const to = "en";
+    const text = req.body.productname;
+    let textType = detectLanguage(text)
+    let translateText;
+    if(textType!='eng'){
+      translateText =await JsGoogleTranslateFree.translate({ from, to, text });
+    }else{
+      translateText=text
+      }
+    //console.log(translateText)
+    
     // Create product
     await Product.create({
-      productname,
+      productname:translateText,
       store: store._id,
       category: store.storeCategory,
       subcategory,
@@ -580,6 +594,7 @@ try {
         let productimageurl = relative(projectRoot, tempOutput);
         //console.log(productimageurl)
         productimageurl =`\\` + productimageurl;
+        //let translatedProductname = translateToEnglish(productname)
         validProducts.push({
           productname,
           subcategory: category,
@@ -719,10 +734,21 @@ router.put('/edit-product/:productid',verifyStore,verifyStoreRole("Seller"),uplo
       return res.redirect(`/edit-product/${req.params.productid}`)
     }
 
-
+    //translate arabic to english 
+    //converting arabic to english
+    const from = "ar";
+    const to = "en";
+    const text = req.body.productname;
+    let textType = detectLanguage(text)
+    let searchtext;
+    if(textType!='eng'){
+      searchtext =await JsGoogleTranslateFree.translate({ from, to, text });
+    }else{
+      searchtext=text
+      }
     // Prepare update object
     const updateProduct = {
-      productname: req.body.productname,
+      productname:searchtext ,
       subcategory: req.body.subcategory,
       productprice: req.body.productprice,
       productofferprice: req.body.productofferprice,
