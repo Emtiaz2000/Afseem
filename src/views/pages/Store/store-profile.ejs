@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="/css/store/store-profile.css" />
+<%
+    function formatTime12h(timeStr) {
+        if (!timeStr) return "";
+        const [hour, minute] = timeStr.split(":").map(Number);
+        const h = hour % 12 || 12;
+        const ampm = hour < 12 ? "AM" : "PM";
+        return `${h}:${minute.toString().padStart(2, '0')} ${ampm}`;
+    }
+%>
+<div class="sellerprofileheading">
+  <h2>Seller Profile</h2>
+</div>
+<div class="store_profile_container">
+  <div class="store-left-layout">
+      <div class="store_basic_info">
+        <div class="store_image_name">
+              <img
+              class="store_image"
+              src="/uploads/stores/<%= store.storePhoto %>"
+              alt="store photo"
+            />
+            <h4><%= store.storeName %></h4>
+            <div class="verified">
+              <p><b>Verified</b> </p>
+            </div>
+        </div>
+        <div class="ownerInfo">
+          <div class="ownerName">
+            <p><b>Owner Name:</b> <span class="notranslate"><%= store.ownerName %></span></p>
+          </div>
+          <div class="whatsappnumber">
+            <p><b>WhatsApp No. :</b> <%= store.whatsapp %></p>
+          </div>
+          <div class="workingHour">
+            <p><b>Working Hour :</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
+          </div>
+          <div class="delivery_availability">
+            <p><b>Delivery :</b> <%= store.homeDelivery %></p>
+          </div>
+        </div>
+    </div>
+    <hr />
+    <br>
+    <div class="moreInformation">
+      <div>
+          <p><b>Email:</b> <%= store.storeemail %></p>
+      </div>
+      <div>
+          <p><b>Business Type:</b> <%= store.storeCategory %></p>
+      </div>
+      <div>
+          <p><b>Country:</b> <%= store.country %></p>
+      </div>
+      <div>
+          <p><b>City:</b> <%= store.storecity %></p>
+      </div>
+      <div>
+          <p><b>Unit No.:</b> <%= store.storeunitno %></p>
+      </div>
+      <div>
+          <p><b>Building No. :</b> <%= store.storebuildingno %></p>
+      </div>
+      <div>
+          <p><b>Street No. :</b><%= store.storestreetno %></p>
+      </div>
+      <div>
+          <p><b>Zone No. :</b><%= store.storezoneno %></p>
+      </div>
+      
+    </div>
+  </div>
+  <div class="store-right-layout">
+      <br><br>
+    <div class="store_map_location">
+          <p><b>Store Google Map Location</b></p>
+          <br>
+          <iframe src="https://www.google.com/maps?q=<%= store.storelocationmaplat %>,<%= store.storelocationmaplng %>&z=15&&output=embed" frameborder="0"></iframe>
+      </div>
+      <div class="edit_delete">
+          <a href="/edit-store-profile/<%= store._id %>"><i class="fa-solid fa-pencil"></i>Edit Profile</a>
+          <form action="/store/delete/<%= store._id %>" method="post"> <button class="deleteBtn" type="submit">Delete Profile</button></form>
+
+      </div>
+  </div>
+  
+</div>

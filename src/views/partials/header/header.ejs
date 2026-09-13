@@ -1,0 +1,75 @@
+<div class="header_container">
+    <div class="header_logo">
+        <a href="/">
+            <img src="https://res.cloudinary.com/dsladqhqo/image/upload/v1758133829/Afseem_Logo_wdfokc.png" alt="sitelogo">
+            <span>Grocery & Grill, Perfectly Paired</span>
+        </a>
+    </div>
+    <div class="header_menu">
+        <div class="header_menu_item">
+            <% if (user && user.role === 'Seller') { %>
+                <a href="/store-dashboard">Dashboard</a>
+                <a href="/master-products">Master Products</a>
+                <a href="/add-product">Add Product</a>
+                <a href="/product-upload">Upload Product</a>
+                <div class="profilecontainer">
+                    <div class="profileicon"><i class="fa-regular fa-user"></i></div>
+                    <div class="submenus">
+                        <a href="/store-profile">Profile</a>
+                        <a href="/store-logout">Logout</a>
+                        
+                    </div>
+                </div>
+            <% } else if(user && user.role === 'User') { %>
+                <a href="/store-category">Store</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/registration">Register</a>
+                <a href="/login">Login</a>
+                <a href="/store-category">Store</a>
+            <% } %> 
+            
+        </div>
+        
+        <div class="Icon_container">
+            <% if (user && user.role === 'Seller') { %>
+                
+            <% } else { %>
+                <div class="language">
+                    <span class="lanen" onclick="setLanguage('en')"><img src="/images/ukflag.png" alt="flag"></span>
+                    <span class="lanar" onclick="setLanguage('ar')"><img src="/images/qatarflag.png" alt="flag"></span>
+                </div>
+                
+                <div class="cartIc">
+                    <a href="/cart">
+                        <span class="cartCount">0</span>
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </div>
+            <% }%>
+             <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </div>
+    <div class="mobile_menu">
+            <% if (user && user.role === 'Seller') { %>
+                <a href="/store-dashboard">Dashboard</a>
+                <a href="/master-products">Master Products</a>
+                <a href="/add-product">Add Product</a>
+                <a href="/product-upload">Upload Product</a>
+                <a href="/store-profile">Profile</a>
+                <a href="/store-logout">Logout</a>
+            <% } else if(user && user.role === 'User') { %>
+                <a href="/store-category">Store</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/registration">Register</a>
+                <a href="/login">Login</a>
+                <a href="/store-category">Store</a>
+            <% } %> 
+        <div class="menuCross"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+    
+</div>
+

@@ -1,0 +1,97 @@
+.addcategoryconatiner{
+    width:95%;
+    margin:10px auto;
+    min-height: 500px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+.addcategoryform{
+    display: grid;
+    gap: 18px 50px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background: #fff;
+    padding:20px 20px;
+    margin-top:20px;
+}
+label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    background-color: #fafafa;
+    transition: all 0.25s ease;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: #7e57c2;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(126,87,194,0.2);
+  }
+
+  #submitbtn{
+    width:180px;
+    background-color: #fff;
+    color:#F7931E;
+    border:1px solid #F7931E;
+    outline: none;
+    font-size: 1.3rem;
+    padding:5px 0px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #submitbtn:hover{
+    background-color: #F7931E;
+    color:#fff;
+  }
+  .buttoncontainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .catebtn{
+    padding:8px 10px;
+    margin:10px;
+    border:1px solid #F7931E;
+    color: #F7931E;
+    background: #fff;
+    border-radius: 3px;
+  }
+  .catebtn:hover{
+    background: #F7931E;
+    color: #FFF;
+  }
+  .subcategories{
+    display: grid;
+    gap: 10px 5px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    padding:20px 5px
+}
+.subcategories>div{
+    border:1px solid #F7931E;
+    padding:10px 5px
+  }
+  .deletebtn{
+    outline: none;
+    width:80px;
+    background-color: #fff;
+    border:1px solid #f71e1e;
+    border-radius: 3px;
+    color:#000;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .deletebtn:hover{
+    color:#FFF;
+    background-color:#f71e1e ;
+  }

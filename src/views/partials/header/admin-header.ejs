@@ -1,0 +1,36 @@
+<div class="header_container">
+    <div class="header_logo">
+        <a href="/admin-dashboard">
+            <img src="https://res.cloudinary.com/dsladqhqo/image/upload/v1758133829/Afseem_Logo_wdfokc.png" alt="sitelogo">
+            <span>Grocery & Grill, Perfectly Paired</span>
+        </a>
+    </div>
+    <div class="header_menu">
+        <% if(user && user.role==="ADMIN"){ %>
+            <div class="header_menu_item">
+                    <a href="/admin-sellersubscription">Subscription</a>
+                    <a href="/admin-customerinfo">Buyer</a>
+                    <a href="/admin-storeinfo">Seller</a>
+                    <a href="/adimn/add-category">Add Category</a>
+                    <a href="/admin-logout">Logout</a>
+                
+            </div>
+            
+            <div class="Icon_container">
+                <div class="menu_hamburder"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        <% } %>
+    </div>
+    
+        <div class="mobile_menu">
+                <a href="/admin-sellersubscription">Subscription</a>
+                <a href="/admin-customerinfo">Buyer</a>
+                <a href="/admin-storeinfo">Seller</a>
+                <a href="/adimn/add-category">Add Category</a>
+                <a href="/admin-logout">Logout</a>
+            <div class="menuCross"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+   
+    
+</div>
+

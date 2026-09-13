@@ -1,0 +1,448 @@
+.singlestorecontainer{
+    width:95%;
+    margin:20px auto;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding:20px;
+    border-radius: 15px;
+    position:relative;
+    min-height: 500px;
+}
+.singlestorecontainer>h2,.productheading{
+    padding-left: 10px;
+}
+.popupaddproduct{
+    width:300px;
+    height:50px;
+    position: fixed;
+    background-color: #20bb05;
+    border-radius: 10px;
+    margin: auto;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top:1%;
+    left: 50%;              
+    transform: translateX(-50%)
+}
+.popupaddproduct>p{
+    text-align: center;
+    color: #fff;
+}
+.popcross{
+    position: absolute;
+    right:5px;
+    top:3px;
+    color:#fff;
+    cursor: pointer;
+}
+.storeinfosection{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap:20px;
+    flex-wrap: wrap;
+}
+.storeimage{
+    width:250px;
+    height:250px;
+}
+.storeimage>img{
+    width:100%;
+    height:100%;
+    border-radius: 15px;
+}
+.storeaddress>h2{
+    font-weight: 400;
+}
+.storeaddress>h2>span{
+    font-weight: normal;
+}
+
+.call-wp{
+    position:fixed;
+    bottom:80px;
+    right:37px;
+    background-color: #21C063;
+    font-size: 3rem;
+    color:#fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:55px;
+    width:55px;
+    z-index: 100;
+
+}
+
+.productcontainer{
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    width:210px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.storeproducts{
+    margin:20px 0px;
+    padding:20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap:5px;
+    flex-wrap: wrap;
+}
+.discountproductcontainer{
+    border-radius: 10px;
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+    padding:10px;
+    margin:20px 0px;
+}
+.productcontainer>img{
+    width:150px;
+    height:150px;
+    margin: auto;
+    display: block;
+}
+.productnameheading{
+    font-size: .85rem;
+    font-weight: normal;
+    text-align: center;
+}
+.subcategory{
+    text-align: center;
+    font-size: .55rem;
+    display: block;
+    margin:3px auto;
+}
+.storeaddressbrif>p{
+    font-size: 1rem;
+}
+.storeaddressbrif>p>span,.storeotherinfo>p>span{
+    font-size:1rem;
+    font-weight: 500;
+}
+.productheading{
+    font-size: 1.4rem;
+}
+.regularPrice{
+    text-decoration: line-through;
+    color: #e20202;
+}
+.productprice{
+    text-align: center;
+    font-weight: normal;
+    margin-top:5px;
+    font-size: .8rem;
+}
+.priceamount{
+    font-size: 1rem;
+}
+.productcount{
+    text-align: center;
+    font-weight: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:10px;
+}
+.item_count{
+    font-size: 1.5rem;
+}
+.dec_icon,.inc_icon{
+    cursor: pointer;
+    margin:0px 20px;
+    outline: none;
+    background:#fff;
+    border-radius: 5px;
+    border:1px solid #f15a24;
+
+}
+.storelocationheading{
+    text-decoration: underline;
+}
+.dec_icon>span,.inc_icon>span{
+    font-size: 16px;
+    color:#f15a24;
+}
+.addtocart{
+    width:120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    margin:10px auto;
+    cursor: pointer;
+    background-color: #fff ;
+    border:1px solid #f15a24;
+    color:#f15a24;
+    padding:5px 10px;
+    border-radius:5px 10px;
+    transition: .3s ease all;
+}
+.addtocart:hover{
+    background-color: #f15a24;
+    color:#fff;
+}
+
+form{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:20px;
+    margin:auto;
+}
+.starsreview{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top:30px;
+    
+}
+.starsreview>i{
+    cursor: pointer;
+    color:#f15a24;
+    font-size: 35px;
+}
+
+.commentwrite{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap:20px;
+}
+
+#commettextarea{
+    width:100%;
+    resize: none;
+    height:120px;
+    padding:20px;
+    border-radius: 10px;
+    border:1px solid #f15a24;
+    outline: none;
+}
+
+form>button{
+    width: 100%;
+    padding: 14px;
+    background: rgba(1, 103, 1, 0.721);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+}
+.filterSection{
+    width:100%;
+    position: relative;
+    text-align: right;
+}
+.showCategory{
+    cursor: pointer;
+}
+#categoryFilter{
+    display: none;
+    width:300px;
+    height:auto;
+    padding:20px 10px;
+    box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1000;
+    background-color: #fff;
+    top:25px;
+    right:0px;
+}
+#categoryFilter>div{
+    margin:10px 0px;
+}
+#categoryFilter>div>a{
+   position:relative;
+   height:20px;
+}
+#categoryFilter>div>a::before{
+    content: '';
+    position:absolute;
+    width:0%;
+    height:2px;
+    background-color: #F15A24;
+    bottom:-3px;
+    transition: .4s ease all;
+}
+
+#categoryFilter>div>a:hover::before{
+    width:100%;
+}
+
+.allcomments{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap:18px;
+    margin: 20px 0px 40px 0px;
+
+}
+.commentcontainer{
+    width: 95%;
+    box-shadow: 0 6px 15px rgba(94,53,177,0.3);
+    padding:10px 20px;
+    border-radius: 10px;
+}
+.commentAuth{
+    margin-top:5px;
+    text-transform: capitalize;
+    font-size: 18px;
+}
+.commentauthid{
+    font-size: 10px;
+    color:#F15A24;
+    display: block;
+}
+.commentStart{
+    font-size: 20px;
+    color:#F15A24;
+    
+}
+.commenttext{
+    font-size: 20px;
+    font-style: italic;
+    padding-bottom: 20px;
+    border-left: 5px solid #6c63ff;
+    padding: 10px 20px;
+    margin: 20px 0;
+    background: #f9f9ff;
+    border-radius: 8px;
+    text-transform: capitalize;
+}
+.deletecommentbtn{
+    width:100%;
+
+}
+.deletecommentbtn>form{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+.deleteBtnComment{
+    width:170px;
+    border:1px solid #e20202;
+    outline: none;
+    background-color: #fff;
+    color:#000;
+    height:30px;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    margin-top:5px;
+    transition: .1s ease all;
+}
+.deleteBtnComment:hover{
+    color:#fff;
+    background: #e20202;
+}
+.storesearchsection{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    margin:20px 0px;
+    padding:30px 0px 20px 0px;
+   border-radius: 15px;
+}
+.storesearchsection>form{
+    width:95%;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    flex-direction: row;
+}
+#searchproduct{
+    width:60%;
+    min-width: 270px;
+    height:40px;
+    border:1px solid #F15A24;
+    outline: none;
+    border-radius: 10px;
+    padding:5px 8px;
+    font-size: 15px;
+}
+.storesearchsection>form>button{
+    width:45px;
+    height:45px;
+    outline: none;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #F15A24;
+    cursor: pointer;
+    transition: .3s ease all;
+    color:#F15A24;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.storesearchsection>form>button:hover{
+    background: #F15A24;
+    color:#fff;
+}
+
+.storelocation{
+    width:100%;
+    height:300px;
+}
+.storemap{
+    height:300px;
+    width:100%;
+}
+.storelocation>iframe{
+    height:300px;
+    width:100%;
+}
+@media (max-width:1024px) {
+    .storeproducts{
+        justify-content: center;
+    }
+}
+
+@media (max-width:550px) {
+    .storeinfosection{
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .productcontainer{
+        padding:20px 5px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .storeproducts{
+        padding:0px;
+        width: 100%;
+        gap:12px;
+    }
+    .call-wp{
+        right:5px;
+    }
+    .singlestorecontainer{
+        padding:5px 10px;
+        width: 100%;
+    }
+    .storeimage{
+        width:100%;
+    }
+}

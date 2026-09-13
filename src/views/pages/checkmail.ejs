@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="/css/otp.css">
+<div class="otpSend">
+    <br>
+    <p><%= msg %></p>
+    <br>
+    <div class="otpchecker">
+        <% if(error.length>0){ %>
+        <div class="errorContainer">
+            <% error.forEach(element => { %>
+            <p><%= element.msg %></p>
+            <% }); %>
+            <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <% } %>
+        <form action="/verify-otp" method="POST">
+            <label for="otp"><b>Verify User</b></label>
+            <input type="hidden" name="useremail"  value="<%= useremail %>">
+            <input type="text" name="otpfromemail" placeholder="6 digit code" id="otp" required>
+            <button>Verify</button>
+        </form>
+    </div>
+</div>

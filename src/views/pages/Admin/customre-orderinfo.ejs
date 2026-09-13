@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="/css/admincss/viewcustomerorder.css">
+<div class="customerorderinfo">
+    <div class="profile-right-side">
+        <h4><b><u>Order Details</u></b></h4>
+        <% if(orders.length>0){ %>
+        <div class="orderdetails">
+            <% orders.forEach(order=>{ %>
+                <div class="ordercontainer">
+                    <div>
+                        <p>Store Id: <%= order.store %></p>
+                    </div>
+                    <div><%= order.storecategory %></div>
+                    <div>Total Price: <%= order.grandtotal %> <%= order.currency %></div>
+                </div>
+            <% }) %>
+
+        </div>
+       
+           <div class="pagination">
+                <% if(hasPrev) { %>
+                    <a style="text-decoration: underline;" href="?page=<%= currentPage - 1 %>">Previous</a>
+                <% } %>
+
+                <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+                <% if(hasNext) { %>
+                    <a style="text-decoration: underline;" href="?page=<%= currentPage + 1 %>">Next</a>
+                <% } %>
+            </div>
+    </div>
+        <% } %>
+        
+    </div> 
+</div>

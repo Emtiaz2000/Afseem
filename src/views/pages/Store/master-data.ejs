@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="/css/store/master-data.css" />
+
+<div class="masterDashboardContainer">
+  <div class="headingcotainer">
+    <h1>My Products</h1>
+  </div>
+  <div class="masterdatacategorycontainer">
+    <div class="filtertext"><span>Filter</span> <span class="filterIcon"><i class="fa-solid fa-list"></i></span> <span class="closefilter"><i class="fa-solid fa-ban"></i></span></div>
+    <div class="masterdatabodycontainer">
+      <div id="CategorySearch">
+        <div>
+          <p class="filterOption active"><a href="/store-dashboard">All</a> <span></span></p>
+        </div>
+        <% result.forEach(items=>{ %>
+          <div>
+          <a class="<% if(activeUrl==items._id){ %> active <% } %>" href="/store-dashboard?subcategory=<%= encodeURIComponent(items._id) %>" class="filterOption "><%= items._id %> <span>(<%= items.totalProducts %>)</span></a>
+          </div>
+        <% }) %>
+      
+      </div>
+      <% if(products.length>0){ %>
+        <div class="filterresult">
+          <% products.forEach((product)=>{ %>
+            <div class="productContainer">
+              <div class="productStatus">
+                <% if(product.enable){ %>
+                  <img src="/images/icons/statusactive.svg" alt="active">
+                  <% }else{ %>
+                    <img src="/images/icons/offline.svg" alt="offline">
+                <% } %>
+              </div>
+              <div class="productImage">
+                  <img src="<%= product.productimage %>" alt="">
+                  
+              </div>
+              <h2><%= product.productname %></h2>
+              <span class="store-id">Store Id: <%= product.store %></span>
+              <span class="subcategory">Sub-cat:: <%= product.subcategory %></span>
+              <span class="subcategory">SKU:: <%= product.sku %></span>
+              <% if(product.productofferprice){%>
+                        <p class="productPrice">Regular:  <span class="regularPrice"><%= product.productprice %> <%= product.currency %></span> </p>
+                        <p class="productPrice">Offer Price: <%= product.productofferprice %> <%= product.currency %></p>
+              <% } else { %>
+                        <p class="productPrice">Price: <%= product.productprice %> <%= product.currency %></p>
+              <% } %>
+              <div class="btnContainer">
+                  <a href="/edit-product/<%= product._id %>"><i class="fa-solid fa-pencil"></i>Edit</a>
+                  <form action="/product/<%= product._id %>?_method=DELETE" method="POST"> <button type="submit" class="deleteBtn">Delete</button></form>
+              </div>
+              <div class="btnContainer">
+                <% if(product.enable){ %>
+                  <form action="/product/<%= product._id %>/disable" method="post"><button class="disablebtn">Disable</button></form>
+                <% } else { %>
+                  <form action="/product/<%= product._id %>/enable" method="post"><button class="enablebtn">Enable</button></form>
+                <% } %>
+              </div>
+            </div>
+          <% }) %>
+
+        </div>
+        <% }else{ %>
+          <h1>No Product Found!</h1>
+        <% } %>
+    </div>
+    <br>
+    <div class="pagination">
+          <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %>&limit=9<% if (activeUrl) { %>&subcategory=<%= encodeURIComponent(activeUrl) %><% } %>">Prev</a>
+          <% } %>
+
+          <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+          <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>&limit=9<% if (activeUrl) { %>&subcategory=<%= encodeURIComponent(activeUrl) %><% } %>">Next</a>
+          <% } %>
+    </div>   
+  </div>
+  <br>
+</div>
+
+<script src="/js/storejs/master-data.js"></script>

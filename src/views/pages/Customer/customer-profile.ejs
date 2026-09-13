@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="/css/customercss/customer-profile.css">
+<div class="customerprofilecontainer">
+   
+        <div class="profile-left-side">
+        <div class="imageandname">
+            <img src="/uploads/customers/<%= user.customerprofilephoto %>" alt="">
+            <h2><%= user.customerusername %></h2>
+        </div>
+        <div class="customeraddress">
+            <div><b>Email:</b> <%= user.customeremail %></div>
+            <div><b>WhatsApp Number :</b> <%= user.customerwhatsapp %></div>
+            <div><b><u>Address</u></b> </div>
+            <div><b>City:</b>  <%= user.customercity %></div>
+            <div><b>Country:</b>  <%= user.customercountry %></div>
+            <div><b>Unit No.:</b>  <%= user.customerunitno %></div>
+            <div><b>Building No.:</b> <%= user.customerbuildingno %></div>
+            <div><b>Street No.:</b>  <%= user.customerstreetno %></div>
+            <div><b>Zone No.:</b>  <%= user.customerzoneno %></div>
+            <div><b>Map Location:</b>  <%= user.customerlocation %></div>
+            <div class="editdelete">
+                <a href="/edit-profile/<%= user._id %>"><i class="fa-solid fa-pencil"></i> Edit Profile</a>
+                <form action="/delete-profile?_method=DELETE" method="POST"> <button type="submit">Delete Profile</button></form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="profile-right-side">
+        <h4><b><u>Order Details</u></b></h4>
+        <% if(orders.length>0){ %>
+        <div class="orderdetails">
+            <% orders.forEach(order=>{ %>
+                <div class="ordercontainer">
+                    <div>
+                        <p>Store Id: <a href="/store/<%= order.store %>"><%= order.store %></a></p>
+                    </div>
+                    <div><%= order.storecategory %></div>
+                    <div>Total Price: <%= order.grandtotal %> <%= order.currency %></div>
+                </div>
+            <% }) %>
+
+        </div>
+        <div class="pagination">
+            <% if(hasPrevPage) { %>
+                <a style="text-decoration: underline;" href="?page=<%= prevPage %>">Previous</a>
+            <% } %>
+
+            <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+            <% if(hasNextPage) { %>
+                <a style="text-decoration: underline;" href="?page=<%= nextPage %>">Next</a>
+            <% } %>
+            </div>
+        <% } %>
+        
+    </div>
+</div>
