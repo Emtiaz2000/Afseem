@@ -78,7 +78,7 @@ const getAController =  (req, res) => {
 };
 //home page route
 app.get('/', getAController);
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 //static content pages
 app.get('/about-us', (req, res) => {
@@ -94,8 +94,8 @@ app.get('/terms-and-conditions', (req, res) => {
   res.render('pages/terms-and-conditions');
 });
 
-=======
->>>>>>> d4a0c7baaa58cb119186c035b433aa7d8c5821f6
+//=======
+//>>>>>>> d4a0c7baaa58cb119186c035b433aa7d8c5821f6
 /* app.get('/google', (req,res)=>{
   res.render('pages/google')
 }); */
