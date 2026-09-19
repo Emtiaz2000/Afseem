@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/css/customercss/cityCategory.css">
+<div class="cityformcontainer">
+    <% if(error.length>0){ %>
+      <div class="errorContainer">
+        <% error.forEach(element => { %>
+          <p><%= element.msg %></p>
+        <% }); %>
+        <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+      </div>
+    <% } %>
+    <form action="/storenearby" method="get">
+        <h1 class="cityheading">Select Your City</h1>
+        <br>
+        <input type="hidden" name="category" value="<%= category %>">
+        <input type="hidden" id="countrycode" name="countrycode" value="<%= country %>">
+        <div class="dropdown-subcategory">
+            <label for="storecity">City <span class="required">*</span></label>
+            <input placeholder="City Name" id="storecity" type="text" name="storecity" required>
+            <div class="dropdown-list" id="dropdown"></div>
+        </div>
+        <br>
+        <br>
+        <button class="btn" type="submit">Find Store</button>
+    </form>
+</div>
+<script src="/js/customerjs/selectcity.js"></script>

@@ -1,0 +1,173 @@
+.allStoreConatainer{
+    width:95%;
+    margin:20px auto;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:20px 10px;
+    border-radius: 15px;
+    min-height: 60vh;
+}
+.allStoreHead{
+    width:95%;
+    text-align: left;
+    margin:auto;
+}
+.storesearchsection{
+    width:95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    margin: auto;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height:80px;
+    border-radius: 15px;
+}
+.storesearchsection>form{
+    width:95%;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+#searchseller{
+    width:60%;
+    min-width: 280px;
+    height:40px;
+    border:1px solid #F15A24;
+    outline: none;
+    border-radius: 10px;
+    padding:5px 8px;
+    font-size: 16px;
+}
+.storesearchsection>form>button{
+    width:45px;
+    height:45px;
+    outline: none;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #F15A24;
+    cursor: pointer;
+    transition: .3s ease all;
+    color:#F15A24;
+}
+
+.storesearchsection>form>button:hover{
+    background: #F15A24;
+    color:#fff;
+}
+
+.singleStore{
+    width:90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:30px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding:20px;
+    border-radius: 15px;
+    margin:20px auto;
+}
+.info{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap:20px;
+    width:100%;
+    flex-wrap: wrap;
+}
+.storeImage{
+    height:50px;
+    width:50px;
+    border-radius: 50%;
+}
+.storeImage>img{
+    height:100%;
+    width:100%;
+    border-radius: 50%;
+}
+.statusBt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+    width:100%;
+    flex-wrap: wrap;
+}
+.status{
+    color: #0d7e03;
+    font-weight: bold;
+}
+.subscribed{
+    color: #0ca1f0;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+.subscribed>img{
+    width:20px;
+}
+.findSubscribedStore{
+    text-align: right;
+    height:40px;
+    padding-right:5px;
+}
+.findSubscribedStore>a{
+    font-weight: bold;
+    padding:5px 10px;
+    border:1px solid #F15A24;
+    border-radius: 5px;
+}
+.findSubscribedStore>a:hover{
+    background-color: #F15A24;
+    color:#FFF;
+}
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+}
+.activeCls{
+    padding:10px 20px;
+    border:1px solid #0d7e03;
+    border-radius: 10px;
+    transition: .3s ease all;
+}
+.activeCls:hover{
+    color:#fff;
+    background-color: #0d7e03;
+}
+.deactiveCls{
+    padding:10px 20px;
+    border:1px solid #f60a0a;
+    border-radius: 10px;
+    transition: .3s ease all;
+}
+.deactiveCls:hover{
+    color:#fff;
+    background-color: #f60a0a;
+}
+.buttons>form>button{
+    padding:10px 20px;
+    border:1px solid #7e0303;
+    border-radius: 10px;
+    background-color: #fff;
+    color:#7e0303;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+.buttons>form>button:hover{
+    color:#fff;
+    background-color: #f60a0a;
+}
+
+@media (max-width:550px) {
+    .singleStore{
+        width:100%;
+    }
+}

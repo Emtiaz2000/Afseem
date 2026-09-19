@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="/css/store/store-registration.css">
+<% if(error.length>0){ %>
+    <div class="errorContainer">
+      <% error.forEach(element => { %>
+        <p><%= element.msg %></p>
+      <% }); %>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+<% } %>
+<% if (error_msg!='') { %>
+    <div style="background-color: red !important;" class="errorContainer">
+        <p><%= error_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+<% } %>
+<div class="form-container">
+  <h2> Update Store Profile</h2>
+  <form id="storeForm" action="/edit-store-profile/<%= store._id %>?_method=PUT" method="post" enctype="multipart/form-data">
+    <div>
+      <label for="storeName">Store Name <span class="required">*</span></label>
+      <input type="text" id="storeName" value="<%= store.storeName %>" name="storeName" required>
+    </div>
+    <div>
+      <label for="ownerName">Owner Name <span class="required">*</span></label>
+      <input type="text" id="ownerName" value="<%= store.ownerName %>" name="ownerName" required>
+    </div>
+
+     <div>
+      <label for="storePhoto">Store Photo </label>
+      <input type="file" id="storePhoto" name="storePhoto" accept="image/*" >
+    </div>
+
+    <div>
+      <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
+      <div class="phonenumber">
+        <select id="selectcountryisd" name="countryisd">
+          <option value="+974" selected>+974</option>
+        </select>
+        <input type="number" id="whatsapp" value="<%= store.whatsappnumber %>" name="whatsapp" placeholder="501234567" required>
+      </div>
+    </div>
+    <div>
+      <label for="storeunitno"> Unit No. <span class="required">*</span></label>
+      <input type="number" value="<%= store.storeunitno %>" id="storeunitno" name="storeunitno" required>
+    </div>
+    <div>
+      <label for="storebuildingno"> Building No. <span class="required">*</span></label>
+      <input type="number" id="storebuildingno" value="<%= store.storebuildingno %>" name="storebuildingno" required>
+    </div>
+    <div>
+      <label for="storestreetno"> Street No. <span class="required">*</span></label>
+      <input type="number" id="storestreetno" value="<%= store.storestreetno %>" name="storestreetno" required>
+    </div>
+    <div>
+      <label for="storezoneno"> Zone No. <span class="required">*</span></label>
+      <input type="number" id="storezoneno"  value="<%= store.storezoneno %>" name="storezoneno" required>
+    </div>
+
+    
+    <input type="hidden" id="countryisocode" value="<%= store.countryisocode %>"  name="countryisocode">
+    <div>
+      <label for="country">Country <span class="required">*</span></label>
+      <select id="country" name="country" required>
+        <option value="Qatar" <% if(store.country=='Qatar'){ %>selected<%} %>>Qatar</option>
+      </select>
+    </div>
+    <div class="dropdown-subcategory">
+      <label for="storecity">City <span class="required">*</span></label>
+      <input id="storecity" value="<%= store.storecity %>" type="text" name="storecity" required>
+      <div class="dropdown-list" id="dropdown"></div>
+    </div>
+    <div>
+      <label for="storelocationmap">Store Google Map Location <span class="required">*</span></label>
+      <span class="showlocationdisplay"><%= store.storelocationmap %></span>
+      <input type="hidden" id="storelocationmap" name="storelocationmap"  value="<%= store.storelocationmap %>"  required>
+      <input type="hidden" id="storelocationmaplat" name="storelocationmaplat"  value="<%= store.storelocationmaplat %>"  required>
+      <input type="hidden" id="storelocationmaplng" name="storelocationmaplng"  value="<%= store.storelocationmaplng %>"  required>
+      <div class="picklocation">
+          <span >Select  location from Map</span>
+      </div>
+    </div>
+
+    <div>
+      <label for="storeopen">Store Opening Hours <span class="required">*</span></label>
+      <input type="time" id="storeopen" value="<%= store.storeopen %>" name="storeopen" placeholder="e.g. 9 AM - 10 PM" required>
+    </div>
+    <div>
+      <label for="storeclose">Store Closing Hours <span class="required">*</span></label>
+      <input type="time" id="storeclose" value="<%= store.storeclose %>" name="storeclose" placeholder="e.g. 9 AM - 10 PM" required>
+    </div>
+    <div>
+      <label for="homeDelivery">Home Delivery <span class="required">*</span></label>
+      <select id="homeDelivery" name="homeDelivery" required>
+        <option value="">Select</option>
+        <option value="Available" <% if(store.homeDelivery=='Available'){ %>selected<%} %>>Available</option>
+        <option value="Not Available" <% if(store.homeDelivery=='Not Available'){ %>selected<%} %>>Not Available</option>
+      </select>
+    </div>
+  
+
+    <button type="submit">Update Profile</button>
+  </form>
+  <div class="mapcontainer">
+            <h3>Pick a Location</h3>
+            <input
+            id="searchBox"
+            type="text"
+            placeholder="Search location..."
+            />
+            <div id="map" ></div>
+            <div class="confiremmaplocation">Confirm Selection</div>
+  </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
+<script src="/js/storejs/store-registration.js"> </script>

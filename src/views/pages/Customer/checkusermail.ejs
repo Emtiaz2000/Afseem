@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/css/changepass.css">
+<div class="form-container">
+  <% if(error.length>0){ %>
+    <div class="errorContainer">
+      <% error.forEach(element => { %>
+        <p><%= element.msg %></p>
+      <% }); %>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+  <h2> Change Password</h2>
+  <form id="changepass" action="/forgetpassword" method="POST">
+    <div>
+        <div class="passContainer">
+            <label for="useremail">Email Address <span class="required">*</span></label>
+            <input placeholder="example@mail.com" type="text" id="useremail" name="useremail" required>
+        </div>
+        
+    </div>
+    
+    
+    <button class="submitBTN" type="submit">Send OTP</button>
+  </form>
+</div>

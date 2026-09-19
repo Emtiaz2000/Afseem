@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="css/store/seller-login.css">
+<% if(error.length>0){ %>
+    <div class="errorContainer">
+      <% error.forEach(element => { %>
+        <p><%= element.msg %></p>
+      <% }); %>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+<% } %>
+
+  <% if (success_msg!='') { %>
+    <div style="background-color: green !important;" class="errorContainer">
+        <p style="color: #fff !important;"><%= success_msg %></p>
+      <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  <% } %>
+<div class="loginformcontainer">
+    <div class="heading_login"><h1>Seller Login</h1></div>
+    <form id="sellerloginform" action="/store-login" method="post">
+        <div class="input_email">
+            <label for="loginuseremail">Email Address</label>
+            <input type="email" name="loginuseremail" id="loginuseremail" placeholder="user@mail.com" required>
+        </div>
+        <div class="input_pass">
+            <label for="loginuserpass">Password</label>
+            <input type="password" name="loginuserpass" id="loginuserpass" required>
+            <i class="fa-solid fa-eye eyespass"></i> 
+        </div>
+        <div class="forgetpass">
+           <p>Don't have Account? <a href="/registration-store">Create Profile</a>.</p> 
+           <p>Forget Password? <a href="/store-forgetpassword">Click here</a></p>
+        </div>
+        <button type="submit">Log in</button>
+    </form>
+</div>
+
+<script src="/js/storejs/store-login.js"></script>

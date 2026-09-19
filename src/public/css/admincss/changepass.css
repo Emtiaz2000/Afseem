@@ -1,0 +1,28 @@
+.sendotpcontainer{
+    width:95%;
+    margin:20px auto;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding:20px;
+    border-radius: 15px;
+    position:relative;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sentotpbtn{
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    outline: none;
+    border: 1px solid #f15a24;
+    background: #fff;
+    padding:5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sentotpbtn:hover{
+    color:#f15a24;
+}
