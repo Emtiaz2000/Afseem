@@ -10,9 +10,9 @@ export const sendOTPEmail = async (email, otp)=> {
     });
 
     const mailOptions = {
-        from: process.env.OTP_SENT_MAIL,
+        from: process.env.VERIFICATION_EMAIL || process.env.OTP_SENT_MAIL,
         to: email,
-        subject: 'Verify your account',
+        subject: 'Afseem.Com – Verify Your Account',
         text: `Your OTP for account verification is ${otp}. It will expire in 5 minutes.`
     };
 

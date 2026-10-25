@@ -154,6 +154,10 @@ const storeSchema = new mongoose.Schema({
         type:Boolean,
         default:true,
     },
+    temporaryClosed:{
+        type:Boolean,
+        default:false,
+    },
     resetPasswordOTP:String,
     resetPasswordOTPExpiry:String,
     otp: String,

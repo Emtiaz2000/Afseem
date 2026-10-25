@@ -43,7 +43,7 @@ const customerSchema = new mongoose.Schema({
     },
     customerunitno: {
         type: String,
-        required: [true, 'Store Unit No. is Required'],
+        required: [false, 'Store Unit No. is Required'],
         trim: true
     },
     customerbuildingno: {

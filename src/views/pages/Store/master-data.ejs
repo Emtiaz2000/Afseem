@@ -1,10 +1,323 @@
 <link rel="stylesheet" href="/css/store/master-data.css" />
 
 <div class="masterDashboardContainer">
-  <div class="headingcotainer">
+  <!-- <div class="headingcotainer">
     <h1>My Products</h1>
+    <div class="seller-stats"><span>Date of Joining: <%= new Date(dateOfJoining).toLocaleDateString() %></span><span>Total Orders: <%= totalOrders %></span></div>
   </div>
-  <div class="masterdatacategorycontainer">
+  <div class="monthly-orders"><h2>Monthly Orders</h2><% monthlyOrders.forEach(m=>{ %><div><%= m._id %> — <%= m.totalOrders %> orders</div><% }) %></div>
+  <div class="seller-orders"><h2>Recent Orders</h2><% (sellerOrders || []).forEach(order=>{ %><div class="seller-order-row"><span><%= new Date(order.createdAt).toLocaleDateString() %></span><span><%= order.grandtotal %> <%= order.currency %></span><button type="button" onclick="document.getElementById('seller-order-<%= order._id %>').showModal()">View Order</button><dialog id="seller-order-<%= order._id %>"><h3>Order Details</h3><p>Customer: <%= order.customer?.customerusername || 'Customer' %></p><p>Category: <%= order.storecategory %></p><% order.productsname.forEach((name,i)=>{ %><p><b><%= name %></b> — Qty: <%= order.productsquantities[i] %> — <%= order.productsprices[i] %> <%= order.currency %></p><% }) %><p><b>Total: <%= order.grandtotal %> <%= order.currency %></b></p><button type="button" onclick="this.closest('dialog').close()">Close</button></dialog></div><% }) %></div>
+  <div class="master-search"><form method="get"><input name="searchproduct" list="seller-products" value="<%= searchproduct || "" %>" placeholder="Search product..."/><button type="submit">Search</button></form><datalist id="seller-products"><% (productSearchOptions || []).forEach(p=>{ %><option value="<%= p.productname %>"><% }) %></datalist></div>
+   -->
+
+
+<!-- =========================
+     DASHBOARD HEADER
+========================= -->
+<div class="headingcotainer">
+  <div class="dashboard-title">
+    <span class="title-icon">
+      <i class="fa-solid fa-box-open"></i>
+    </span>
+
+    <div>
+      <h1>My Products</h1>
+      <p>Manage your products and store orders</p>
+    </div>
+  </div>
+
+  <div class="seller-stats">
+    <div class="seller-stat">
+      <span class="stat-icon">
+        <i class="fa-regular fa-calendar"></i>
+      </span>
+
+      <div>
+        <small>Date of Joining</small>
+        <strong>
+          <%= new Date(dateOfJoining).toLocaleDateString() %>
+        </strong>
+      </div>
+    </div>
+
+    <div class="seller-stat">
+      <span class="stat-icon">
+        <i class="fa-solid fa-cart-shopping"></i>
+      </span>
+
+      <div>
+        <small>Total Orders</small>
+        <strong><%= totalOrders %></strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================
+     MONTHLY ORDERS
+========================= -->
+<div class="monthly-orders">
+  <div class="section-heading">
+    <div>
+      <span class="section-icon">
+        <i class="fa-solid fa-chart-column"></i>
+      </span>
+
+      <div>
+        <h2>Monthly Orders</h2>
+        <p>Your monthly order activity</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="monthly-order-list">
+    <% monthlyOrders.forEach(m => { %>
+
+      <div class="monthly-order-item">
+        <div class="month-info">
+          <span class="month-icon">
+            <i class="fa-regular fa-calendar-days"></i>
+          </span>
+
+          <span>
+            <%= m._id %>
+          </span>
+        </div>
+
+        <div class="order-count">
+          <strong><%= m.totalOrders %></strong>
+          <span>orders</span>
+        </div>
+      </div>
+
+    <% }) %>
+  </div>
+</div>
+
+
+<!-- =========================
+     RECENT ORDERS
+========================= -->
+<div class="seller-orders">
+
+  <div class="section-heading">
+    <div>
+      <span class="section-icon">
+        <i class="fa-solid fa-receipt"></i>
+      </span>
+
+      <div>
+        <h2>Recent Orders</h2>
+        <p>Latest orders from your customers</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="seller-order-list">
+
+    <% (sellerOrders || []).forEach(order => { %>
+
+      <div class="seller-order-row">
+
+        <div class="order-date">
+          <span class="order-small-icon">
+            <i class="fa-regular fa-calendar"></i>
+          </span>
+
+          <div>
+            <small>Order Date</small>
+            <strong>
+              <%= new Date(order.createdAt).toLocaleDateString() %>
+            </strong>
+          </div>
+        </div>
+
+
+        <div class="order-total">
+          <small>Total</small>
+          <strong>
+            <%= order.grandtotal %>
+            <span><%= order.currency %></span>
+          </strong>
+        </div>
+
+
+        <button
+          type="button"
+          class="view-order-btn"
+          onclick="document.getElementById('seller-order-<%= order._id %>').showModal()"
+        >
+          <i class="fa-regular fa-eye"></i>
+          View Order
+        </button>
+
+
+        <!-- ORDER MODAL -->
+        <dialog id="seller-order-<%= order._id %>" class="seller-order-dialog">
+
+          <div class="order-dialog-header">
+            <div>
+              <span class="modal-icon">
+                <i class="fa-solid fa-receipt"></i>
+              </span>
+
+              <div>
+                <h3>Order Details</h3>
+                <p>Order information</p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="modal-close-icon"
+              onclick="this.closest('dialog').close()"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+
+          <div class="order-dialog-body">
+
+            <div class="order-info-box">
+              <span>Customer</span>
+              <strong>
+                <%= order.customer?.customerusername || 'Customer' %>
+              </strong>
+            </div>
+
+            <div class="order-info-box">
+              <span>Category</span>
+              <strong>
+                <%= order.storecategory %>
+              </strong>
+            </div>
+
+
+            <div class="order-products">
+
+              <h4>
+                <i class="fa-solid fa-box"></i>
+                Products
+              </h4>
+
+              <% order.productsname.forEach((name, i) => { %>
+
+                <div class="order-product-item">
+
+                  <div class="order-product-name">
+                    <span class="product-number">
+                      <%= i + 1 %>
+                    </span>
+
+                    <strong><%= name %></strong>
+                  </div>
+
+                  <div class="order-product-meta">
+                    <span>
+                      Qty: <strong><%= order.productsquantities[i] %></strong>
+                    </span>
+
+                    <span>
+                      <strong>
+                        <%= order.productsprices[i] %>
+                        <%= order.currency %>
+                      </strong>
+                    </span>
+                  </div>
+
+                </div>
+
+              <% }) %>
+
+            </div>
+
+
+            <div class="order-grand-total">
+              <span>Total Amount</span>
+
+              <strong>
+                <%= order.grandtotal %>
+                <small><%= order.currency %></small>
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div class="order-dialog-footer">
+            <button
+              type="button"
+              class="modal-close-btn"
+              onclick="this.closest('dialog').close()"
+            >
+              <i class="fa-solid fa-check"></i>
+              Close
+            </button>
+          </div>
+
+        </dialog>
+
+      </div>
+
+    <% }) %>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     PRODUCT SEARCH
+========================= -->
+<div class="master-search">
+
+  <form method="get" class="master-search-form">
+
+    <div class="search-input-wrapper">
+
+      <span class="search-icon">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </span>
+
+      <input
+        type="text"
+        name="searchproduct"
+        value="<%= searchproduct || '' %>"
+        list="seller-products"
+        placeholder="Search your products..."
+        autocomplete="off"
+      />
+
+      <button type="submit" class="search-button">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search</span>
+      </button>
+
+    </div>
+
+
+    <datalist id="seller-products">
+
+      <% (productSearchOptions || []).forEach(p => { %>
+
+        <option value="<%= p.productname %>">
+
+      <% }) %>
+
+    </datalist>
+
+  </form>
+
+</div>
+
+
+
+
+
+    <div class="masterdatacategorycontainer">
     <div class="filtertext"><span>Filter</span> <span class="filterIcon"><i class="fa-solid fa-list"></i></span> <span class="closefilter"><i class="fa-solid fa-ban"></i></span></div>
     <div class="masterdatabodycontainer">
       <div id="CategorySearch">

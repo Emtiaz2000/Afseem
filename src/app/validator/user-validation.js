@@ -20,8 +20,8 @@ export const userValidationForm = [
         .isNumeric().withMessage('Only Numaric value is acceptable!')
         .isLength({min:8,max:8}).withMessage('Enter Valid Phone number'),
     body('customerunitno')
-        .notEmpty().withMessage('Store Unit No. is Required')
-        .isNumeric().withMessage('Unit No No must be a Numaric value !')
+        .optional({checkFalsy:true})
+        .isNumeric().withMessage('Unit No must be a Numeric value!')
         .trim(),
     body('customerbuildingno')
         .notEmpty().withMessage('Store Building No. is Required')

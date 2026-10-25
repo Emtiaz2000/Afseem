@@ -18,7 +18,7 @@
 
      <div>
       <label for="customerprofilephoto">Profile Photo <span class="required">*</span></label>
-      <input type="file" id="customerprofilephoto" name="customerprofilephoto" accept="image/*" >
+      <input type="file" id="customerprofilephoto" name="customerprofilephoto" accept="image/*" required>
     </div>
 
     <div>
@@ -58,7 +58,7 @@
       </select>
     </div>
     <div class="dropdown-subcategory">
-      <label for="customercity">City <span class="required">*</span></label>
+      <label for="customercity">Area <span class="required">*</span></label>
       <input id="customercity" type="text" value="<%= user.customercity %>" name="customercity" required>
       <div class="dropdown-list" id="dropdown"></div>
     </div>
@@ -88,5 +88,5 @@
 </div>
 
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAPS_API_KEY %>&libraries=places"></script>
 <script src="/js/customerjs/customer-registration.js"> </script>

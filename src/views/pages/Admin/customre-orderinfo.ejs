@@ -6,11 +6,59 @@
         <div class="orderdetails">
             <% orders.forEach(order=>{ %>
                 <div class="ordercontainer">
-                    <div>
-                        <p>Store Id: <%= order.store %></p>
-                    </div>
+                    <div>Store Name: <%= order.store?.storeName || order.store %></div>
                     <div><%= order.storecategory %></div>
-                    <div>Total Price: <%= order.grandtotal %> <%= order.currency %></div>
+                    <div>Total Amount: <%= order.grandtotal %> <%= order.currency %></div>
+                    <div>Date: <%= new Date(order.createdAt).toLocaleDateString() %></div>
+                    <!-- <button type="button" onclick="document.getElementById('admin-order-<%= order._id %>').showModal()">View Order</button>
+                    <dialog id="admin-order-<%= order._id %>"><h3>Order Details</h3><p>Store: <%= order.store?.storeName || order.store %></p><p>Category: <%= order.storecategory %></p><% order.productsname.forEach((name,i)=>{ %><p><b><%= name %></b> — Qty: <%= order.productsquantities[i] %> — <%= order.productsprices[i] %> <%= order.currency %></p><% }) %><p><b>Total: <%= order.grandtotal %> <%= order.currency %></b></p><button type="button" onclick="this.closest('dialog').close()">Close</button></dialog>
+                 -->
+
+                    <!-- modal & view order -->
+                    <button
+                        type="button"
+                        class="view-order-btn"
+                        onclick="document.getElementById('order-<%= order._id %>').showModal()">
+                        View Order
+                    </button>
+
+                    <dialog id="order-<%= order._id %>">
+
+                        <h3>Order Details</h3>
+
+                        <p>
+                            <b>Store:</b>
+                            <%= order.store?.storeName || order.store %>
+                        </p>
+
+                        <p>
+                            <b>Category:</b>
+                            <%= order.storecategory %>
+                        </p>
+
+                        <% order.productsname.forEach((name, i) => { %>
+
+                            <p>
+                                <b><%= name %></b>
+                                — Qty: <%= order.productsquantities[i] %>
+                                — <%= order.productsprices[i] %>
+                                <%= order.currency %>
+                            </p>
+
+                        <% }) %>
+
+                        <p>
+                            <b>Total: <%= order.grandtotal %> <%= order.currency %></b>
+                        </p>
+
+                        <button
+                            type="button"
+                            onclick="this.closest('dialog').close()">
+                            Close
+                        </button>
+
+                    </dialog>      
+                
                 </div>
             <% }) %>
 

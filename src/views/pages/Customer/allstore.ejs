@@ -22,9 +22,9 @@
         const closeHM = cH * 60 + cM;
 
         if (openHM <= closeHM) {
-            return (nowHM >= openHM && nowHM <= closeHM) ? "Online" : "Close";
+            return (nowHM >= openHM && nowHM <= closeHM) ? "Open" : "Close";
         } else {
-            return (nowHM >= openHM || nowHM <= closeHM) ? "Online" : "Close";
+            return (nowHM >= openHM || nowHM <= closeHM) ? "Open" : "Close";
         }
     }
     %>
@@ -45,22 +45,78 @@
                     <div class="storesectionSubscribed">
                         <img src="/images/categoryglossary.jpg" alt="glossary_hero_image">
                         <h2><%= store.storeName %> <img src="/images/verified.png" alt="varified"></h2>
-                        <p class="storeid"><%= store._id %></p>
-                        <p class="categorytext">Category: <%= store.storeCategory %></p>
-                        <p class="cityaddress">City: <%= store.storecity %></p>
+                        <p class="cityaddress">Area: <%= store.storecity %></p>
                         <p>
-                            <span class="cityaddress unit"><b>Unit No</b>: <%= store.storeunitno %></span>,
-                            <span class="cityaddress buiding"><b>Building No:</b> <%= store.storebuildingno %>,</span>
-                            <span class="cityaddress street"><b>Steet No:</b> <%= store.storestreetno %>,</span>
-                            <span class="cityaddress zone"><b>Zone No:</b> <%= store.storezoneno %></span>
+                            <span class="cityaddress unit"><b>Unit</b> <%= store.storeunitno %></span>,
+                            <span class="cityaddress buiding"><b>Building</b> <%= store.storebuildingno %>,</span>
+                            <span class="cityaddress street"><b>Street</b> <%= store.storestreetno %>,</span>
+                            <span class="cityaddress zone"><b>Zone</b> <%= store.storezoneno %></span>
                         </p>
-                        <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
+                        <p class="cityaddress businesstime"><b>Working Time:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
                         <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
+                       
+    <!-- Customer Reviews -->
+<button
+    type="button"
+    class="store-rating"
+    onclick="document.getElementById('reviews-<%= store._id %>').showModal()"
+    title="See Customer Reviews">
+
+    <span class="rating-stars">
+        <% 
+            const rating = Number(store.rating || 0);
+            const fullStars = Math.floor(rating);
+        %>
+
+        <% for (let i = 1; i <= 5; i++) { %>
+            <% if (i <= fullStars) { %>
+                <span class="star filled">★</span>
+            <% } else { %>
+                <span class="star">★</span>
+            <% } %>
+        <% } %>
+    </span>
+
+    <span class="review-text">See Customer Reviews</span>
+</button>
+
+<!-- Customer Reviews Popup -->
+<dialog id="reviews-<%= store._id %>" class="review-dialog">
+
+    <h3>See Customer Reviews</h3>
+
+    <p>
+        Customer rating:
+        <span class="rating-stars">
+            <% for (let i = 1; i <= 5; i++) { %>
+                <% if (i <= fullStars) { %>
+                    <span class="star filled">★</span>
+                <% } else { %>
+                    <span class="star">★</span>
+                <% } %>
+            <% } %>
+        </span>
+
+        <strong><%= rating %>/5</strong>
+    </p>
+
+    <a href="/store/<%= store._id %>#customer-reviews">
+        View Customer Reviews
+    </a>
+
+    <button
+        type="button"
+        onclick="this.closest('dialog').close()">
+        Close
+    </button>
+
+</dialog>
+                        
                         <br>
                         <% if(isOpen(store.storeopen, store.storeclose)=='Open'){ %>
-                            <span style="padding:5px 15px; font-weight: bold;border:1px solid #079807;border-radius: 8px;color:#079807;">Open</span>
+                            <span style="padding:5px 15px; font-weight: bold;border:1px solid #079807;border-radius: 8px;color:#079807;">Store is Open</span>
                         <% }else{ %>
-                            <span style="padding:5px 15px; font-weight: bold;border:1px solid #c61a00;border-radius: 8px;color:#c61a00;">Close</span>
+                            <span style="padding:5px 15px; font-weight: bold;border:1px solid #c61a00;border-radius: 8px;color:#c61a00;">Store is Closed</span>
                         <% } %>
                         <br>
                         <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>
@@ -93,22 +149,84 @@
                 <div class="storesection">
                     <img src="/uploads/stores/<%= store.storePhoto %>" alt="glossary_hero_image">
                     <h2><%= store.storeName %></h2>
-                    <p class="storeid"><%= store._id %></p>
-                    <p class="categorytext">Category: <%= store.storeCategory %></p>
-                    <p class="cityaddress">City: <%= store.storecity %></p>
+                    <p class="cityaddress">Area: <%= store.storecity %></p>
                     <p>
-                        <span class="cityaddress unit"><b>Unit No</b>: <%= store.storeunitno %></span>,
-                        <span class="cityaddress buiding"><b>Building No:</b> <%= store.storebuildingno %>,</span>
-                        <span class="cityaddress street"><b>Steet No:</b> <%= store.storestreetno %>,</span>
-                        <span class="cityaddress zone"><b>Zone No:</b> <%= store.storezoneno %></span>
+                        <span class="cityaddress unit"><b>Unit-</b> <%= store.storeunitno %></span>,
+                        <span class="cityaddress buiding"><b>Building-</b> <%= store.storebuildingno %>,</span>
+                        <span class="cityaddress street"><b>Street-</b> <%= store.storestreetno %>,</span>
+                        <span class="cityaddress zone"><b>Zone-</b> <%= store.storezoneno %></span>
                     </p>
-                    <p class="cityaddress businesstime"><b>Business Hrs:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
+                    <p class="cityaddress businesstime"><b>Working Time:</b> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
                     <p class="cityaddress delivery"><b>Delivery:</b> <%= store.homeDelivery %></p>
+                       
+
+                    <!-- Customer Reviews -->
+                    <button
+                        type="button"
+                        class="store-rating"
+                        onclick="document.getElementById('reviews-<%= store._id %>').showModal()"
+                        title="See Customer Reviews">
+                        <span class="rating-stars">
+                        <span class="review-text">Customer Reviews</span>
+                    </button>              
+                    <button
+                        type="button"
+                        class="store-rating"
+                        onclick="document.getElementById('reviews-<%= store._id %>').showModal()"
+                        title="See Customer Reviews">
+                        <span class="rating-stars">
+                            <% 
+                                const rating = Number(store.rating || 0);
+                                const fullStars = Math.floor(rating);
+                            %>
+
+                            <% for (let i = 1; i <= 5; i++) { %>
+                                <% if (i <= fullStars) { %>
+                                    <span class="star filled">★</span>
+                                <% } else { %>
+                                    <span class="star">★</span>
+                                <% } %>
+                            <% } %>
+                        </span>
+                    </button>
+
+                    <!-- Customer Reviews Popup -->
+                    <dialog id="reviews-<%= store._id %>" class="review-dialog">
+
+                        <h3>See Customer Reviews</h3>
+
+                        <p>
+                            Customer rating:
+                            <span class="rating-stars">
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <% if (i <= fullStars) { %>
+                                        <span class="star filled">★</span>
+                                    <% } else { %>
+                                        <span class="star">★</span>
+                                    <% } %>
+                                <% } %>
+                            </span>
+
+                            <strong><%= rating %>/5</strong>
+                        </p>
+
+                        <a href="/store/<%= store._id %>#customer-reviews">
+                            View Customer Reviews
+                        </a>
+
+                        <button
+                            type="button"
+                            onclick="this.closest('dialog').close()">
+                            Close
+                        </button>
+
+                    </dialog>
+                    
                     <br>
                     <% if(isOpen(store.storeopen, store.storeclose)=='Open'){ %>
-                        <span style="padding:5px 15px; font-weight: bold;border:1px solid #079807;border-radius: 8px;color:#079807;">Open</span>
+                        <span style="padding:5px 15px; font-weight: bold;border:1px solid #079807;border-radius: 8px;color:#079807;">Store is Open</span>
                     <% }else{ %>
-                        <span style="padding:5px 15px; font-weight: bold;border:1px solid #c61a00;border-radius: 8px;color:#c61a00;">Close</span>
+                        <span style="padding:5px 15px; font-weight: bold;border:1px solid #c61a00;border-radius: 8px;color:#c61a00;">Store is Closed</span>
                     <% } %>
                     <br>
                     <a href="/store/<%= store._id %>"><i class="fa-solid fa-eye"></i> View Products</a>

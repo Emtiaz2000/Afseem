@@ -1,173 +1,578 @@
-.allStoreConatainer{
-    width:95%;
-    margin:20px auto;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding:20px 10px;
-    border-radius: 15px;
-    min-height: 60vh;
-}
-.allStoreHead{
-    width:95%;
-    text-align: left;
-    margin:auto;
-}
-.storesearchsection{
-    width:95%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:5px;
-    margin: auto;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    height:80px;
-    border-radius: 15px;
-}
-.storesearchsection>form{
-    width:95%;
-    margin:auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:5px;
-}
-#searchseller{
-    width:60%;
-    min-width: 280px;
-    height:40px;
-    border:1px solid #F15A24;
-    outline: none;
-    border-radius: 10px;
-    padding:5px 8px;
-    font-size: 16px;
-}
-.storesearchsection>form>button{
-    width:45px;
-    height:45px;
-    outline: none;
+/* ================================
+   ALL STORES CONTAINER
+================================ */
+
+.allStoreConatainer {
+    width: min(1200px, 95%);
+    margin: 30px auto;
+    padding: 25px;
     background: #fff;
-    border-radius: 50%;
-    border: 1px solid #F15A24;
-    cursor: pointer;
-    transition: .3s ease all;
-    color:#F15A24;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(100, 100, 111, 0.14);
+    min-height: 60vh;
+    box-sizing: border-box;
 }
 
-.storesearchsection>form>button:hover{
-    background: #F15A24;
-    color:#fff;
+/* ================================
+   PAGE TITLE
+================================ */
+
+.allStoreHead {
+    width: 100%;
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
 }
 
-.singleStore{
-    width:90%;
+/* ================================
+   CATEGORY FILTERS
+================================ */
+
+.admin-store-filters {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    gap:30px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    padding:20px;
-    border-radius: 15px;
-    margin:20px auto;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
-.info{
+
+.admin-store-filters a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 90px;
+    height: 40px;
+
+    padding: 0 18px;
+
+    border: 1px solid #F15A24;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #F15A24;
+
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: all 0.25s ease;
+}
+
+.admin-store-filters a:hover {
+    background: #F15A24;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* ================================
+   SEARCH SECTION
+================================ */
+
+.storesearchsection {
+    width: 100%;
+    min-height: 75px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto 25px;
+    padding: 12px 15px;
+
+    box-sizing: border-box;
+
+    background: #fff;
+    border-radius: 15px;
+
+    box-shadow: 0 5px 20px rgba(100, 100, 111, 0.12);
+}
+
+.storesearchsection > form {
+    width: min(700px, 100%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+    margin: 0 auto;
+}
+
+/* Search input */
+
+#searchseller {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    height: 46px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ddd;
+    outline: none;
+
+    border-radius: 10px;
+    padding: 0 15px;
+
+    background: #fff;
+    color: #222;
+
+    font-size: 15px;
+
+    transition: all 0.25s ease;
+}
+
+#searchseller::placeholder {
+    color: #999;
+}
+
+#searchseller:focus {
+    border-color: #F15A24;
+    box-shadow: 0 0 0 3px rgba(241, 90, 36, 0.10);
+}
+
+/* Search button */
+
+.storesearchsection > form > button {
+    flex: 0 0 46px;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+
+    border: 1px solid #F15A24;
+    border-radius: 10px;
+
+    background: #F15A24;
+    color: #fff;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: all 0.25s ease;
+}
+
+.storesearchsection > form > button:hover {
+    background: #d94d1d;
+    border-color: #d94d1d;
+    transform: translateY(-1px);
+}
+
+/* ================================
+   STORE CARD
+================================ */
+
+.singleStore {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+
+    gap: 10px;
+
+    box-sizing: border-box;
+
+    margin: 18px 0;
+    padding: 20px;
+
+    background: #fff;
+
+    border: 1px solid #eee;
+    border-radius: 16px;
+
+    box-shadow:
+        0 2px 8px rgba(60, 64, 67, 0.08),
+        0 5px 18px rgba(60, 64, 67, 0.06);
+
+    transition: all 0.25s ease;
+}
+
+.singleStore:hover {
+    box-shadow:
+        0 5px 15px rgba(60, 64, 67, 0.12),
+        0 10px 25px rgba(60, 64, 67, 0.08);
+
+    transform: translateY(-2px);
+}
+
+/* ================================
+   STORE INFORMATION
+================================ */
+
+.info {
+    width: 100%;
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap:20px;
-    width:100%;
+
+    gap: 50px;
+
     flex-wrap: wrap;
-}
-.storeImage{
-    height:50px;
-    width:50px;
-    border-radius: 50%;
-}
-.storeImage>img{
-    height:100%;
-    width:100%;
-    border-radius: 50%;
-}
-.statusBt{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:20px;
-    width:100%;
-    flex-wrap: wrap;
-}
-.status{
-    color: #0d7e03;
-    font-weight: bold;
-}
-.subscribed{
-    color: #0ca1f0;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:5px;
-}
-.subscribed>img{
-    width:20px;
-}
-.findSubscribedStore{
-    text-align: right;
-    height:40px;
-    padding-right:5px;
-}
-.findSubscribedStore>a{
-    font-weight: bold;
-    padding:5px 10px;
-    border:1px solid #F15A24;
-    border-radius: 5px;
-}
-.findSubscribedStore>a:hover{
-    background-color: #F15A24;
-    color:#FFF;
-}
-.buttons{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:20px;
-}
-.activeCls{
-    padding:10px 20px;
-    border:1px solid #0d7e03;
-    border-radius: 10px;
-    transition: .3s ease all;
-}
-.activeCls:hover{
-    color:#fff;
-    background-color: #0d7e03;
-}
-.deactiveCls{
-    padding:10px 20px;
-    border:1px solid #f60a0a;
-    border-radius: 10px;
-    transition: .3s ease all;
-}
-.deactiveCls:hover{
-    color:#fff;
-    background-color: #f60a0a;
-}
-.buttons>form>button{
-    padding:10px 20px;
-    border:1px solid #7e0303;
-    border-radius: 10px;
-    background-color: #fff;
-    color:#7e0303;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-}
-.buttons>form>button:hover{
-    color:#fff;
-    background-color: #f60a0a;
 }
 
-@media (max-width:550px) {
-    .singleStore{
-        width:100%;
+.info > * {
+    box-sizing: border-box;
+}
+
+/* Store image */
+
+.storeImage {
+    width: 60px;
+    height: 60px;
+
+    flex: 0 0 60px;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    background: #f5f5f5;
+    border: 1px solid #eee;
+}
+
+.storeImage > img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* ================================
+   STATUS SECTION
+================================ */
+
+.statusBt {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    padding-top: 5px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.status {
+    color: #0d7e03;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.subscribed {
+    color: #0ca1f0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 6px;
+
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.subscribed > img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* ================================
+   SUBSCRIBED STORE LINK
+================================ */
+
+.findSubscribedStore {
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    min-height: auto;
+    height: auto;
+
+    padding: 0;
+}
+
+.findSubscribedStore > a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 38px;
+
+    padding: 0 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #F15A24;
+    border-radius: 8px;
+
+    color: #F15A24;
+    background: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: all 0.25s ease;
+}
+
+.findSubscribedStore > a:hover {
+    background: #F15A24;
+    color: #fff;
+}
+
+/* ================================
+   ACTION BUTTONS
+================================ */
+
+.buttons {
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    padding-top: 5px;
+}
+
+.activeCls,
+.deactiveCls {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 40px;
+
+    padding: 0 18px;
+
+    box-sizing: border-box;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: all 0.25s ease;
+}
+
+.activeCls {
+    border: 1px solid #0d7e03;
+    color: #0d7e03;
+    background: #fff;
+}
+
+.activeCls:hover {
+    color: #fff;
+    background: #0d7e03;
+}
+
+.deactiveCls {
+    border: 1px solid #f60a0a;
+    color: #f60a0a;
+    background: #fff;
+}
+
+.deactiveCls:hover {
+    color: #fff;
+    background: #f60a0a;
+}
+
+/* Delete / other form button */
+
+.buttons > form {
+    margin: 0;
+}
+
+.buttons > form > button {
+    min-height: 40px;
+
+    padding: 0 18px;
+
+    border: 1px solid #7e0303;
+    border-radius: 9px;
+
+    background: #fff;
+    color: #7e0303;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.buttons > form > button:hover {
+    color: #fff;
+    background: #f60a0a;
+    border-color: #f60a0a;
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+
+    .allStoreConatainer {
+        width: calc(100% - 20px);
+        margin: 15px auto;
+        padding: 18px 14px;
+        border-radius: 14px;
+    }
+
+    .allStoreHead {
+        font-size: 24px;
+        margin-bottom: 16px;
+    }
+
+    .admin-store-filters {
+        justify-content: center;
+    }
+
+    .admin-store-filters a {
+        flex: 1;
+        min-width: 0;
+        padding: 0 12px;
+    }
+
+    .storesearchsection {
+        min-height: auto;
+        padding: 12px;
+        margin-bottom: 20px;
+    }
+
+    .storesearchsection > form {
+        width: 100%;
+    }
+
+    #searchseller {
+        height: 44px;
+        font-size: 14px;
+    }
+
+    .storesearchsection > form > button {
+        width: 44px;
+        height: 44px;
+        flex-basis: 44px;
+    }
+
+    .singleStore {
+        width: 100%;
+        padding: 16px;
+        gap: 16px;
+        margin: 14px 0;
+    }
+
+    .info {
+        gap: 12px;
+    }
+
+    .storeImage {
+        width: 52px;
+        height: 52px;
+        flex-basis: 52px;
+    }
+
+    .statusBt {
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .findSubscribedStore {
+        justify-content: flex-start;
+    }
+
+    .buttons {
+        justify-content: flex-start;
+    }
+
+    .activeCls,
+    .deactiveCls,
+    .buttons > form > button {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 420px) {
+
+    .allStoreConatainer {
+        width: calc(100% - 12px);
+        padding: 15px 10px;
+    }
+
+    .allStoreHead {
+        font-size: 22px;
+    }
+
+    .admin-store-filters {
+        gap: 7px;
+    }
+
+    .admin-store-filters a {
+        height: 38px;
+        font-size: 13px;
+    }
+
+    .storesearchsection > form {
+        gap: 7px;
+    }
+
+    #searchseller {
+        height: 42px;
+        padding: 0 11px;
+    }
+
+    .storesearchsection > form > button {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    .singleStore {
+        padding: 14px;
+    }
+
+    .activeCls,
+    .deactiveCls,
+    .buttons > form > button {
+        width: 100%;
+        flex: 1 1 100%;
     }
 }

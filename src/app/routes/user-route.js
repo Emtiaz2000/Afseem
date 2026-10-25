@@ -85,12 +85,7 @@ router.post(
           .resize(300, 300, { fit: 'cover' })
           .jpeg({ quality: 70 })
           .toFile(filepath);
-
         customerimage = filename;
-      } else {
-        req.flash('error_msg', 'Please Upload Store Photo!');
-        req.flash('oldData',req.body)
-        return res.redirect('/registration');
       }
       bcrypt.genSalt(10, function (err, salt) {
         if (err) throw new Error(`Problem to Register User!`);
@@ -251,7 +246,7 @@ router.get('/profile', verifyUser, verifyUserRole('User'), async (req, res) => {
     const totalOrders = await orderSchema.countDocuments({ customer: req.user.id });
 
     // Fetch paginated orders
-    const orders = await orderSchema.find({ customer: req.user.id })
+    const orders = await orderSchema.find({ customer: req.user.id }).populate('store', 'storeName storeCategory')
         .sort({ _id: -1 }) // latest orders first
         .skip(skip)
         .limit(limit);
@@ -374,30 +369,7 @@ router.put(
   }
 );
 
-//delete profile
-router.delete(
-  '/delete-profile',
-  verifyUser,
-  verifyUserRole('User'),
-  async (req, res) => {
-    try {
-      const user = await userSchema.findOne({ _id: res.locals.user.id });
-      if (!user) throw new Error('No User Found!');
-      fs.unlink(`/root/Afseem/src/uploads/customers/${user.customerprofilephoto}`,(err)=>{
-                    if(err){
-                      console.log(err)
-                    }
-              })
-      await orderSchema.deleteMany({customer:user._id})
-      await commentSchema.deleteMany({customer:user._id})
-      await userSchema.findByIdAndDelete({ _id: user._id });
-      res.cookie('token', '');
-      res.redirect('/');
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-);
+// Customer account deletion is intentionally admin-only.
 
 //store category
 router.get('/store-category',  preventStorePagesForLoggedIn , (req, res) => {
@@ -447,6 +419,8 @@ router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
       storeCategory: query.category,
       countryisocode: query.countrycode,
       subscription: false,
+      activestatus: true,
+      temporaryClosed: { $ne: true },
       storecity: query.storecity
     })
     .collation({ locale: 'en', strength: 2 });
@@ -455,6 +429,8 @@ router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
       storeCategory: query.category,
       countryisocode: query.countrycode,
       subscription: false,
+      activestatus: true,
+      temporaryClosed: { $ne: true },
       storecity: query.storecity
     })
     .collation({ locale: 'en', strength: 2 })
@@ -468,6 +444,8 @@ router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
       storecity: query.storecity,
       countryisocode: query.countrycode,
       subscription: true,
+      activestatus: true,
+      temporaryClosed: { $ne: true },
     })
     .collation({ locale: 'en', strength: 2 });
   let subscribedStore = await sellerSchema
@@ -476,11 +454,25 @@ router.get('/storenearby',  preventStorePagesForLoggedIn , async (req, res) => {
       storecity: query.storecity,
       countryisocode: query.countrycode,
       subscription: true,
+      activestatus: true,
+      temporaryClosed: { $ne: true },
     })
     .collation({ locale: 'en', strength: 2 })
     .skip((pageSubscribed - 1) * pageSubscribedLimit)
     .limit(pageSubscribedLimit);
 
+  // Calculate the current average rating for visible stores.
+  const visibleStores = [...stores, ...subscribedStore];
+  const ratingRows = await commentSchema.aggregate([
+    {$match:{store:{$in:visibleStores.map(s=>s._id)}}},
+    {$group:{_id:'$store', rating:{$avg:'$stars'}, reviews:{$sum:1}}}
+  ]);
+  const ratingMap = new Map(ratingRows.map(r=>[String(r._id), {rating:Number(r.rating.toFixed(1)), reviews:r.reviews}]));
+  visibleStores.forEach(store=>{
+    const r=ratingMap.get(String(store._id));
+    store.rating=r?.rating || 0;
+    store.reviewCount=r?.reviews || 0;
+  });
   //console.log(subscribedStore)
   if (stores.length < 1)
     return res.render('pages/Customer/allstore', {
@@ -539,7 +531,7 @@ router.get(
     
     if (!mongoose.Types.ObjectId.isValid(storeId))
       return res.render('pages/404', { msg: 'Invalid Store ID!' });
-    let store = await sellerSchema.findOne({ _id: storeId });
+    let store = await sellerSchema.findOne({ _id: storeId, activestatus: true, temporaryClosed: { $ne: true } });
     if (!store) return res.render('pages/404', { msg: ' Invalid Store!' });
     //console.log(req.query.subcategory)
     //regular products
@@ -897,25 +889,24 @@ router.post('/checkout/:storeid',verifyUser,
       productsprices:req.body.productprices,
       productsquantities:req.body.productquantities,
       storecategory:req.body.storecategory,
-      
+      paymentMode:req.body.paymentMode || 'Cash',
     }) 
-    let message ='Hi New Order!.\n'
+    let message = `Hi, Please Confirm New Order From Afseem.com!\n\n`;
     for(let i=0; i< req.body.productsname.length;i++){
-      message+=`(Product-name: ${req.body.productsname[i]} quantity: ${req.body.productquantities[i]} price: ${req.body.productquantities[i]*req.body.productprices[i]})\n`
+      message += `Product Name: ${req.body.productsname[i]}\n`;
+      message += `Quantity: ${req.body.productquantities[i]}\n`;
+      message += `Price: ${Number(req.body.productprices[i]) * Number(req.body.productquantities[i])} ${req.body.currency}\n\n`;
     }
-    //final message
-    let mapsUrl = "https://www.google.com/maps?q=" + encodeURIComponent(user.customerlocation)
-    message+= `
-    Grand Total: ${req.body.grandtotal}.\n
-    Location: \n
-    phone: ${user.customerwhatsapp}.\n
-    city: ${user.customercity}.\n
-    Building No: ${user.customerbuildingno}.\n
-    Street No: ${user.customerstreetno}.\n
-    Unit No: ${user.customerunitno}.\n
-    Zone No: ${user.customerzoneno}.\n
-    Map Url :${mapsUrl}
-    `
+    const mapsUrl = "https://www.google.com/maps?q=" + encodeURIComponent(user.customerlocation);
+    message += `Grand Total: ${req.body.grandtotal} ${req.body.currency}\n\n`;
+    message += `Payment Mode: ${req.body.paymentMode || 'Cash'}\n\n`;
+    message += `Area: ${user.customercity}\n`;
+    message += `Unit: ${user.customerunitno}\n`;
+    message += `Building: ${user.customerbuildingno}\n`;
+    message += `Street: ${user.customerstreetno}\n`;
+    message += `Zone: ${user.customerzoneno}\n`;
+    message += `Phone: ${user.customerwhatsapp}\n\n`;
+    message += `Location Map: ${mapsUrl}`;
     //checking mobile 
     let ua = req.headers['user-agent'];
     let isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);

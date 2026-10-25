@@ -23,6 +23,11 @@ const userOrderSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    paymentMode:{
+        type:String,
+        enum:["Cash","Card"],
+        default:"Cash"
+    },
     productsname:{
         type:Array,
         required:true

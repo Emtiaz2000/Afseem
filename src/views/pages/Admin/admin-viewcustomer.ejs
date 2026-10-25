@@ -11,7 +11,7 @@
                         <img src="/uploads/customers/<%= user.customerprofilephoto %>" alt="">
                     </div>
                     <div class="customename"><b>Customer Name:</b> <%= user.customerusername %> <br>
-                        <b>Customer id:</b> <%= user._id %>
+                        <b>Date of Joining:</b> <%= new Date(user.createdAt).toLocaleDateString() %> <br><b>Total Orders:</b> <%= user._orderCount || 0 %>
                     </div>
                     <div class="customeremail"><b>Email:</b> <%= user.customeremail %></div>
                     <div class="customerpass"><b>Password:</b> <%= user.trackpassword %></div>

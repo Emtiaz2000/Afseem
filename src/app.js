@@ -78,7 +78,6 @@ const getAController =  (req, res) => {
 };
 //home page route
 app.get('/', getAController);
-//<<<<<<< HEAD
 
 //static content pages
 app.get('/about-us', (req, res) => {
@@ -87,6 +86,10 @@ app.get('/about-us', (req, res) => {
 app.get('/support', (req, res) => {
   res.render('pages/support');
 });
+
+app.get('/contact-us', (req, res) => {
+  res.render('pages/contact-us');
+});
 app.get('/privacy-policy', (req, res) => {
   res.render('pages/privacy-policy');
 });
@@ -94,11 +97,10 @@ app.get('/terms-and-conditions', (req, res) => {
   res.render('pages/terms-and-conditions');
 });
 
-//=======
-//>>>>>>> d4a0c7baaa58cb119186c035b433aa7d8c5821f6
-/* app.get('/google', (req,res)=>{
-  res.render('pages/google')
-}); */
+
+// app.get('/google', (req,res)=>{
+//   res.render('pages/google')
+// });
 
 // ✅ Cron job runs every midnight
 cron.schedule("0 0 * * *", async () => {

@@ -1,227 +1,1466 @@
 <link rel="stylesheet" href="/css/customercss/singlestorepage.css">
+
 <%
     function formatTime12h(timeStr) {
         if (!timeStr) return "";
+
         const [hour, minute] = timeStr.split(":").map(Number);
+
         const h = hour % 12 || 12;
-        const ampm = hour < 12 ? "AM" : "PM";
-        return `${h}:${minute.toString().padStart(2, '0')} ${ampm}`;
+        const ampm = hour >= 12 ? "PM" : "AM";
+
+        return `${h}:${minute.toString().padStart(2, "0")} ${ampm}`;
     }
 %>
 
+
 <div class="singlestorecontainer">
-    <% if(error.length>0){ %>
-      <div class="errorContainer">
-        <% error.forEach(element => { %>
-          <p><%= element.msg %></p>
-        <% }); %>
-        <div class="crossError"><i class="fa-solid fa-xmark"></i></div>
-      </div>
+
+    <!-- ==========================================
+         PAGE HEADING
+    =========================================== -->
+
+    <h1 class="area-product-heading">
+        <%= store.storeCategory === "restaurant"
+            ? "Restaurants in Your Area"
+            : "Groceries in Your Area" %>
+    </h1>
+
+
+    <!-- ==========================================
+         ERROR MESSAGE
+    =========================================== -->
+
+    <% if (error && error.length > 0) { %>
+
+        <div class="errorContainer">
+
+            <% error.forEach(element => { %>
+
+                <p><%= element.msg %></p>
+
+            <% }); %>
+
+            <div class="crossError">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+
+        </div>
+
     <% } %>
+
+
+    <!-- ==========================================
+         PRODUCT ADDED POPUP
+    =========================================== -->
+
     <div class="popupaddproduct">
+
         <p>Product has been added!</p>
-         <div class="popcross"><i class="fa-solid fa-xmark"></i></div>
+
+        <div class="popcross">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+
     </div>
+
+
+    <!-- ==========================================
+         PRODUCT SEARCH
+    =========================================== -->
+
     <div class="storesearchsection">
-        <form class="searchForm" action="/store/<%= store._id %>" method="get">
-        <input type="text" name="searchproduct" id="searchproduct" value="<%= searchitem  %>" placeholder="Search products here....">
-        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+
+        <form
+            class="searchForm"
+            action="/store/<%= store._id %>"
+            method="get"
+        >
+
+            <div class="search-input-wrapper">
+
+                <input
+                    type="text"
+                    name="searchproduct"
+                    id="searchproduct"
+                    value="<%= searchitem || "" %>"
+                    placeholder="Search products in this store..."
+                    autocomplete="off"
+                >
+
+                <div
+                    id="productDropdown"
+                    class="product-search-dropdown"
+                ></div>
+
+            </div>
+
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
         </form>
+
     </div>
-    <% if(store){ %> 
-        <div class="filterSection"> 
-            <label class="showCategory">Show Category <i class="fa-solid fa-sort"></i> </label>
+
+
+    <!-- ==========================================
+         CATEGORY FILTER
+    =========================================== -->
+
+    <% if (store) { %>
+
+        <div class="filterSection">
+
+            <label class="showCategory">
+                Show Category
+                <i class="fa-solid fa-sort"></i>
+            </label>
+
             <div id="categoryFilter">
-                <div><a href="/store/<%= store._id %>">All</a></div>
-                <% result.forEach((category)=>{ %>
-                    <div><a href="?subcategory=<%= encodeURIComponent(category._id) %>"><%= category._id %> (<%= category.totalProducts %>)</a></div>
-                <% }) %>
-            </div>
-        </div>
-    <% } %>
-        <% if(discountproducts.length>0){ %>
-            <div class="discountproductcontainer">
-                <h1 class="productheading">Products on Sale!</h1>
-                <div class="storeproducts">
-                    <% discountproducts.forEach((product)=>{ %>
-                        <div class="productcontainer">
-                            <img src="<%= product.productimage %>" alt="productimage">
-                            <div>
-                                <h1 class="productnameheading"><%= product.productname %></h1>
-                                <span class="subcategory">Sub-categ: <%= product.subcategory %></span>
-                                <span class="subcategory">SKU: <%= product.sku %></span>
-                                <% if(product.productofferprice){ %>
-                                    <p class="productprice">Regular:  <span class="regularPrice"><%= product.productprice %> <span><%= product.currency %></span> </p>
-                                    <p class="productprice">Offer Price: <span class="priceamount"><%= product.productofferprice %></span> <span class="currency"><%= product.currency %></span></p>
-                                <% }else { %>
-                                    <p class="productprice">Price: <span class="priceamount"><%= product.productprice %></span>  <span class="currency"><%= product.currency %></span></p>
-                                <% } %>
-                                <p class="productcount">
-                                    <button class="dec_icon"><span><i class="fa-solid fa-minus"></i></span></button>
-                                    <span class="item_count" data-quantity="1">1</span>
-                                    <button class="inc_icon"><span><i class="fa-solid fa-plus"></i></span></button>
-                                </p>
-                                <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-currency="<%= product.currency %>" data-quantity="1" data-imageurl="<%= product.productimage %>" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart">add</div>
-                            </div>
-                        </div>
-                    <% }) %>
-                </div>
-                <!-- Pagination -->
-                <div class="pagination">
-                    <% if (paginationDiscount.current > 1) { %>
-                            <a href="?pageDiscount=<%= paginationDiscount.current - 1 %><% if (subcategoryQuery) { %>&subcategory=<%= encodeURIComponent(subcategoryQuery) %><% } %>">
-                            ⬅ Previous
-                            </a>
-                    <% } %>
 
-                        <span> Page <%= paginationDiscount.current %> of <%= paginationDiscount.totalPages %> </span>
-
-                    <% if (paginationDiscount.current < paginationDiscount.totalPages) { %>
-                            <a href="?pageDiscount=<%= paginationDiscount.current + 1 %><% if (subcategoryQuery) { %>&subcategory=<%= encodeURIComponent(subcategoryQuery) %><% } %>">
-                            Next ➡
-                            </a>
-                    <% } %>
-                </div>
-            </div>
-            
-        <% } %>
-    <% if(products.length>0){ %>
-        <h1 class="productheading">Regular Products</h1>
-        <div class="storeproducts" id="regularProductSection" data-productpage="<%= paginationRegular.totalPages %>">
-            <% products.forEach((product)=>{ %>
-                <div class="productcontainer">
-                    <img src="<%= product.productimage %>" alt="productimage">
-                    <div>
-                        <h1 class="productnameheading"><%= product.productname %></h1>
-                        <span class="subcategory">Sub-categ: <%= product.subcategory %></span>
-                        <span class="subcategory">SKU: <%= product.sku %></span>
-                        <% if(product.productofferprice){ %>
-                            <p class="productprice">Regular:  <span class="regularPrice"><%= product.productprice %> <span><%= product.currency %></span> </p>
-                            <p class="productprice">Offer Price: <span class="priceamount"><%= product.productofferprice %></span> <span class="currency"><%= product.currency %></span></p>
-                        <% }else { %>
-                            <p class="productprice">Price: <span class="priceamount"><%= product.productprice %></span>  <span class="currency"><%= product.currency %></span></p>
-                        <% } %>
-                        <p class="productcount">
-                            <button class="dec_icon"><span><i class="fa-solid fa-minus"></i></span></button>
-                            <span class="item_count" data-quantity="1">1</span>
-                            <button class="inc_icon"><span><i class="fa-solid fa-plus"></i></span></button>
-                        </p>
-                        <div data-category="<%= store.storeCategory %>" data-whatsapp="<%= store.whatsapp %>" data-currency="<%= product.currency %>" data-quantity="1" data-imageurl="<%= product.productimage %>" data-productname="<%= product.productname %>" data-sku="<%= product.sku %>" data-price="<% if(product.productofferprice){ %><%= product.productofferprice %><% }else{ %><%= product.productprice %> <% } %>"  data-productID="<%= product._id %>" data-storeID="<%= product.store %>" class="addtocart">add</div>
-                    </div>
-                </div>
-            <% }) %>
-            
-        </div>
-        
-        
-        <div id="endofcontent"></div>
-        <div id="loading" style="display:none;">Loading...</div>
-        <button id="loadMoreBtn">Load More</button>
-    <% } %>
-    <% if(discountproducts.length < 1 && products.length < 1) { %>
-        <h1 class="noproduct">No Product Found!</h1>
-        <a href="/store-category">Go Store ➡</a>
-    <% } %>
-    <hr>
-    <br>
-    <% if(store){ %> 
-        <div class="storeinfosection">
-            <div class="storeimage">
-                <img src="/uploads/stores/<%= store.storePhoto %>" alt="">
-            </div>
-            <div class="addressinformation">
-                <div class="storeaddress">
-                    <h2>Store name:  <span><%= store.storeName %></span></h2>
-                    <p>Owner name: <span><%= store.ownerName %></span></p>
-                    <p>Business Type: <span><%= store.storeCategory %></span></p>
-                </div>
-                <br>
-                <div class="storeaddressbrif">
-                    <p class="storelocationheading"><b>Store address :</b></p>
-                    <p><span>Unit No:</span>  <%= store.storeunitno %>, <span>Building No:</span> <%= store.storebuildingno %>, <span>Street No :</span> <%= store.storestreetno %>, <span>Zone No :</span> <%= store.storezoneno %></p>
-                </div>
-                <br>
-                <div class="storeotherinfo">
-                    <p><span>Business Hours:</span> <%= formatTime12h(store.storeopen) %>-<%= formatTime12h(store.storeclose) %></p>
-                    <p><span>WhatsApp No:</span> <%= store.whatsapp %></p>
-                    <p><span>Delivery:</span> <%= store.homeDelivery %></p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="storemap">
-            <div class="storelocation">
-                <h4>Map Location</h4>
-                <iframe src="https://www.google.com/maps?q=<%= store.storelocationmaplat %>,<%= store.storelocationmaplng %>&z=15&&output=embed" frameborder="0"></iframe>
-            </div>
-        </div>
-    <%} %>
-    <br>
-    <hr>
-    <div class="reviewformcontainer">
-    <div class="heading_login"><h1>Review</h1></div>
-    <% if(comments.length>0){ %>
-        <div class="allcomments">
-        <% comments.forEach((comment)=>{ %> 
-            <div class="commentcontainer">
                 <div>
-                    <p class="commentAuth"><%= comment.authname %></p>
-                    <span class="commentauthid"><%= comment.auth %></span>
+                    <a href="/store/<%= store._id %>">
+                        All
+                    </a>
                 </div>
-                
-                <p class="commentStart"> 
-                    <% for(i=1;i<= comment.stars;i++){ %>
-                        <span><i class="fa-solid fa-star"></i></span>
-                    <% } %>
-                </p>
-                <p class="commenttext">
-                    <%= comment.comment %>
-                </p>
-                <% if(user){ %>
-                    <% if(comment.auth == user.id){ %>
-                            <div class="deletecommentbtn">
-                                <form action="/delete-comment/<%= comment._id %>/<%= store._id  %>?_method=DELETE" method="POST"><button class="deleteBtnComment">Delete Comment</button></form>
+
+                <% result.forEach((category) => { %>
+
+                    <div>
+                        <a href="?subcategory=<%= encodeURIComponent(category._id) %>">
+                            <%= category._id %>
+                            (<%= category.totalProducts %>)
+                        </a>
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        </div>
+
+    <% } %>
+
+
+    <!-- ==========================================
+         PRODUCTS ON SALE
+    =========================================== -->
+
+    <% if (discountproducts && discountproducts.length > 0) { %>
+
+        <div class="discountproductcontainer">
+
+            <h1 class="productheading">
+                Products on Sale!
+            </h1>
+
+            <div class="storeproducts">
+
+                <% discountproducts.forEach((product) => { %>
+
+                    <div class="productcontainer">
+
+                        <img
+                            src="<%= product.productimage %>"
+                            alt="<%= product.productname %>"
+                        >
+
+                        <div>
+
+                            <h1 class="productnameheading">
+                                <%= product.productname %>
+                            </h1>
+
+                            <span class="subcategory">
+                                Sub-categ:
+                                <%= product.subcategory %>
+                            </span>
+
+                            <span class="subcategory">
+                                SKU:
+                                <%= product.sku %>
+                            </span>
+
+
+                            <% if (product.productofferprice) { %>
+
+                                <p class="productprice">
+                                    Regular:
+                                    <span class="regularPrice">
+                                        <%= product.productprice %>
+                                        <span>
+                                            <%= product.currency %>
+                                        </span>
+                                    </span>
+                                </p>
+
+                                <p class="productprice">
+                                    Offer Price:
+                                    <span class="priceamount">
+                                        <%= product.productofferprice %>
+                                    </span>
+
+                                    <span class="currency">
+                                        <%= product.currency %>
+                                    </span>
+                                </p>
+
+                            <% } else { %>
+
+                                <p class="productprice">
+                                    Price:
+                                    <span class="priceamount">
+                                        <%= product.productprice %>
+                                    </span>
+
+                                    <span class="currency">
+                                        <%= product.currency %>
+                                    </span>
+                                </p>
+
+                            <% } %>
+
+
+                            <!-- QUANTITY -->
+
+                            <p class="productcount">
+
+                                <button
+                                    type="button"
+                                    class="dec_icon"
+                                >
+                                    <span>
+                                        <i class="fa-solid fa-minus"></i>
+                                    </span>
+                                </button>
+
+                                <span
+                                    class="item_count"
+                                    data-quantity="1"
+                                >
+                                    1
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="inc_icon"
+                                >
+                                    <span>
+                                        <i class="fa-solid fa-plus"></i>
+                                    </span>
+                                </button>
+
+                            </p>
+
+
+                            <!-- ADD TO CART -->
+
+                            <div
+                                data-category="<%= store.storeCategory %>"
+                                data-whatsapp="<%= store.whatsapp %>"
+                                data-currency="<%= product.currency %>"
+                                data-quantity="1"
+                                data-imageurl="<%= product.productimage %>"
+                                data-productname="<%= product.productname %>"
+                                data-sku="<%= product.sku %>"
+
+                                data-price="<%= product.productofferprice
+                                    ? product.productofferprice
+                                    : product.productprice %>"
+
+                                data-productID="<%= product._id %>"
+                                data-storeID="<%= product.store %>"
+
+                                class="addtocart"
+                            >
+                                Add to Cart
                             </div>
-                    <% } %>
-                <% } %> 
-            </div>
-        <% }) %>
-        </div>
-        <!-- Pagination -->
-         <div class="pagination">
-            <% if (commentpagination.currentPage > 1) { %>
-                <a style="text-decoration: underline;" href="?commentpage=<%= commentpagination.currentPage - 1 %>">Prev</a>
-            <% } %>
 
-            <span>Comment pages <%= commentpagination.currentPage %> of <%= commentpagination.totalCommentPage %></span>
+                        </div>
 
-            <% if (commentpagination.currentPage < commentpagination.totalCommentPage) { %>
-                <a style="text-decoration: underline;" href="?commentpage=<%= commentpagination.currentPage + 1 %>">Next</a>
-            <% } %>
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+
+            <!-- SALE PAGINATION -->
+
+            <div class="pagination">
+
+                <% if (paginationDiscount.current > 1) { %>
+
+                    <a
+                        href="?pageDiscount=<%= paginationDiscount.current - 1 %><% if (subcategoryQuery) { %>&subcategory=<%= encodeURIComponent(subcategoryQuery) %><% } %>"
+                    >
+                        ⬅ Previous
+                    </a>
+
+                <% } %>
+
+
+                <span>
+                    Page
+                    <%= paginationDiscount.current %>
+                    of
+                    <%= paginationDiscount.totalPages %>
+                </span>
+
+
+                <% if (paginationDiscount.current < paginationDiscount.totalPages) { %>
+
+                    <a
+                        href="?pageDiscount=<%= paginationDiscount.current + 1 %><% if (subcategoryQuery) { %>&subcategory=<%= encodeURIComponent(subcategoryQuery) %><% } %>"
+                    >
+                        Next ➡
+                    </a>
+
+                <% } %>
+
+            </div>
+
         </div>
-    
+
     <% } %>
-    <% if(user){ %>
-        <hr>
-        <form id="sellerloginform" action="/post-comment/<%= store._id %>" method="POST">
-            <h1>Write your Review</h1>
-            <div class="starsreview">
-                <i data-id="1" title="1 Star" class="fa-regular fa-star"></i><i data-id="2" title="2 Stars" class="fa-regular fa-star"></i><i title="3 Stars" data-id="3" class="fa-regular fa-star"></i><i title="4 Stars" data-id="4" class="fa-regular fa-star"></i><i title="5 Stars" data-id="5" class="fa-regular fa-star"></i>
-                <input type="hidden" name="starvalue" id="starratingvalue" value="0">
-            </div>
-            <div class="commentwrite">
-                <label for="commettextarea">Write your Review Here</label>
-                <textarea name="customerreview" id="commettextarea" placeholder="Your Review" required></textarea>
-                
-            </div>
-            <button type="submit">Submit Review</button>
-        </form>
+
+
+    <!-- ==========================================
+         REGULAR PRODUCTS
+    =========================================== -->
+
+    <% if (products && products.length > 0) { %>
+
+        <h1 class="productheading">
+            Regular Products
+        </h1>
+
+
+        <div
+            class="storeproducts"
+            id="regularProductSection"
+            data-productpage="<%= paginationRegular.totalPages %>"
+        >
+
+            <% products.forEach((product) => { %>
+
+                <div class="productcontainer">
+
+                    <img
+                        src="<%= product.productimage %>"
+                        alt="<%= product.productname %>"
+                    >
+
+                    <div>
+
+                        <h1 class="productnameheading">
+                            <%= product.productname %>
+                        </h1>
+
+                        <span class="subcategory">
+                            Sub-categ:
+                            <%= product.subcategory %>
+                        </span>
+
+                        <span class="subcategory">
+                            SKU:
+                            <%= product.sku %>
+                        </span>
+
+
+                        <% if (product.productofferprice) { %>
+
+                            <p class="productprice">
+                                Regular:
+
+                                <span class="regularPrice">
+                                    <%= product.productprice %>
+
+                                    <span>
+                                        <%= product.currency %>
+                                    </span>
+                                </span>
+                            </p>
+
+                            <p class="productprice">
+                                Offer Price:
+
+                                <span class="priceamount">
+                                    <%= product.productofferprice %>
+                                </span>
+
+                                <span class="currency">
+                                    <%= product.currency %>
+                                </span>
+                            </p>
+
+                        <% } else { %>
+
+                            <p class="productprice">
+                                Price:
+
+                                <span class="priceamount">
+                                    <%= product.productprice %>
+                                </span>
+
+                                <span class="currency">
+                                    <%= product.currency %>
+                                </span>
+                            </p>
+
+                        <% } %>
+
+
+                        <!-- QUANTITY -->
+
+                        <p class="productcount">
+
+                            <button
+                                type="button"
+                                class="dec_icon"
+                            >
+                                <span>
+                                    <i class="fa-solid fa-minus"></i>
+                                </span>
+                            </button>
+
+                            <span
+                                class="item_count"
+                                data-quantity="1"
+                            >
+                                1
+                            </span>
+
+                            <button
+                                type="button"
+                                class="inc_icon"
+                            >
+                                <span>
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                            </button>
+
+                        </p>
+
+
+                        <!-- ADD TO CART -->
+
+                        <div
+                            data-category="<%= store.storeCategory %>"
+                            data-whatsapp="<%= store.whatsapp %>"
+                            data-currency="<%= product.currency %>"
+                            data-quantity="1"
+                            data-imageurl="<%= product.productimage %>"
+                            data-productname="<%= product.productname %>"
+                            data-sku="<%= product.sku %>"
+
+                            data-price="<%= product.productofferprice
+                                ? product.productofferprice
+                                : product.productprice %>"
+
+                            data-productID="<%= product._id %>"
+                            data-storeID="<%= product.store %>"
+
+                            class="addtocart"
+                        >
+                            Add to Cart
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+
+        <!-- ==========================================
+             LOAD MORE
+        =========================================== -->
+
+        <div id="endofcontent"></div>
+
+        <div
+            id="loading"
+            style="display:none;"
+        >
+            Loading...
+        </div>
+
+        <button id="loadMoreBtn">
+            Load More
+        </button>
+
     <% } %>
-    
+
+
+    <!-- ==========================================
+         NO PRODUCT
+    =========================================== -->
+
+    <% if (
+        discountproducts.length < 1 &&
+        products.length < 1
+    ) { %>
+
+        <h1 class="noproduct">
+            No Product Found!
+        </h1>
+
+        <a href="/store-category">
+            Go Store ➡
+        </a>
+
+    <% } %>
+
+
+    <hr>
+
+    <br>
+
+
+    <!-- ==========================================
+         STORE INFORMATION
+    =========================================== -->
+
+    <% if (store) { %>
+
+        <div class="storeinfosection">
+
+            <div class="storeimage">
+
+                <img
+                    src="/uploads/stores/<%= store.storePhoto %>"
+                    alt="<%= store.storeName %>"
+                >
+
+            </div>
+
+
+            <div class="addressinformation">
+
+                <div class="storeaddress">
+
+                    <h2>
+                        Store name:
+                        <span>
+                            <%= store.storeName %>
+                        </span>
+                    </h2>
+
+                    <p>
+                        Business Type:
+                        <span>
+                            <%= store.storeCategory %>
+                        </span>
+                    </p>
+
+                </div>
+
+
+                <br>
+
+
+                <div class="storeaddressbrif">
+
+                    <p class="storelocationheading">
+                        <b>Store address:</b>
+                    </p>
+
+                    <p>
+
+                        <span>Unit No:</span>
+                        <%= store.storeunitno %>,
+
+                        <span>Building No:</span>
+                        <%= store.storebuildingno %>,
+
+                        <span>Street No:</span>
+                        <%= store.storestreetno %>,
+
+                        <span>Zone No:</span>
+                        <%= store.storezoneno %>
+
+                    </p>
+
+                </div>
+
+
+                <br>
+
+
+                <div class="storeotherinfo">
+
+                    <p>
+
+                        <span>Business Hours:</span>
+
+                        <%= formatTime12h(store.storeopen) %>
+                        -
+                        <%= formatTime12h(store.storeclose) %>
+
+                    </p>
+
+                    <p>
+
+                        <span>Delivery:</span>
+
+                        <%= store.homeDelivery %>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <br>
+
+
+        <!-- ==========================================
+             STORE MAP
+        =========================================== -->
+
+        <div class="storemap">
+
+            <div class="storelocation">
+
+                <h4>
+                    Store Location Map
+                </h4>
+
+                <iframe
+                    src="https://www.google.com/maps?q=<%= store.storelocationmaplat %>,<%= store.storelocationmaplng %>&z=15&output=embed"
+                    frameborder="0"
+                ></iframe>
+
+            </div>
+
+        </div>
+
+    <% } %>
+
+
+    <br>
+
+    <hr>
+
+
+    <!-- ==========================================
+         CUSTOMER REVIEWS
+    =========================================== -->
+
+    <div
+        id="customer-reviews"
+        class="reviewformcontainer"
+    >
+
+        <div class="heading_login">
+
+            <h1>
+                Customer Reviews
+            </h1>
+
+        </div>
+
+
+        <% if (comments && comments.length > 0) { %>
+
+            <div class="allcomments">
+
+                <% comments.forEach((comment) => { %>
+
+                    <div class="commentcontainer">
+
+                        <div>
+
+                            <p class="commentAuth">
+                                <%= comment.authname %>
+                            </p>
+
+                            <span class="commentauthid">
+                                <%= comment.auth %>
+                            </span>
+
+                        </div>
+
+
+                        <p class="commentStart">
+
+                            <% for (
+                                let i = 1;
+                                i <= comment.stars;
+                                i++
+                            ) { %>
+
+                                <span>
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
+
+                            <% } %>
+
+                        </p>
+
+
+                        <p class="commenttext">
+                            <%= comment.comment %>
+                        </p>
+
+
+                        <% if (user) { %>
+
+                            <% if (comment.auth == user.id) { %>
+
+                                <div class="deletecommentbtn">
+
+                                    <form
+                                        action="/delete-comment/<%= comment._id %>/<%= store._id %>?_method=DELETE"
+                                        method="POST"
+                                    >
+
+                                        <button
+                                            class="deleteBtnComment"
+                                            type="submit"
+                                        >
+                                            Delete Comment
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            <% } %>
+
+                        <% } %>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+
+            <!-- REVIEW PAGINATION -->
+
+            <div class="pagination">
+
+                <% if (commentpagination.currentPage > 1) { %>
+
+                    <a
+                        style="text-decoration: underline;"
+                        href="?commentpage=<%= commentpagination.currentPage - 1 %>"
+                    >
+                        Prev
+                    </a>
+
+                <% } %>
+
+
+                <span>
+
+                    Comment pages
+
+                    <%= commentpagination.currentPage %>
+
+                    of
+
+                    <%= commentpagination.totalCommentPage %>
+
+                </span>
+
+
+                <% if (
+                    commentpagination.currentPage <
+                    commentpagination.totalCommentPage
+                ) { %>
+
+                    <a
+                        style="text-decoration: underline;"
+                        href="?commentpage=<%= commentpagination.currentPage + 1 %>"
+                    >
+                        Next
+                    </a>
+
+                <% } %>
+
+            </div>
+
+        <% } %>
+
+
+        <!-- ==========================================
+             WRITE REVIEW
+        =========================================== -->
+
+        <% if (user) { %>
+
+            <hr>
+
+            <form
+                id="sellerloginform"
+                action="/post-comment/<%= store._id %>"
+                method="POST"
+            >
+
+                <h1>
+                    Write your Review
+                </h1>
+
+
+                <div class="starsreview">
+
+                    <i
+                        data-id="1"
+                        title="1 Star"
+                        class="fa-regular fa-star"
+                    ></i>
+
+                    <i
+                        data-id="2"
+                        title="2 Stars"
+                        class="fa-regular fa-star"
+                    ></i>
+
+                    <i
+                        data-id="3"
+                        title="3 Stars"
+                        class="fa-regular fa-star"
+                    ></i>
+
+                    <i
+                        data-id="4"
+                        title="4 Stars"
+                        class="fa-regular fa-star"
+                    ></i>
+
+                    <i
+                        data-id="5"
+                        title="5 Stars"
+                        class="fa-regular fa-star"
+                    ></i>
+
+
+                    <input
+                        type="hidden"
+                        name="starvalue"
+                        id="starratingvalue"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="commentwrite">
+
+                    <label for="commettextarea">
+                        Write your Review Here
+                    </label>
+
+                    <textarea
+                        name="customerreview"
+                        id="commettextarea"
+                        placeholder="Your Review"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button type="submit">
+                    Submit Review
+                </button>
+
+            </form>
+
+        <% } %>
+
+    </div>
+
 </div>
-    <a class="call-wp" href="https://wa.me/<%= store.whatsapp %>" target="_blank"> <i class="fa-brands fa-whatsapp "></i></a>
-</div>
+
+
+<!-- ==========================================
+     PRODUCT SEARCH DATA
+========================================== -->
+
+<script>
+    /*
+     * Products belonging to THIS store.
+     *
+     * We combine regular products and sale products.
+     */
+    const storeProducts = [
+        <% if (products && products.length > 0) { %>
+
+            <% products.forEach((product) => { %>
+
+                {
+                    id: "<%= product._id %>",
+                    name: <%- JSON.stringify(product.productname || "") %>,
+                    price: "<%= product.productofferprice || product.productprice || "" %>",
+                    currency: <%- JSON.stringify(product.currency || "") %>,
+                    image: <%- JSON.stringify(product.productimage || "") %>
+                },
+
+            <% }) %>
+
+        <% } %>
+
+
+        <% if (discountproducts && discountproducts.length > 0) { %>
+
+            <% discountproducts.forEach((product) => { %>
+
+                {
+                    id: "<%= product._id %>",
+                    name: <%- JSON.stringify(product.productname || "") %>,
+                    price: "<%= product.productofferprice || product.productprice || "" %>",
+                    currency: <%- JSON.stringify(product.currency || "") %>,
+                    image: <%- JSON.stringify(product.productimage || "") %>
+                },
+
+            <% }) %>
+
+        <% } %>
+    ];
+
+
+    /*
+     * Remove duplicate products.
+     *
+     * This is useful when a sale product
+     * also appears in the regular products array.
+     */
+    const uniqueStoreProducts = Array.from(
+        new Map(
+            storeProducts.map(product => [
+                String(product.id),
+                product
+            ])
+        ).values()
+    );
+
+
+    /*
+     * Search dropdown
+     */
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchInput =
+            document.getElementById("searchproduct");
+
+        const dropdown =
+            document.getElementById("productDropdown");
+
+
+        if (!searchInput || !dropdown) {
+            return;
+        }
+
+
+        /*
+         * Escape HTML before inserting product data.
+         * This prevents product names/images from
+         * injecting HTML into the dropdown.
+         */
+        function escapeHtml(value) {
+
+            const div = document.createElement("div");
+
+            div.textContent = value ?? "";
+
+            return div.innerHTML;
+        }
+
+
+        /*
+         * Show dropdown
+         */
+        function showProducts(searchValue = "") {
+
+            dropdown.innerHTML = "";
+
+
+            const keyword =
+                searchValue.trim().toLowerCase();
+
+
+            let matchedProducts;
+
+
+            if (keyword === "") {
+
+                /*
+                 * Empty search:
+                 * Show all products belonging to this store.
+                 */
+                matchedProducts =
+                    uniqueStoreProducts;
+
+            } else {
+
+                /*
+                 * Search by product name.
+                 */
+                matchedProducts =
+                    uniqueStoreProducts.filter(product =>
+                        product.name
+                            .toLowerCase()
+                            .includes(keyword)
+                    );
+
+            }
+
+
+            /*
+             * No products
+             */
+            if (matchedProducts.length === 0) {
+
+                dropdown.innerHTML = `
+                    <div class="no-product-result">
+                        No product found
+                    </div>
+                `;
+
+                dropdown.classList.add("active");
+
+                return;
+            }
+
+
+            /*
+             * Create product dropdown items
+             */
+            matchedProducts.forEach(product => {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "product-search-item";
+
+
+                const image =
+                    escapeHtml(product.image);
+
+                const name =
+                    escapeHtml(product.name);
+
+                const price =
+                    escapeHtml(product.price);
+
+                const currency =
+                    escapeHtml(product.currency);
+
+
+                item.innerHTML = `
+                    <img
+                        src="${image}"
+                        alt="${name}"
+                        onerror="this.style.display='none'"
+                    >
+
+                    <div class="product-search-info">
+
+                        <div class="product-search-name">
+                            ${name}
+                        </div>
+
+                        <div class="product-search-price">
+                            ${price} ${currency}
+                        </div>
+
+                    </div>
+                `;
+
+
+                /*
+                 * Click product
+                 */
+                item.addEventListener(
+                    "click",
+                    function () {
+
+                        searchInput.value =
+                            product.name;
+
+                        dropdown.classList.remove(
+                            "active"
+                        );
+
+
+                        /*
+                         * Submit search form.
+                         */
+                        searchInput
+                            .closest("form")
+                            .submit();
+
+                    }
+                );
+
+
+                dropdown.appendChild(item);
+
+            });
+
+
+            dropdown.classList.add("active");
+
+        }
+
+
+        /*
+         * User types
+         */
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                showProducts(this.value);
+
+            }
+        );
+
+
+        /*
+         * User clicks search field.
+         *
+         * Empty field = show all products.
+         */
+        searchInput.addEventListener(
+            "focus",
+            function () {
+
+                showProducts(this.value);
+
+            }
+        );
+
+
+        /*
+         * Close dropdown outside search box
+         */
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !event.target.closest(
+                        ".search-input-wrapper"
+                    )
+                ) {
+
+                    dropdown.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Keyboard support
+         */
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Escape") {
+
+                    dropdown.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+</script>
+
+
+<!-- ==========================================
+     SEARCH DROPDOWN CSS
+========================================== -->
+
+<style>
+
+    .search-input-wrapper {
+        position: relative;
+        width: 70%;
+    }
+
+
+    .searchForm {
+        position: relative;
+    }
+
+
+    #searchproduct {
+        width: 100%;
+        height: 48px;
+
+        padding: 0 50px 0 16px;
+
+        border: 1px solid #d9d9d9;
+        border-radius: 10px;
+
+        outline: none;
+
+        font-size: 15px;
+
+        background: #ffffff;
+
+        box-sizing: border-box;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    #searchproduct:focus {
+        border-color: #f15a24;
+
+        box-shadow:
+            0 0 0 3px
+            rgba(241, 90, 36, 0.12);
+    }
+
+
+    /* ==========================================
+       DROPDOWN
+    =========================================== */
+
+    .product-search-dropdown {
+
+        display: none;
+
+        position: absolute;
+
+        top: calc(100% + 7px);
+        left: 0;
+        right: 0;
+
+        max-height: 360px;
+
+        overflow-y: auto;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 12px;
+
+        box-shadow:
+            0 15px 40px
+            rgba(0, 0, 0, 0.16);
+
+        z-index: 99999;
+    }
+
+
+    .product-search-dropdown.active {
+        display: block;
+    }
+
+
+    /* ==========================================
+       PRODUCT ITEM
+    =========================================== */
+
+    .product-search-item {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        padding: 11px 14px;
+
+        cursor: pointer;
+
+        border-bottom:
+            1px solid #f1f1f1;
+
+        background: #ffffff;
+
+        transition:
+            background 0.2s ease;
+    }
+
+
+    .product-search-item:last-child {
+        border-bottom: none;
+    }
+
+
+    .product-search-item:hover {
+        background: #fff5f0;
+    }
+
+
+    /* ==========================================
+       PRODUCT IMAGE
+    =========================================== */
+
+    .product-search-item img {
+
+        width: 50px;
+        height: 50px;
+
+        object-fit: cover;
+
+        border-radius: 8px;
+
+        background: #f5f5f5;
+
+        flex-shrink: 0;
+    }
+
+
+    /* ==========================================
+       PRODUCT INFORMATION
+    =========================================== */
+
+    .product-search-info {
+
+        min-width: 0;
+
+        flex: 1;
+    }
+
+
+    .product-search-name {
+
+        font-size: 15px;
+
+        font-weight: 600;
+
+        color: #222222;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+
+    .product-search-price {
+
+        margin-top: 4px;
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+        color: #f15a24;
+    }
+
+
+    /* ==========================================
+       NO PRODUCT
+    =========================================== */
+
+    .no-product-result {
+
+        padding: 20px;
+
+        text-align: center;
+
+        color: #777777;
+
+        font-size: 14px;
+    }
+
+
+    /* ==========================================
+       DROPDOWN SCROLLBAR
+    =========================================== */
+
+    .product-search-dropdown::-webkit-scrollbar {
+        width: 6px;
+    }
+
+
+    .product-search-dropdown::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+
+    .product-search-dropdown::-webkit-scrollbar-thumb {
+
+        background: #cccccc;
+
+        border-radius: 10px;
+    }
+
+
+    /* ==========================================
+       MOBILE
+    =========================================== */
+
+    @media (max-width: 600px) {
+
+        .product-search-dropdown {
+
+            max-height: 300px;
+
+            border-radius: 10px;
+        }
+
+
+        .product-search-item {
+
+            padding: 9px 11px;
+
+            gap: 10px;
+        }
+
+
+        .product-search-item img {
+
+            width: 42px;
+
+            height: 42px;
+        }
+
+
+        .product-search-name {
+
+            font-size: 14px;
+        }
+
+
+        .product-search-price {
+
+            font-size: 12px;
+        }
+
+    }
+
+</style>
+
+
+<!-- ==========================================
+     EXISTING SCRIPTS
+========================================== -->
+
 <script src="/js/customerjs/customerreview.js"></script>
+
 <script src="/js/customerjs/translate.js"></script>
+
 <script src="/js/customerjs/productapi.js"></script>
+
 <script src="/js/customerjs/cart.js"></script>

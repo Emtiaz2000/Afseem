@@ -372,7 +372,7 @@ li {
 .banner_image_container {
     width: 95%;
     margin: auto;
-    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)) no-repeat, url("/images/banner_image.webp") center/cover no-repeat, no-repeat #f5f5f5;
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)) no-repeat, url("/images/home/banner-food-grocery.webp") center/cover no-repeat, no-repeat #f5f5f5;
     height: 380px;
     border-radius: 15px;
     padding: 20px 10px;
@@ -413,7 +413,7 @@ li {
 .text_banner>a {
     margin: 5px 20px;
     padding: 10px 15px;
-    border: 1px solid #5d9100;
+    border: 1px solid #f15a24;
     border-radius: 15px;
     color: #fff;
     font-weight: 700;
@@ -428,7 +428,7 @@ li {
 
 .text_banner>a:hover {
     background: #fff;
-    color: #5d9100
+    color: #f15a24
 }
 
 .catergyContainerHeading {
@@ -443,7 +443,9 @@ li {
     text-align: center;
     font-size: 16px;
     margin-top: 5px;
-    margin-bottom: 20px
+    margin-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .catergyContainer {
@@ -677,6 +679,107 @@ footer {
 }
 
 @media (max-width:530px) {
+    .banner_image_container {
+        width: 94%;
+        height: 285px;
+        min-height: 285px;
+        margin: 5px auto 0;
+        padding: 18px 12px;
+        border-radius: 10px;
+
+        /* Keep grocery/food visible on the right */
+        background-position: 68% center;
+        background-size: cover;
+
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .text_banner {
+        width: 70%;
+        max-width: 70%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Main heading */
+     .text_banner > h1 {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+
+        font-size: 1.65rem;
+        line-height: 1.08;
+        font-weight: 800;
+
+        word-break: normal;
+        overflow-wrap: normal;
+    }
+
+    .text_banner > p {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+
+        font-size: 0.92rem;
+        line-height: 1.25;
+        font-weight: 600;
+        text-align: justify;
+    }
+
+    .text_banner > p {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+
+        font-size: 0.92rem;
+        line-height: 1.25;
+        font-weight: 600;
+    }
+
+    /* Visit Store button */
+    .text_banner > a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        margin: 4px 0 0;
+        padding: 7px 11px;
+
+        font-size: 0.78rem;
+        line-height: 1;
+        white-space: nowrap;
+        box-shadow: none;
+    }
+
+    .text_banner > a i {
+        margin-right: 5px;
+        font-size: 0.7rem;
+    }
+
+     /* =====================================================
+       JUST WHAT YOU NEED - MOBILE SPACING
+       ===================================================== */
+
+    .heroheading_tag {
+        margin: 8px 0 10px;
+        font-size: 0.85rem;
+        line-height: 1.2;
+    }
+
+
+
     .hero_right_heroimage,
     .grocetryVideo_middlehero {
         display: none
@@ -695,7 +798,6 @@ footer {
     .footerMenu>a {
         font-size: 12px
     }
-<<<<<<< HEAD
 }
 
 
@@ -2986,6 +3088,3 @@ footer {
     }
 
 }
-=======
-}
->>>>>>> d4a0c7baaa58cb119186c035b433aa7d8c5821f6

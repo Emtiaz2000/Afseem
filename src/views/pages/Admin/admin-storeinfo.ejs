@@ -1,15 +1,15 @@
 <link rel="stylesheet" href="/css/admincss/admin-storeinfo.css">
 
 
-<h1 class="allStoreHead">
-    All Stores
-</h1>
+<h1 class="allStoreHead">All Stores</h1>
+<div class="admin-store-filters"><a href="/admin-storeinfo">All</a> <a href="?category=grocery">Grocery</a> <a href="?category=restaurant">Restaurant</a></div>
 <div class="storesearchsection">
         <form action="/admin-storeinfo" method="get">
-        <input type="text" name="searchseller" id="searchseller"  placeholder="Search here....">
+        <input type="text" name="searchseller" id="searchseller" placeholder="Search store name..." list="store-search-list">
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
-    </div>
+        <datalist id="store-search-list"><% (storeSearchOptions || []).forEach(option=>{ %><option value="<%= option.storeName %>"><% }) %></datalist>
+</div>
 <div class="allStoreConatainer">
     
     <% if(stores.length>0){ %>
@@ -23,13 +23,17 @@
                         <img src="/uploads/stores/<%= store.storePhoto %>" alt="">
                     </div>
                     <div class="storeName"><b>Store Name:</b> <%= store.storeName %> <br>
-                        <b>Store id:</b> <%= store._id %>
+                        <b>Date of Joining:</b> <%= new Date(store.createdAt).toLocaleDateString() %>
                     </div>
                     <div class="storeemail"><b>Email:</b> <%= store.storeemail %></div>
                     <div class="storepass"><b>Password:</b> <%= store.trackpassword %></div>
                 </div>
                 <div class="statusBt">
                     <div class="status">Status: <% if(store.activestatus){ %>Active<% }else{ %> <span style="color:red;">Deactive</span> <% } %></div>
+                    <div class="status">Date of Joining: <%= new Date(store.createdAt).toLocaleDateString() %></div>
+                    <div class="status">Total Orders: <%= store._orderCount || 0 %></div>
+                    <div class="status">Temporary Status: <%= store.temporaryClosed ? "Temporary Closed" : "Open" %></div>
+                    <form action="/admin-store/temporary-status/<%= store._id %>" method="post"><button><%= store.temporaryClosed ? "Open Store" : "Temporary Closed" %></button></form>
                     <div class="status"> <% if(store.subscription){ %> <span class="subscribed">Subscribed <img src="/images/verified.png" alt=""></span><% }else{ %>  <% } %></div>
                     <div class="buttons">
                         <% if(store.activestatus){ %>

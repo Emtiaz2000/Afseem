@@ -9,13 +9,13 @@
       </div>
     <% } %>
     <form action="/storenearby" method="get">
-        <h1 class="cityheading">Select Your City</h1>
+        <h1 class="cityheading">What Do You Need Today?</h1>
         <br>
         <input type="hidden" name="category" value="<%= category %>">
         <input type="hidden" id="countrycode" name="countrycode" value="<%= country %>">
         <div class="dropdown-subcategory">
-            <label for="storecity">City <span class="required">*</span></label>
-            <input placeholder="City Name" id="storecity" type="text" name="storecity" required>
+            <label for="storecity">Area <span class="required">*</span></label>
+            <input placeholder="Area Name" id="storecity" type="text" name="storecity" required>
             <div class="dropdown-list" id="dropdown"></div>
         </div>
         <br>

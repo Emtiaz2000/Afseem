@@ -80,7 +80,7 @@
       </select>
     </div>
     <div class="dropdown-subcategory">
-      <label for="storecity">City <span class="required">*</span></label>
+      <label for="storecity">Area <span class="required">*</span></label>
       <input id="storecity" type="text" <% if(oldData){ %> value="<%= oldData.storecity %>" <% } %> name="storecity" required>
       <div class="dropdown-list" id="dropdown"></div>
     </div>
@@ -142,6 +142,6 @@
   </div>
 </div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAPS_API_KEY %>&libraries=places"></script>
  <!-- Load Maps JS API (browser key, restricted by domain) -->
 <script src="/js/storejs/store-registration.js"> </script>

@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Google Maps Location Picker</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARvlErLwkpk5zgz5y_rq-JEJvVGQyftOs&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAPS_API_KEY %>&libraries=places"></script>
     <script>
       let map;
       let marker;

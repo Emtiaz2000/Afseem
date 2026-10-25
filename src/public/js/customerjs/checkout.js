@@ -13,6 +13,7 @@ window.addEventListener('DOMContentLoaded',()=>{
         let datafromlocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))||0
         if(datafromlocalstorage.length>0){
         let store = datafromlocalstorage.find( store => store.storeid==id)//store.storeid==id
+        if(!store || !store.products?.length){ document.querySelector('.loader').style.display='none'; return; }
         if(store){
             let currency = store.products[0].currency;
             let productsname=[];
@@ -22,6 +23,7 @@ window.addEventListener('DOMContentLoaded',()=>{
             let grandtotal=0;
             let storeid= store.storeid
             let storecategory= store.storecategory
+            const paymentMode = document.querySelector('#paymentMode')?.value || 'Cash';
             store.products.forEach(product=>{
             productsname.push(product.productname)
             productids.push(product.productid)
@@ -40,25 +42,18 @@ window.addEventListener('DOMContentLoaded',()=>{
                 productquantities,
                 grandtotal,
                 storecategory,
+                paymentMode,
             }
-            const datapost = await fetch(`/checkout/${store.storeId}`,{       // your backend endpoint
+            const datapost = await fetch(`/checkout/${store.storeid}`,{       // your backend endpoint
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json"  // tell server it's JSON
                 },
                 body: JSON.stringify(data)   // convert JS object to JSON
             })
-            allitemscontainer.innerHTML=`
-                                        <h1>Checkout</h1>
-                                        <p>No Product in Checkout!</p>
-                                        <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>
-                                        `
-            checkoutBtn.style.display='none'
-            grandtotaldiv.style.display='none'
-            updatelocastorageafterorder(storeid)
             const res = await datapost.json()
             if(res){
-                cartCountShow.innerHTML= JSON.parse(localStorage.getItem('Afseem_items')).length|| 0
+                cartCountShow.innerHTML= (JSON.parse(localStorage.getItem('Afseem_items')) || []).reduce((n,s)=>n+s.products.length,0)
                 //hiding the loader
                 //document.querySelector('.loader').style.display='none'
                 //window.open(res.url, '_blank')

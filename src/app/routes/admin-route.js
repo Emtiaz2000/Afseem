@@ -41,17 +41,25 @@ router.get('/admin-storeinfo',verifyAdmin,async (req, res) => {
     if (req.query.subscription === "true") {
       filter.subscription = true;  // only active subscriptions
     }
+    if(req.query.category && ['grocery','restaurant'].includes(req.query.category)){
+      filter.storeCategory=req.query.category;
+    }
     if(req.query.searchseller){
-      if(!mongoose.Types.ObjectId.isValid(req.query.searchseller)) return res.redirect('/admin-storeinfo')
-      filter._id=mongoose.Types.ObjectId(req.query.searchseller)
+      filter.storeName = { $regex: req.query.searchseller, $options: 'i' };
     }
     // Fetch paginated stores
     const stores = await sellerSchema.find(filter)
+      .sort({createdAt:-1})
       .skip(skip)
       .limit(limit);
+    const storeIds = stores.map(s => s._id);
+    const orderCounts = await orderSchema.aggregate([{$match:{store:{$in:storeIds}}},{$group:{_id:'$store',totalOrders:{$sum:1}}}]);
+    const orderMap = new Map(orderCounts.map(x => [String(x._id), x.totalOrders]));
+    stores.forEach(store => { store._orderCount = orderMap.get(String(store._id)) || 0; });
+    const storeSearchOptions = await sellerSchema.find({}, {storeName:1}).sort({storeName:1}).limit(500);
 
     // Get total document count for pagination
-    const totalStores = await sellerSchema.countDocuments();
+    const totalStores = await sellerSchema.countDocuments(filter);
     const totalPages = Math.ceil(totalStores / limit);
 
     res.render('pages/Admin/admin-storeinfo', {
@@ -59,7 +67,8 @@ router.get('/admin-storeinfo',verifyAdmin,async (req, res) => {
       stores,
       currentPage: page,
       totalPages,
-      totalStores
+      totalStores,
+      storeSearchOptions
     });
 
   } catch (err) {
@@ -77,9 +86,13 @@ router.get('/admin-customerinfo', verifyAdmin,async (req, res) => {
     let skip = (page - 1) * limit;
 
     // Fetch paginated users
-    const users = await userSchema.find()
+    const users = await userSchema.find().sort({createdAt:-1})
       .skip(skip)
       .limit(limit);
+    const customerIds = users.map(u => u._id);
+    const customerOrderCounts = await orderSchema.aggregate([{$match:{customer:{$in:customerIds}}},{$group:{_id:'$customer',totalOrders:{$sum:1}}}]);
+    const customerOrderMap = new Map(customerOrderCounts.map(x => [String(x._id), x.totalOrders]));
+    users.forEach(user => { user._orderCount = customerOrderMap.get(String(user._id)) || 0; });
 
     // Get total user count
     const totalUsers = await userSchema.countDocuments();
@@ -118,6 +131,16 @@ router.post('/admin-store/deactive/:storeid',verifyAdmin,async (req,res)=>{
   await store.save()
   res.redirect('/admin-storeinfo')
 })
+
+// Master Admin temporary closed/open control (separate from activate/deactivate).
+router.post('/admin-store/temporary-status/:storeid',verifyAdmin,async(req,res)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.storeid)) return res.redirect('/admin-storeinfo');
+  const store=await sellerSchema.findById(req.params.storeid);
+  if(!store) return res.redirect('/admin-storeinfo');
+  store.temporaryClosed=!store.temporaryClosed;
+  await store.save();
+  res.redirect('/admin-storeinfo');
+});
 
 //make delete a store
 router.post('/admin-store/delete/:storeid',verifyAdmin,async (req,res)=>{
@@ -331,7 +354,7 @@ const skip = (page - 1) * limit;
 const totalOrders = await orderSchema.countDocuments({ customer: customer._id });
 
 // Get paginated orders
-const orders = await orderSchema.find({ customer: customer._id })
+const orders = await orderSchema.find({ customer: customer._id }).populate('store','storeName')
     .sort({ _id: -1 })
     .skip(skip)
     .limit(limit);
