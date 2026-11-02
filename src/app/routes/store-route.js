@@ -18,7 +18,7 @@ import { fileURLToPath } from 'url';
 import { commentSchema } from '../modules/comment/commentSchema.js';
 import {orderSchema} from '../modules/order/orderSchema.js'
 import { Category } from '../modules/product/categorySchema.js';
-import {runPython,removeBackground,downloadImage} from '../controlers/removebgFunction.js'
+import {runPython,removeBackground,downloadImage} from '../controlers/removebgFunction1.js'
 import JsGoogleTranslateFree from "@kreisler/js-google-translate-free";
 import {detectLanguage} from '../middlewares/translate.js'
 import pLimit from "p-limit";

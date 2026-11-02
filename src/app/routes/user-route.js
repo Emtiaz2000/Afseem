@@ -44,12 +44,23 @@ const router = Router();
 //ipinfoconfig
 import { IPinfoWrapper } from "node-ipinfo"; //ip info
 const ipinfoWrapper = new IPinfoWrapper(process.env.IPINFO_TOKEN_URL);
-//get user registration form
+
+// ==========================================
+// CUSTOMER REGISTRATION PAGE
+// ==========================================
+
 router.get('/registration', preventAuthPagesForLoggedIn, (req, res) => {
-  res.render('pages/Customer/customer-registration', { error: [],oldData:'' });
+  res.render('pages/Customer/customer-registration', {
+    error: [],
+    oldData: ''
+  });
 });
 
-//get user registration form
+
+// ==========================================
+// CUSTOMER REGISTRATION PROCESS
+// ==========================================
+
 router.post(
   '/registration',
   upload.single('customerprofilephoto'),
@@ -57,6 +68,8 @@ router.post(
   userRegistrationValidationRes,
   async (req, res) => {
     try {
+      console.log('Customer registration request received');
+
       const {
         customerusername,
         customeremail,
@@ -69,100 +82,218 @@ router.post(
         customercity,
         customerpassword,
         customerlocation,
-        countryisd,
+        countryisd
       } = req.body;
-      let trackPass = customerpassword;
-      const hasproductuploadimage = !!req.file;
-      let customerimage;
-      //console.log(req.file)
-      //return
-      let propernumber = countryisd+customerwhatsapp
-      if (hasproductuploadimage) {
+
+      // Check whether email already exists
+      const existingUser = await userSchema.findOne({
+        customeremail: customeremail
+      });
+
+      if (existingUser) {
+        return res.status(409).render(
+          'pages/Customer/customer-registration',
+          {
+            error: [{ msg: 'Email already registered. Please login or verify your account.' }],
+            oldData: req.body
+          }
+        );
+      }
+
+      // Combine country code and WhatsApp number
+      const propernumber = countryisd + customerwhatsapp;
+
+      // Upload customer profile image
+      let customerimage = '';
+
+      if (req.file) {
         const filename = Date.now() + '-customer.jpeg';
-        const filepath = join(__dirname, '../../uploads/customers', filename);
+
+        const filepath = join(
+          __dirname,
+          '../../uploads/customers',
+          filename
+        );
+
         await sharp(req.file.buffer)
           .rotate()
           .resize(300, 300, { fit: 'cover' })
           .jpeg({ quality: 70 })
           .toFile(filepath);
+
         customerimage = filename;
       }
-      bcrypt.genSalt(10, function (err, salt) {
-        if (err) throw new Error(`Problem to Register User!`);
-        bcrypt.hash(customerpassword, salt, async function (err, hash) {
-          // Store hash in your password DB.
-          if (err) throw new Error(`Problem to Register User!`);
-          const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-          const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
-          let newUser = await userSchema.create({
-            customerusername: customerusername,
-            customerprofilephoto: customerimage,
-            customeremail: customeremail,
-            customerwhatsapp: propernumber,
-            customerwhatsappnumber:customerwhatsapp,
-            countryisd:countryisd,
-            customerunitno: customerunitno,
-            customerbuildingno: customerbuildingno,
-            customerstreetno: customerstreetno,
-            customerzoneno: customerzoneno,
-            customercountry: customercountry,
-            customercity: customercity,
-            customerlocation:customerlocation,
-            customerpassword: hash,
-            trackpassword: trackPass,
-            role: 'User',
-            otp: otp,
-            otpExpiry: otpExpiry,
-          });
-          sendOTPEmail(customeremail, otp);
-          res.render('pages/checkmail', {
-            useremail: customeremail,
-            msg: `We have Send a OTP to ${customeremail} mail Please varify your OTP`,
-            error: [],
-          });
-        });
+
+      // Hash password
+      const hashedPassword = await bcrypt.hash(customerpassword, 10);
+
+      // Generate 6-digit OTP
+      const otp = Math.floor(
+        100000 + Math.random() * 900000
+      ).toString();
+
+      const otpExpiry = new Date(
+        Date.now() + 5 * 60 * 1000
+      );
+
+      // Create customer account
+      const newUser = await userSchema.create({
+        customerusername,
+        customerprofilephoto: customerimage,
+        customeremail,
+        customerwhatsapp: propernumber,
+        customerwhatsappnumber: customerwhatsapp,
+        countryisd,
+        customerunitno,
+        customerbuildingno,
+        customerstreetno,
+        customerzoneno,
+        customercountry,
+        customercity,
+        customerlocation,
+        customerpassword: hashedPassword,
+        role: 'User',
+        otp,
+        otpExpiry,
+        isVerified: false
       });
+
+      console.log('Customer created:', newUser._id);
+
+      // Send OTP email and WAIT for result
+      try {
+        const mailResult = await sendOTPEmail(
+          customeremail,
+          otp
+        );
+
+        console.log('OTP email sent successfully');
+        console.log('Recipient:', customeremail);
+        console.log('Message ID:', mailResult?.messageId);
+
+        return res.render('pages/checkmail', {
+          useremail: customeremail,
+          msg: `We have sent an OTP to ${customeremail}. Please verify your email.`,
+          error: []
+        });
+
+      } catch (mailError) {
+        console.error('CUSTOMER OTP EMAIL FAILED:', mailError);
+
+        return res.status(502).render('pages/checkmail', {
+          useremail: customeremail,
+          msg: 'Your account was created, but we could not send the OTP email. Please contact support to resend your OTP.',
+          error: []
+        });
+      }
+
     } catch (error) {
-      console.log(error);
+      console.error('CUSTOMER REGISTRATION ERROR:', error);
+
+      return res.status(500).render(
+        'pages/Customer/customer-registration',
+        {
+          error: [{
+            msg: 'Registration failed. Please try again.'
+          }],
+          oldData: req.body
+        }
+      );
     }
   }
 );
 
-//check opt
+
+
+// ==========================================
+// VERIFY CUSTOMER OTP
+// ==========================================
+
 router.post(
   '/verify-otp',
-    preventAuthPagesForLoggedIn,otpValidationForm,otpValidationRes,  async (
-    req,
-    res
-  ) => {
-    const { useremail, otpfromemail } = req.body;
+  preventAuthPagesForLoggedIn,
+  otpValidationForm,
+  otpValidationRes,
+  async (req, res) => {
+    try {
+      const { useremail, otpfromemail } = req.body;
 
-    const user = await userSchema.findOne({ customeremail: useremail });
-    if (!user) return res.render('pages/404', { msg: 'No User Found' });
-    if (user.isVerified) return res.redirect('/login');
-    //console.log(typeof otpfromemail);
-
-    if (user.otp !== otpfromemail)
-      return res.render('pages/404', { msg: 'In Valid OTP!' });
-    if (user.otpExpiry < new Date()) {
-      const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-      const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
-      user.otp = otp;
-      user.otpExpiry = otpExpiry;
-      await user.save();
-      sendOTPEmail(user.customeremail, otp);
-      res.render('pages/checkmail', {
-        useremail: user.customeremail,
-        error: [],
-        msg: `Otp Expired ! We have Send a New OTP to ${user.customeremail} mail Please varify your OTP`,
+      const user = await userSchema.findOne({
+        customeremail: useremail
       });
-    } else {
+
+      if (!user) {
+        return res.render('pages/404', {
+          msg: 'No User Found'
+        });
+      }
+
+      if (user.isVerified) {
+        return res.redirect('/login');
+      }
+
+      // Check OTP
+      if (user.otp !== otpfromemail) {
+        return res.render('pages/checkmail', {
+          useremail: user.customeremail,
+          error: [{ msg: 'Invalid OTP. Please try again.' }],
+          msg: ''
+        });
+      }
+
+      // Check OTP expiry
+      if (!user.otpExpiry || user.otpExpiry < new Date()) {
+
+        const newOtp = Math.floor(
+          100000 + Math.random() * 900000
+        ).toString();
+
+        const newOtpExpiry = new Date(
+          Date.now() + 5 * 60 * 1000
+        );
+
+        user.otp = newOtp;
+        user.otpExpiry = newOtpExpiry;
+
+        await user.save();
+
+        // Wait for email sending
+        await sendOTPEmail(
+          user.customeremail,
+          newOtp
+        );
+
+        return res.render('pages/checkmail', {
+          useremail: user.customeremail,
+          error: [],
+          msg: `Your OTP expired. A new OTP has been sent to ${user.customeremail}.`
+        });
+      }
+
+      // Verify customer
       user.isVerified = true;
       user.otp = null;
       user.otpExpiry = null;
+
       await user.save();
-      req.flash('success_msg','Email has been verified!')
-      res.redirect('/login');
+
+      req.flash(
+        'success_msg',
+        'Email has been verified!'
+      );
+
+      return res.redirect('/login');
+
+    } catch (error) {
+      console.error('OTP VERIFICATION ERROR:', error);
+
+      return res.status(500).render('pages/checkmail', {
+        useremail: req.body.useremail || '',
+        error: [{
+          msg: 'Something went wrong. Please try again.'
+        }],
+        msg: ''
+      });
     }
   }
 );

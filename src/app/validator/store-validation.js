@@ -27,7 +27,7 @@ export const storeValidationForm = [
     body('whatsapp')
         .notEmpty().withMessage('WhatsApp Number is Required')
         .isNumeric().withMessage('Only Numaric value is acceptable!')
-        .isLength({min:8,max:8}).withMessage('Enter Valid Phone number'),
+        .isLength({min:8,max:20}).withMessage('Enter Valid Phone number'),
     body('storeunitno')
         .notEmpty().withMessage('Store Unit No. is Required')
         .isNumeric().withMessage('Unit No must be a Numaric value!')
@@ -92,7 +92,7 @@ export const storeEditForm = [
     body('whatsapp')
         .notEmpty().withMessage('WhatsApp Number is Required')
         .isNumeric().withMessage('Only Numaric value is acceptable!')
-        .isLength({min:8,max:8}).withMessage('Enter Valid Phone number'),
+        .isLength({min:8,max:20}).withMessage('Enter Valid Phone number'),
     body('storeunitno')
         .notEmpty().withMessage('Store Unit No. is Required')
         .isNumeric().withMessage('Unit No must be a Numaric value!')

@@ -1,77 +1,134 @@
-window.addEventListener('DOMContentLoaded',()=>{
-    const menuHamburderIcon = document.querySelector('.menu_hamburder')
 
-    if(menuHamburderIcon){
-        menuHamburderIcon.addEventListener('click',()=>{
-        document.querySelector('.mobile_menu').style.display="flex";
-        })
+window.addEventListener('DOMContentLoaded', () => {
 
-        let hideBtn = document.querySelector('.menuCross')
-        hideBtn.addEventListener('click',()=>{
-            document.querySelector('.mobile_menu').style.display="none";
-        })
+    // =========================
+    // MOBILE MENU
+    // =========================
+
+    const menuHamburderIcon = document.querySelector('.menu_hamburder');
+    const mobileMenu = document.querySelector('.mobile_menu');
+    const hideBtn = document.querySelector('.menuCross');
+
+    if (menuHamburderIcon && mobileMenu) {
+        menuHamburderIcon.addEventListener('click', () => {
+            mobileMenu.style.display = "flex";
+        });
+    }
+
+    if (hideBtn && mobileMenu) {
+        hideBtn.addEventListener('click', () => {
+            mobileMenu.style.display = "none";
+        });
     }
 
 
-    let errorCross = document.querySelector('.crossError')
-    let errorContainer =document.querySelector('.errorContainer')
-    if(errorCross){
-        errorCross.addEventListener('click',()=>{
-        errorContainer.style.display='none'
-    })
+    // =========================
+    // ERROR MESSAGE CLOSE
+    // =========================
+
+    const errorCross = document.querySelector('.crossError');
+    const errorContainer = document.querySelector('.errorContainer');
+
+    if (errorCross && errorContainer) {
+        errorCross.addEventListener('click', () => {
+            errorContainer.style.display = 'none';
+        });
     }
 
-    
-    
-  
+
+    // =========================
+    // CART COUNT
+    // =========================
+
     const cartCountShow = document.querySelector('.cartCount');
-    if(cartCountShow){
-        //counting cart
-        let cartlength;
-        if(JSON.parse(localStorage.getItem('Afseem_items')).length>0){
-        cartlength=JSON.parse(localStorage.getItem('Afseem_items'))[0].products.length
-        }  else{
-            cartlength=0
-        } 
-        
-        cartCountShow.textContent= cartlength
-    }
-    
 
-    //hide and show profile icon of seller
-    const profileicon = document.querySelector('.profileicon')
-    const submenus = document.querySelector('.submenus')
-    if(profileicon){
-        profileicon.addEventListener('click',()=>{
-            submenus.style.display='flex'
-        })
-    }
-    
-    if(submenus){
-        // Hide dropdown when clicking outside
-       document.addEventListener("click", function (e) {
-           if (!e.target.closest(".submenus") && !e.target.closest(".profileicon")) {
-               submenus.style.display = "none";
-           }
-       });
+    if (cartCountShow) {
+
+        let cartlength = 0;
+
+        try {
+            const cartData = JSON.parse(
+                localStorage.getItem('Afseem_items') || '[]'
+            );
+
+            if (Array.isArray(cartData) && cartData.length > 0) {
+
+                const products = cartData[0]?.products;
+
+                cartlength = Array.isArray(products)
+                    ? products.length
+                    : 0;
+            }
+
+        } catch (error) {
+            console.error('Cart data error:', error);
+            cartlength = 0;
+        }
+
+        cartCountShow.textContent = cartlength;
     }
 
-    //fetch file 
-    // service-worker.js
-    if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js")
-        .then(reg => console.log("Service Worker registered:", reg.scope))
-        .catch(err => console.error("Service Worker registration failed:", err));
+
+    // =========================
+    // SELLER PROFILE DROPDOWN
+    // =========================
+
+    const profileicon = document.querySelector('.profileicon');
+    const submenus = document.querySelector('.submenus');
+
+    if (profileicon && submenus) {
+
+        profileicon.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            submenus.style.display =
+                submenus.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        document.addEventListener('click', (e) => {
+
+            if (
+                !e.target.closest('.submenus') &&
+                !e.target.closest('.profileicon')
+            ) {
+                submenus.style.display = 'none';
+            }
+
+        });
     }
-        
 
-        
-})
 
-//when back to this page with back button
-window.addEventListener("pageshow", function(event) {
-  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-    // Reload the page OR re-fetch cart data
-    window.location.reload();
-  }
+    // =========================
+    // SERVICE WORKER
+    // =========================
+
+    if ('serviceWorker' in navigator) {
+
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => {
+                console.log('Service Worker registered:', reg.scope);
+            })
+            .catch(err => {
+                console.error('Service Worker registration failed:', err);
+            });
+    }
+
+});
+
+
+// =========================
+// BACK BUTTON HANDLING
+// =========================
+
+window.addEventListener('pageshow', function(event) {
+
+    const navigationEntry = performance.getEntriesByType('navigation')[0];
+
+    if (
+        event.persisted ||
+        navigationEntry?.type === 'back_forward'
+    ) {
+        window.location.reload();
+    }
+
 });

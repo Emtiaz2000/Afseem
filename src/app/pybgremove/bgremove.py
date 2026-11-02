@@ -21,6 +21,9 @@ ERODE_SIZE = 5
 CONTRAST_ENHANCE = True
 CONTRAST_FACTOR = 1.2  # 1.0 = no change, >1 increases contrast
 
+# Big photos are shrunk first (avoids running out of memory)
+MAX_SIZE = 1000
+
 # Create session once
 session = new_session(MODEL_NAME)
 # -----------------------------
@@ -35,6 +38,9 @@ def remove_bg(input_path, output_path):
         # Convert to RGB if not already
         if inp.mode != "RGB":
             inp = inp.convert("RGB")
+
+        # Shrink big photos first (product image is small anyway)
+        inp.thumbnail((MAX_SIZE, MAX_SIZE))
 
         # Optional: enhance contrast
         if CONTRAST_ENHANCE:
@@ -57,6 +63,7 @@ def remove_bg(input_path, output_path):
 
     except Exception as e:
         print(f"ERROR: {str(e)}")
+        sys.exit(1)
 
 # Run from command line
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ export const userValidationForm = [
     body('customerwhatsapp')
         .notEmpty().withMessage('WhatsApp Number is Required')
         .isNumeric().withMessage('Only Numaric value is acceptable!')
-        .isLength({min:8,max:8}).withMessage('Enter Valid Phone number'),
+        .isLength({min:8,max:15}).withMessage('Enter Valid Phone number'),
     body('customerunitno')
         .optional({checkFalsy:true})
         .isNumeric().withMessage('Unit No must be a Numeric value!')
