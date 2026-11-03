@@ -7,85 +7,89 @@ window.addEventListener('DOMContentLoaded',()=>{
     UiRender()
     const confirmorderbtn = document.querySelector('#confirmorder')
     confirmorderbtn.addEventListener('click',async ()=>{
-        document.querySelector('.loader').style.display='none'
+        // Fixed: loader display none er poriborte flex kora uchit jate loader show kore
+        document.querySelector('.loader').style.display='flex'
+        
         const urlpath =window.location.pathname.split("/"); 
         const id = urlpath[urlpath.length - 1];
-        let datafromlocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))||0
-        if(datafromlocalstorage.length>0){
-        let store = datafromlocalstorage.find( store => store.storeid==id)//store.storeid==id
-        if(!store || !store.products?.length){ document.querySelector('.loader').style.display='none'; return; }
-        if(store){
-            let currency = store.products[0].currency;
-            let productsname=[];
-            let productids =[];
-            let productprices=[];
-            let productquantities=[];
-            let grandtotal=0;
-            let storeid= store.storeid
-            let storecategory= store.storecategory
-            const paymentMode = document.querySelector('#paymentMode')?.value || 'Cash';
-            store.products.forEach(product=>{
-            productsname.push(product.productname)
-            productids.push(product.productid)
-            productprices.push(product.productprice)
-            productquantities.push(product.productqty)
-            grandtotal+=product.productprice*product.productqty
-        })
-        try {
-            document.querySelector('.loader').style.display='flex'
-            let data ={
-                storeid,
-                currency,
-                productsname,
-                productids,
-                productprices,
-                productquantities,
-                grandtotal,
-                storecategory,
-                paymentMode,
-            }
-            const datapost = await fetch(`/checkout/${store.storeid}`,{       // your backend endpoint
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json"  // tell server it's JSON
-                },
-                body: JSON.stringify(data)   // convert JS object to JSON
-            })
-            const res = await datapost.json()
-            if(res){
-                cartCountShow.innerHTML= (JSON.parse(localStorage.getItem('Afseem_items')) || []).reduce((n,s)=>n+s.products.length,0)
-                //hiding the loader
-                //document.querySelector('.loader').style.display='none'
-                //window.open(res.url, '_blank')
-                window.location.href = res.url
-            }
-        } catch (error) {
-           console.log(error) 
-        }
+        let datafromlocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))||[]
         
-        //const jsondata = await datapost.json()
-        //console.log(jsondata)
+        if(datafromlocalstorage.length>0){
+            let store = datafromlocalstorage.find( store => store.storeid==id)
+            if(!store || !store.products?.length){ 
+                document.querySelector('.loader').style.display='none'; 
+                return; 
+            }
+            if(store){
+                let currency = store.products[0].currency;
+                let productsname=[];
+                let productids =[];
+                let productprices=[];
+                let productquantities=[];
+                let grandtotal=0;
+                let storeid= store.storeid
+                let storecategory= store.storecategory
+                const paymentMode = document.querySelector('#paymentMode')?.value || 'Cash';
+                
+                store.products.forEach(product=>{
+                    productsname.push(product.productname)
+                    productids.push(product.productid)
+                    productprices.push(product.productprice)
+                    productquantities.push(product.productqty)
+                    grandtotal += product.productprice * product.productqty
+                })
+                
+                try {
+                    let data ={
+                        storeid,
+                        currency,
+                        productsname,
+                        productids,
+                        productprices,
+                        productquantities,
+                        grandtotal,
+                        storecategory,
+                        paymentMode,
+                    }
+                    const datapost = await fetch(`/checkout/${store.storeid}`,{       // your backend endpoint
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"  // tell server it's JSON
+                        },
+                        body: JSON.stringify(data)   // convert JS object to JSON
+                    })
+                    const res = await datapost.json()
+                    
+                    if(res){
+                        // ==========================================
+                        // EKHANE CART EMPTY KORAR LOGIC ADD KORA HOYECHE
+                        // ==========================================
+                        updatelocastorageafterorder(store.storeid); 
 
-            //if store ends
+                        // Cart count update kora
+                        cartCountShow.innerHTML = (JSON.parse(localStorage.getItem('Afseem_items')) || []).reduce((n,s)=>n+s.products.length,0)
+                        
+                        // Redirecting to response url
+                        window.location.href = res.url
+                    }
+                } catch (error) {
+                   console.log(error) 
+                   document.querySelector('.loader').style.display='none'
+                }
              }
-        }//if datafromlocalstoreage
-
+        }
     })
 })
 
-
-
 //updating localstorage
 function updatelocastorageafterorder(storeid){
-    let updatelocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))
-            updatelocalstorage.forEach((stores,index)=>{
-                if(stores.storeid==storeid){
-                    updatelocalstorage.splice(index,1)
-                }
-            })
+    let updatelocalstorage = JSON.parse(localStorage.getItem('Afseem_items')) || []
+    
+    // Filter kore oi storeid baade baki sob store rakha 
+    updatelocalstorage = updatelocalstorage.filter(stores => stores.storeid != storeid)
 
-            //saving localstorage
-            localStorage.setItem('Afseem_items',JSON.stringify(updatelocalstorage))
+    //saving localstorage
+    localStorage.setItem('Afseem_items', JSON.stringify(updatelocalstorage))
 }
 
 //making ui for showing product from localstorage
@@ -99,36 +103,39 @@ function UiRender(){
     let htmlcontent=''
     const urlpath =window.location.pathname.split("/"); 
     const id = urlpath[urlpath.length - 1];
-    let datafromlocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))||0
+    let datafromlocalstorage = JSON.parse(localStorage.getItem('Afseem_items'))||[]
+    
     if(datafromlocalstorage.length>0){
-    let store = datafromlocalstorage.find( store => store.storeid==id)//store.storeid==id
-        let currency = store.products[0].currency;
-        if(store){
+        let store = datafromlocalstorage.find( store => store.storeid==id)
+        if(store && store.products && store.products.length > 0){
+            let currency = store.products[0].currency;
             store.products.forEach(product=>{
-            grandtotal+=(product.productprice*product.productqty)
-            htmlcontent+=`
-                <div class="singleitem">
-                    <div class="checkoutimage">
-                        <img src="${product.productimageurl}" alt="">
+                grandtotal += (product.productprice * product.productqty)
+                htmlcontent += `
+                    <div class="singleitem">
+                        <div class="checkoutimage">
+                            <img src="${product.productimageurl}" alt="">
+                        </div>
+                        <div class="itemname">
+                            <p>Product name</p>
+                            <p>${product.productname}</p>
+                            <span>SKU: ${product.productsku}</span>
+                        </div>
+                        <div class="itemqty">Quantity: <span>${product.productqty}</span></div>
+                        <div class="itemprice">Price: <span>${product.productprice*product.productqty} ${currency}</span></div>
                     </div>
-                    <div class="itemname">
-                        <p>Product name</p>
-                        <p>${product.productname}</p>
-                        <span>SKU: ${product.productsku}</span>
-                    </div>
-                    <div class="itemqty">Quantity: <span>${product.productqty}</span></div>
-                    <div class="itemprice">Price: <span>${product.productprice*product.productqty} ${product.currency}</span></div>
-                </div>
-            `
-        })
-        grandtotaldiv.innerHTML=`<span>Grand Total : ${grandtotal} ${currency}</span>`
+                `
+            })
+            grandtotaldiv.innerHTML=`<span>Grand Total : ${grandtotal} ${currency}</span>`
+        } else {
+            htmlcontent += '<p>No Product in Checkout!</p> <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>';
+            checkoutBtn.style.display="none"
         }
     }else{
-        htmlcontent+='<p>No Product in Checkout!</p> <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>';
+        htmlcontent += '<p>No Product in Checkout!</p> <a style="text-decoration:underline; color:#F7931E;" href="/store-category">Go to Store</a>';
         checkoutBtn.style.display="none"
     }
     
-    div.innerHTML=htmlcontent;
+    div.innerHTML = htmlcontent;
     allitemscontainer.appendChild(div)
-    htmlcontent=''
 }
